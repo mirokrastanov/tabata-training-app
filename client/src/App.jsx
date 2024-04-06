@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import './App.css';
-import Timer from './components/Timer/Timer';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import Home from './components/Home/Home';
 
 function App() {
 
     return (
         <>
-            <h1>App main</h1>
-            <Timer />
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/home" element={<Navigate to="/" />} />
+                <Route path="/index" element={<Navigate to="/" />} />
+
+            </Routes>
         </>
     )
 }
