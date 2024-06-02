@@ -8,10 +8,12 @@ function Home() {
     return (
         <div id="app__wrapper" className="bg-purple-900 text-white min-w-full max-w-[23rem] max-h-[46rem] flex flex-nowrap flex-col justify-start items-stretch rounded-lg">
             {/* Change with views */}
-            <div id="app__titlebar" className="p-3">
-                <div><FaArrowLeft /></div>
-                <h3>Workouts: 2</h3>
-                <div><FaGear /></div>
+            <div id="app__titlebar" className="flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl">
+                <div className="w-14 h-full flex justify-center items-center"><FaArrowLeft /></div>
+                <div className="titlebar-title h-full flex justify-center items-center px-2">
+                    <h3 className="text-ellipsis line-clamp-1">Workouts: 2</h3>
+                </div>
+                <div className="w-14 h-full flex justify-center items-center"><FaGear /></div>
             </div>
 
             <div id="workouts__wrapper" className="bg-white p-1.5 flex flex-col gap-1.5">

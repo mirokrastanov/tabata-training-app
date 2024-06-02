@@ -1,9 +1,12 @@
 #app__wrapper {
     width: 23rem;
     height: 46rem;
+    /* MOVE TO: max-width query for mobile devices - responsive design */
+    /* width: unset;
+    height: unset; */
 }
 
-#app__wrapper > * {
+#app__wrapper>* {
     width: 100%;
 }
 
@@ -17,4 +20,8 @@
 
 #app__wrapper #workouts__wrapper .workout__card:nth-of-type(2) {
     background: rgb(255, 0, 85);
+}
+
+#app__titlebar .titlebar-title {
+    width: calc(100% - 7.5rem);
 }
