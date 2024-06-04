@@ -14,13 +14,13 @@ function WorkoutCard({ color, i }) {
     };
 
     return (
-        <article className="workout__card rounded-md" style={{ background: color }}>
+        <article className="workout__card rounded-md transition-all cursor-pointer" style={{ background: color }}>
             <section className="card__top text-white rounded-t-md w-full flex flex-nowrap flex-row items-center h-10">
-                <div className="h-full w-[calc(100%-5rem)] flex justify-start items-center pl-3 pt-1 rounded-tl-md">
+                <div className="h-full w-[calc(100%-5rem)] flex justify-start items-center pl-3 rounded-tl-md">
                     <h3 className="text-lg font-bold text-ellipsis line-clamp-1">HIIT Circuit c{i}</h3>
                 </div>
-                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl pt-1"><FaPlay /></div>
-                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl pt-1 rounded-tr-md"><FaEllipsisVertical /></div>
+                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaPlay /></div>
+                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaEllipsisVertical /></div>
             </section>
             <section className="card__mid flex flex-col pl-3 pt-1 justify-center items-start leading-5">
                 <p>1. Prepare: 30 sec</p>
