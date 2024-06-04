@@ -13,50 +13,12 @@ function Home() {
             <div id="app__titlebar" className="flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl">
                 <div className="w-14 h-full flex justify-center items-center"><FaArrowLeft /></div>
                 <div className="titlebar-title h-full flex justify-center items-center px-2">
-                    <h3 className="text-ellipsis line-clamp-1">Workouts: 2</h3>
+                    <h2 className="text-ellipsis line-clamp-1 font-bold">Workouts: 2</h2>
                 </div>
                 <div className="w-14 h-full flex justify-center items-center"><FaGear /></div>
             </div>
 
             <div id="workouts__wrapper" className="bg-white p-1.5 flex flex-col gap-1.5 h-[calc(100%-3.5rem)] overflow-y-scroll hide-scrollbar">
-                <article className="workout__card rounded p-3">
-                    <section className="card__top">
-                        <h3>HIIT Circuit 1</h3>
-                        <div className="card__top-btn"><FaPlay /></div>
-                        <div className="card__top-btn"><FaEllipsisVertical /></div>
-                    </section>
-                    <section className="card__mid">
-                        <p>Prepare: 30 sec</p>
-                        <p>Work: 45 sec - Jumping Jacks</p>
-                        <p>Rest: 15 sec</p>
-                        <p>Work: 45 sec - Burpees</p>
-                        <p>Rest: 15 sec</p>
-                        <p>...</p>
-                    </section>
-                    <section className="card__bottom">
-                        <p>Total: 08:35 - 26 intervals</p>
-                    </section>
-                </article>
-
-                <article className="workout__card">
-                    <section className="card__top">
-                        <h3>HIIT Circuit 2</h3>
-                        <div className="card__top-btn"><FaPlay /></div>
-                        <div className="card__top-btn"><FaEllipsisVertical /></div>
-                    </section>
-                    <section className="card__mid">
-                        <p>Prepare: 30 sec</p>
-                        <p>Work: 45 sec - Jumping Jacks</p>
-                        <p>Rest: 15 sec</p>
-                        <p>Work: 45 sec - Burpees</p>
-                        <p>Rest: 15 sec</p>
-                        <p>...</p>
-                    </section>
-                    <section className="card__bottom">
-                        <p>Total: 08:35 - 26 intervals</p>
-                    </section>
-                </article>
-
                 {/* When DB is added - map from DB and figure out how to add color
                 so contrast between sequential items is kept */}
                 {bgColors.map((x, i) => (
