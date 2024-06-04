@@ -63,6 +63,25 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #750dca;
+  border-radius: 6px;
+  border: 1px solid #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9f36f5;
+}
+
 .hide-scrollbar {
   /* Hide scrolbar for IE and Edge */
   -ms-overflow-style: none;

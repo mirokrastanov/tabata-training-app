@@ -18,7 +18,8 @@ function Home() {
                 <div className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-br-none transition-all cursor-pointer hover:shadow-md active:scale-90 active:rounded-br-xl"><FaGear /></div>
             </div>
 
-            <div id="workouts__wrapper" className="w-full bg-white p-1.5 flex flex-col gap-2 h-[calc(100%-3.5rem)] overflow-y-scroll hide-scrollbar rounded-b-lg">
+            <div id="workouts__wrapper" className="w-full bg-white p-3 pt-2 pr-1 flex flex-col gap-2 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg"> 
+                {/* hide-scrollbar --> add above if needed */}
                 {/* When DB is added - map from DB and figure out how to add color  
                 so contrast between sequential items is kept */}
                 {bgColors.map((x, i) => (
