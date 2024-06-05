@@ -3,10 +3,11 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/auth.routes.js';
-import connectToMongoDB from './db/mongoDB.js';
 
+import connectToMongoDB from './db/mongoDB.js';
 const app = express();
 dotenv.config();
+
 const PORT = process.env.PORT || 8000;
 
 // Body parsers

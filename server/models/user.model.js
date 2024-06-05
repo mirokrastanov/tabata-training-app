@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        minlength: 3,
+        maxlength: 10,
     },
     password: {
         type: String,
@@ -17,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     profilePic: {
         type: String,
-        default: '',
+        default: 'U',
     },
     // createdAt, updatedAt
 }, { timestamps: true });
