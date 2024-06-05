@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/auth.routes.js';
+import connectToMongoDB from './db/mongoDB.js';
 
 const app = express();
 dotenv.config();
@@ -37,6 +38,7 @@ app.get('*', (req, res) => {
 // Run Server
 app.listen(PORT, () => {
     // console.log(process.env.PORT);
+    connectToMongoDB();
     console.log(`The server is running on port: ${PORT}`);
 });
 
