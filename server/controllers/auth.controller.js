@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
+import bcrypt from 'bcryptjs';
 import { genAvatar } from "../utils/avatarUtils.js";
+import generateTokenAndSetCookie from "../utils/genToken.js";
 
 export const signup = async (req, res) => {
     try {
@@ -15,16 +17,18 @@ export const signup = async (req, res) => {
             return res.status(400).json({ error: "Username already exists" });
         }
 
-        // HASH Password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
             fullName,
             username,
-            password,
+            password: hashedPassword,
             profilePic: genAvatar(fullName),
         });
 
         if (newUser) {
+            generateTokenAndSetCookie(newUser._id, res);
 
             await newUser.save();
 
@@ -48,13 +52,14 @@ export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username });
-        const passwordCheck = true; // Add password check
+        const passwordCheck = await bcrypt.compare(password, user?.password || '');
 
         if (!user || !passwordCheck) {
             return res.status(400).json({ error: "Invalid username or password" });
         }
 
-        // gen token
+        generateTokenAndSetCookie(user._id, res);
+
         res.status(200).json({
             _id: user._id,
             fullName: user.fullName,
@@ -70,7 +75,7 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
     try {
-        // clear cookie
+        res.cookie('jwt', '', { maxAge: 0 });
         res.status(200).json({ message: "Logged out successfully" });
 
     } catch (error) {
