@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
+import authRoutes from './routes/auth.routes.js';
+
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 8000;
@@ -23,15 +25,9 @@ app.use(cookieParser());
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-app.get('/api/auth/signup', (req, res) => {
-    res.send('Signup route');
-});
-app.get('/api/auth/login', (req, res) => {
-    res.send('Login route');
-});
-app.get('/api/auth/logout', (req, res) => {
-    res.send('Logout route');
-});
+app.use('/api/auth', authRoutes);
+
+
 
 // Wildcard route
 app.get('*', (req, res) => {
