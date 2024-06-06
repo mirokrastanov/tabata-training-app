@@ -1,45 +1,31 @@
-import express from 'express';
 import dotenv from 'dotenv';
+import express from 'express';
 import cookieParser from 'cookie-parser';
-
-import authRoutes from './routes/auth.routes.js';
-
+import routes from './routes.js';
 import connectToMongoDB from './db/mongoDB.js';
-const app = express();
-dotenv.config();
+import { auth } from './middlewares/auth.middleware.js';
 
+dotenv.config();
+const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Body parsers
 app.use(express.urlencoded({ extended: false })); // parse form fields
 app.use(express.json()); // parse JSON from incoming requests (req.body)
 
-// TODO: Cookie parsers
+// Cookie parser
 app.use(cookieParser());
 
-// TODO: Auth middleware
+// Auth middleware
+app.use(auth);
 
-// TODO: Routes
+// Routes
+app.use(routes);
 
 // TODO: Error handler
 
-// Routes 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-app.use('/api/auth', authRoutes);
-
-
-
-// Wildcard route
-app.get('*', (req, res) => {
-    console.log('404');
-});
-
-// Run Server
-app.listen(PORT, () => {
-    // console.log(process.env.PORT);
-    connectToMongoDB();
-    console.log(`The server is running on port: ${PORT}`);
-});
+// Connect to DB and Run Server
+connectToMongoDB()
+    .then(() => app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`)))
+    .catch((error) => console.log(`Error connecting to MongoDB: ${error}`));
 
