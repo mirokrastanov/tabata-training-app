@@ -1,10 +1,15 @@
 import express from 'express';
-import { createWorkout } from '../controllers/workout.controller.js';
+import { createWorkout, deleteWorkout, editWorkout, getAllWorkouts, getMyWorkouts, getOneWorkout } from '../controllers/workout.controller.js';
 
 const router = express.Router();
 
-router.post('/create', createWorkout);
+router.get('/get-one', getOneWorkout);
+router.get('/get-all-my-workouts', getMyWorkouts);
+router.get('/get-all', getAllWorkouts);
 
+router.post('/create', createWorkout);
+router.post('/edit/:id', editWorkout);
+router.post('/delete/:id', deleteWorkout);
 
 
 export default router;
