@@ -3,7 +3,6 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import routes from './routes.js';
 import connectToMongoDB from './db/mongoDB.js';
-import { auth } from './middlewares/auth.middleware.js';
 
 dotenv.config();
 const app = express();
@@ -15,9 +14,6 @@ app.use(express.json()); // parse JSON from incoming requests (req.body)
 
 // Cookie parser
 app.use(cookieParser());
-
-// Auth middleware
-app.use(auth);
 
 // Routes
 app.use(routes);
