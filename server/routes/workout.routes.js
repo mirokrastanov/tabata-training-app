@@ -4,7 +4,7 @@ import { createWorkout, deleteWorkout, editWorkout, getAllWorkouts, getMyWorkout
 const router = express.Router();
 
 router.get('/get-one', getOneWorkout);
-router.get('/get-all-my-workouts', getMyWorkouts);
+router.get('/get-mine', getMyWorkouts);
 router.get('/get-all', getAllWorkouts);
 
 router.post('/create', createWorkout);

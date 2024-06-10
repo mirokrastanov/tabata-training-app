@@ -4,6 +4,8 @@ import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-i
 
 
 function WorkoutCard({ color, i }) {
+    // asign random color on workout creation & save it as part of the schema on DB
+
     // Temp funciton
     const genActivities = (num) => {
         const list = ['Jumping Jacks', 'Static Squats', 'Burpees'];

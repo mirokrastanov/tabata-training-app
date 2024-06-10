@@ -8,7 +8,6 @@ export const createWorkout = async (req, res) => {
             creatorId,
             ...req.body,
         });
-
         if (newWorkout) {
             await workoutManager.create(newWorkout);
         }
@@ -27,7 +26,6 @@ export const editWorkout = async (req, res) => {
             creatorId,
             ...req.body,
         });
-
         if (newWorkout) {
             await workoutManager.edit(workoutId, newWorkout);
         }
@@ -41,7 +39,6 @@ export const editWorkout = async (req, res) => {
 export const deleteWorkout = async (req, res) => {
     try {
         const { id: workoutId } = req.params;
-
         await workoutManager.delOne(workoutId);
         res.status(200).json('Workout deleted');
     } catch (error) {
@@ -53,9 +50,8 @@ export const deleteWorkout = async (req, res) => {
 export const getOneWorkout = async (req, res) => {
     try {
         const { id: workoutId } = req.params;
-
         const workout = await workoutManager.getOne(workoutId);
-        res.status(201).json(workout);
+        res.status(200).json(workout);
     } catch (error) {
         console.log('Error in getOneWorkout', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -66,13 +62,10 @@ export const getMyWorkouts = async (req, res) => {
     try {
         const creatorId = req.user._id;
         const workouts = await workoutManager.getMine(creatorId);
-
         if (!workouts) {
             return res.status(200).json([]);
         }
-
         res.status(200).json(workouts);
-
     } catch (error) {
         console.log('Error in getMyWorkouts');
         res.status(500).json({ error: 'Internal Server Error' });
@@ -82,11 +75,9 @@ export const getMyWorkouts = async (req, res) => {
 export const getAllWorkouts = async (req, res) => {
     try {
         const workouts = await workoutManager.getAll();
-
         if (!workouts) {
             return res.status(200).json([]);
         }
-
         res.status(200).json(workouts);
     } catch (error) {
         console.log('Error in getAllWorkouts');

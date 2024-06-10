@@ -18,8 +18,6 @@ app.use(cookieParser());
 // Routes
 app.use(routes);
 
-// TODO: Error handler
-
 // Connect to DB and Run Server
 connectToMongoDB()
     .then(() => app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`)))
