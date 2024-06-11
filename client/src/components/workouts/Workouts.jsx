@@ -2,23 +2,31 @@ import React from 'react';
 import './Workouts.css';
 import { bgColors } from '../../utils/colors';
 import WorkoutCard from '../workoutCard/WorkoutCard';
-import PageLoader from '../shared/PageLoader/PageLoader';
+import PageLoader from '../shared/pageLoader/PageLoader';
 
 
-function Home() {
-
+function Workouts() {
+    function playClick(e) { 
+        // start workout directly - load timers and render workout in progress view
+    }
+    function dotsClick(e) {
+        // show overlay menu with item specific options
+     }
+    function cardClick(e) {
+        // open workout showcase view
+    }
 
 
     return (
         <div id="workouts__wrapper" className="w-full bg-white p-3 pt-2 pr-1 flex flex-col gap-2 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
-            {/* When DB is added - map from DB and figure out how to add color  
-                so contrast between sequential items is kept */}
-            {/* {bgColors.map((x, i) => (
-                <WorkoutCard color={x} i={i} key={'card-' + i} />
-            ))} */}
-            <PageLoader />
+            {/* <PageLoader /> */}
+            
+            {/* Render from DB and pass [data] through the loop */}
+            {bgColors.map((x, i) => (
+                <WorkoutCard color={x} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]} data={x} />
+            ))}
         </div>
     )
 }
 
-export default Home;
+export default Workouts;

@@ -3,7 +3,7 @@ import './WorkoutCard.css';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-icons/fa6";
 
 
-function WorkoutCard({ color, i }) {
+function WorkoutCard({ color, i, handlers = [], data = {} }) {
     // asign random color on workout creation & save it as part of the schema on DB
 
     // Temp funciton
