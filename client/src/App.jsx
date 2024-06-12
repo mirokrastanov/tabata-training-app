@@ -4,6 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus, FaArrowsUpDown, FaArrowRightFromBracket } from "react-icons/fa6";
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Workouts from './components/workouts/Workouts';
+import Login from './components/login/Login';
+import Register from './components/register/Register';
 
 function App() {
 
@@ -16,7 +18,7 @@ function App() {
                 <div id="app__titlebar" className="w-full flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl">
                     {/* TODO --> Change content inside based on page requirements */}
                     <div className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-bl-none transition-all cursor-pointer hover:shadow-md active:scale-90 active:rounded-bl-xl">
-                        
+
                         {/* Conditional rendering based on param passed */}
                         <FaArrowRightFromBracket className="rotate-180" />
                         {/* <FaArrowLeft /> */}
@@ -29,8 +31,12 @@ function App() {
 
                 <Routes>
                     <Route exact path="/" element={<Workouts />} />
-                    <Route path="/home" element={<Navigate to="/" />} />
-                    <Route path="/index" element={<Navigate to="/" />} />
+                    <Route path="home" element={<Navigate to="/" />} />
+                    <Route path="index" element={<Navigate to="/" />} />
+
+                    <Route path="user/login" element={<Login />} />
+                    <Route path="user/signup" element={<Register />} />
+
                     {/* ADD More routes and finish with a wildcard route */}
                 </Routes>
 
