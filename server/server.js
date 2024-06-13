@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import routes from './routes.js';
-import connectToMongoDB from './db/mongoDB.js';
+import connectToMongoDB from './config/mongoDB.js';
+import sessionConfig from './config/sessionConfig.js';
 
 dotenv.config();
 const app = express();
@@ -14,6 +15,9 @@ app.use(express.json()); // parse JSON from incoming requests (req.body)
 
 // Cookie parser
 app.use(cookieParser());
+
+// Server sessions
+app.use(sessionConfig);
 
 // Routes
 app.use(routes);
