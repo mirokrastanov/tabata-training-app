@@ -5,9 +5,9 @@ const workouts = '/api/workouts';
 export const api = {
     get: {
         workouts: {
-            getOne: () => hostname + workouts + '/get-one',
-            getMine: () => hostname + workouts + '/get-mine',
-            getAll: () => hostname + workouts + '/get-all',
+            getOne: (id) => hostname + workouts + `/get/${id}`,
+            getMine: () => hostname + workouts + '/get/mine',
+            getAll: () => hostname + workouts + '/get/all',
         },
     },
     post: {
@@ -18,7 +18,15 @@ export const api = {
         },
         workouts: {
             create: () => hostname + workouts + '/create',
+        },
+    },
+    put: {
+        workouts: {
             edit: (id) => hostname + workouts + `/edit/${id}`,
+        },
+    },
+    delete: {
+        workouts: {
             delete: (id) => hostname + workouts + `/delete/${id}`,
         },
     },
@@ -27,8 +35,7 @@ export const api = {
 
 export async function requestor(url, options = { method: 'GET', headers: { 'Content-Type': 'application/json' } }, body) {
     const response = await fetch(url, {
-        method: options.method,
-        headers: options.headers,
+        ...options,
         body: JSON.stringify(body),
     });
     const data = await response.json();
