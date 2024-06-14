@@ -3,10 +3,11 @@ import Workout from '../models/workout.model.js';
 
 export const createWorkout = async (req, res) => {
     try {
+        const { body } = req;
         const creatorId = req.user._id;
         const newWorkout = new Workout({
             creatorId,
-            ...req.body,
+            ...body,
         });
         if (newWorkout) {
             await workoutManager.create(newWorkout);
@@ -20,11 +21,13 @@ export const createWorkout = async (req, res) => {
 
 export const editWorkout = async (req, res) => {
     try {
-        const { id: workoutId } = req.params;
+        const { body, params: { id: workoutId } } = req;
         const creatorId = req.user._id;
+        const currentWorkout = await workoutManager.getOne(workoutId);
         const newWorkout = new Workout({
             creatorId,
-            ...req.body,
+            ...currentWorkout,
+            ...body,
         });
         if (newWorkout) {
             await workoutManager.edit(workoutId, newWorkout);
@@ -38,7 +41,7 @@ export const editWorkout = async (req, res) => {
 
 export const deleteWorkout = async (req, res) => {
     try {
-        const { id: workoutId } = req.params;
+        const { params: { id: workoutId } } = req;
         await workoutManager.delOne(workoutId);
         res.status(200).json('Workout deleted');
     } catch (error) {
@@ -49,7 +52,7 @@ export const deleteWorkout = async (req, res) => {
 
 export const getOneWorkout = async (req, res) => {
     try {
-        const { id: workoutId } = req.params;
+        const { params: { id: workoutId } } = req;
         const workout = await workoutManager.getOne(workoutId);
         res.status(200).json(workout);
     } catch (error) {
