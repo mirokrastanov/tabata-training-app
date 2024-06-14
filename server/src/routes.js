@@ -12,7 +12,7 @@ router.use('/api/workouts', protectRoute, workoutRoutes);
 
 
 router.get('*', (req, res) => {
-    res.redirect('/404');
+    res.redirect('/404?path=' + req.url);
 });
 
 export default router;

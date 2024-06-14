@@ -4,7 +4,7 @@ const workoutSchema = new mongoose.Schema({
     creatorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: [true, 'Creator ID required'],
+        required: true,
     },
     preparation: { type: Number, required: true },
     break: { type: Number, required: true },
