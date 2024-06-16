@@ -1,4 +1,6 @@
 import express from 'express';
+import { query } from 'express-validator';
+import { wildcard } from '../controllers/home.controller.js';
 
 const router = express.Router();
 // const { isAuth } = require('../middlewares/authMiddleware');
@@ -24,9 +26,10 @@ router.get('/test', (req, res) => {
 });
 
 
+router.get('/404',
+    query('path')
+        .notEmpty().withMessage('No re-routing. Loaded /404 directly.'),
+    wildcard);
 
-router.get('/404', (req, res) => {
-    res.status(200).send({ msg: '404 Not Found! Invalid path!', path: req.query.path });
-});
 
 export default router;
