@@ -12,6 +12,7 @@ router.use('/api/workouts', protectRoute, workoutRoutes);
 
 
 router.get('*', (req, res) => {
+    req.session.redirected = true;
     res.redirect('/404?path=' + req.url);
 });
 
