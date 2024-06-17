@@ -25,5 +25,5 @@ app.use(routes);
 // Connect to DB and Run Server
 connectToMongoDB()
     .then(() => app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`)))
-    .catch((error) => console.log(`Error connecting to MongoDB: ${error}`));
+    .catch((error) => console.log(`Could not start the server. Error: ${error}`));
 

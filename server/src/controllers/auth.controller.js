@@ -114,6 +114,11 @@ export const getUser = async (req, res) => {
         const user = await User.findById(userId);
         res.status(200).json(user);
     } catch (error) {
+        if (error.name === 'CastError') {
+            return res.status(400).json({
+                msg: "User does not exist or the provided ID is invalid",
+            });
+        }
         console.log("Error in getUser controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }

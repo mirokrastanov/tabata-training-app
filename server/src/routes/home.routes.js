@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
     res.status(200).send({ msg: 'Home', path: req.url });
 });
 
-
 router.get('/test', (req, res) => {
     const resultObject = {};
     resultObject.session = req.session;
@@ -25,11 +24,9 @@ router.get('/test', (req, res) => {
     res.status(200).send({ msg: "Test endpoint", ...resultObject });
 });
 
-
 router.get('/404',
     query('path')
         .notEmpty().withMessage('No re-routing. Loaded /404 directly.'),
     wildcard);
-
 
 export default router;
