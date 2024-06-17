@@ -2,18 +2,9 @@ import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import { genAvatar } from "../utils/avatarUtils.js";
 import generateTokenAndSetCookie from "../utils/genToken.js";
-import { validationResult } from "express-validator";
 
 export const signup = async (req, res) => {
     try {
-        const result = validationResult(req);
-        if (!result.isEmpty()) {
-            return res.status(400).json({
-                msg: 'Invalid User Data',
-                errors: result.errors.map(x => x?.msg)
-            });
-        }
-
         const { fullName, username, email, password, confirmPassword } = req.body;
         if (password !== confirmPassword) return res.status(400).json({ error: "Passwords don't match" });
 
@@ -47,9 +38,15 @@ export const signup = async (req, res) => {
             res.status(400).json({ error: "Invalid user data" });
         }
     } catch (error) {
+        // For Mongoose schema errors
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                msg: "Validation Error",
+                errors: Object.values(error.errors).map(val => val.message),
+            });
+        }
         console.log("Error in signup controller: ", error.message);
-        // res.status(500).json({ error: "Internal Server Error", obj: error });
-        res.status(500).json({ error: "Internal Server Error", message: error.message });
+        res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
 };
 
@@ -76,9 +73,15 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
+        // For Mongoose schema errors
+        if (error.name === 'ValidationError') {
+            return res.status(400).json({
+                msg: "Validation Error",
+                errors: Object.values(error.errors).map(val => val.message),
+            });
+        }
         console.log("Error in login controller: ", error.message);
-        // res.status(500).json({ error: "Internal Server Error", obj: error });
-        res.status(500).json({ error: "Internal Server Error", message: error.message });
+        res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
 };
 
@@ -91,7 +94,27 @@ export const logout = (req, res) => {
 
     } catch (error) {
         console.log("Error in login controller: ", error.message);
-        // res.status(500).json({ error: "Internal Server Error", obj: error });
-        res.status(500).json({ error: "Internal Server Error", message: error.message });
+        res.status(500).json({ error: "Internal Server Error", msg: error.message });
+    }
+};
+
+export const getUsers = async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.log("Error in getUsers controller: ", error.message);
+        res.status(500).json({ error: "Internal Server Error", msg: error.message });
+    }
+};
+
+export const getUser = async (req, res) => {
+    try {
+        const { params: { id: userId } } = req;
+        const user = await User.findById(userId);
+        res.status(200).json(user);
+    } catch (error) {
+        console.log("Error in getUser controller: ", error.message);
+        res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
 };
