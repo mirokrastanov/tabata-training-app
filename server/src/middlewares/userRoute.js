@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 
-const protectRoute = async (req, res, next) => {
+// TODO - update after implementing sessions and cookies fully
+const userRoute = async (req, res, next) => {
     try {
         const token = req.cookies.jwt;
 
@@ -25,9 +26,9 @@ const protectRoute = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log('Error in protectRoute middleware: ', error.message);
+        console.log('Error in userRoute middleware: ', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
-export default protectRoute;
+export default userRoute;
