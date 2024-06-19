@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import routes from './routes.js';
 import connectToMongoDB from './config/mongoDB.js';
 import sessionConfig from './config/sessionConfig.js';
+import passport from 'passport';
 
 dotenv.config();
 const app = express();
@@ -18,6 +19,10 @@ app.use(cookieParser());
 
 // Server sessions
 app.use(sessionConfig);
+
+// Passport.js
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use(routes);
