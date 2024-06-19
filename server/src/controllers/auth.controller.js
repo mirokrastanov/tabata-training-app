@@ -53,25 +53,18 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username }).lean();
         const passwordCheck = await bcrypt.compare(password, user?.password || '');
 
         if (!user || !passwordCheck) {
             return res.status(400).json({ error: "Invalid username or password" });
         }
 
+        delete user.password;
+        req.session.user = user;
         generateTokenAndSetCookie(user._id, res);
-
-        res.status(200).json({
-            _id: user._id,
-            fullName: user.fullName,
-            username: user.username,
-            email: user.email,
-            profilePic: user.profilePic,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-        });
-
+        res.status(200).json(user);
+        
     } catch (error) {
         // For Mongoose schema errors
         if (error.name === 'ValidationError') {
