@@ -47,10 +47,12 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+    // console.log(req.user._id);
+    // res.status(200).json(req.user);
     try {
         const { username, password } = req.body;
         const user = await User.findOne({ username }).lean();
-        const passwordCheck = await bcrypt.compare(password, user?.password || '');
+        const passwordCheck = bcrypt.compare(password, user?.password || '');
 
         if (!user || !passwordCheck) {
             return res.status(400).json({ error: "Invalid username or password" });
