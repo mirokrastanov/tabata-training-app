@@ -64,7 +64,7 @@ export const login = async (req, res) => {
         req.session.user = user;
         generateTokenAndSetCookie(user._id, res);
         res.status(200).json(user);
-        
+
     } catch (error) {
         // For Mongoose schema errors
         if (error.name === 'ValidationError') {
@@ -115,4 +115,13 @@ export const getUser = async (req, res) => {
         console.log("Error in getUser controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
+};
+
+export const authStatus = (req, res) => {
+    req.sessionStore.get(req.sessionID, (err, session) => {
+        console.log(session);
+    });
+
+    if (!req.session.user) return res.status(401).send({ msg: 'Not Authenticated', status: false, user: null });
+    res.status(200).send({ msg: 'Authenticated', status: true, user: req.session.user });
 };
