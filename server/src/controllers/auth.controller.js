@@ -15,25 +15,21 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            fullName, username, email,
+            fullName,
+            username,
+            email,
             password: hashedPassword,
             profilePic: genAvatar(fullName),
         });
 
         if (newUser) {
-            generateTokenAndSetCookie(newUser._id, res);
             await newUser.save();
 
-            res.status(201).json({
-                // ...newUser,
-                _id: newUser._id,
-                fullName: newUser.fullName,
-                username: newUser.username,
-                email: newUser.email,
-                profilePic: newUser.profilePic,
-                createdAt: newUser.createdAt,
-                updatedAt: newUser.updatedAt,
-            });
+            newUser.password = undefined;
+            req.session.user = newUser;
+            generateTokenAndSetCookie(newUser._id, res);
+            res.status(201).json(newUser);
+
         } else {
             res.status(400).json({ error: "Invalid user data" });
         }
