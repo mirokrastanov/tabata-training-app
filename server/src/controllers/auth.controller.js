@@ -65,11 +65,10 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
     try {
-        // TODO: COMPLETE LATER
-        // remove server session as well
-        res.cookie('jwt', '', { maxAge: 0 });
-        res.status(200).json({ message: "Logged out successfully" });
-
+        req.logout((err) => {
+            if (err) return res.status(500).json({ error: "Internal Server Error" });
+            res.status(200).json({ message: "Logged out successfully" });
+        });
     } catch (error) {
         console.log("Error in login controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error", msg: error.message });
@@ -110,3 +109,9 @@ export const authStatus = (req, res) => {
     if (!req.session.user) return res.status(401).send({ msg: 'Not Authenticated', status: false, user: null });
     res.status(200).send({ msg: 'Authenticated', status: true, user: req.session.user });
 };
+
+export const isAuth = (req, res) => {
+    return req.user
+        ? res.status(200).json({ user: req.user, session: req.session })
+        : res.status(401).json({ user: null, session: req.session });
+}
