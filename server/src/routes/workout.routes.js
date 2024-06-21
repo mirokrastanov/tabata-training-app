@@ -5,7 +5,7 @@ import {
 
 const router = express.Router();
 
-router.get('/get/:id', getOneWorkout);
+router.get('/get/one/:id', getOneWorkout);
 router.get('/get/mine', getMyWorkouts);
 router.get('/get/all', getAllWorkouts);
 

@@ -8,7 +8,7 @@ import guestRoute from './middlewares/guestRoute.middleware.js';
 const router = express.Router();
 
 router.use(homeRoutes);
-router.use('/api/auth', guestRoute, authRoutes);
+router.use('/api/auth', authRoutes);
 router.use('/api/workouts', userRoute, workoutRoutes);
 
 
