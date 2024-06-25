@@ -1,4 +1,4 @@
-import { Strategy as LocalStrategy } from 'passport-local';
+import { Strategy } from 'passport-local';
 import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 
@@ -12,12 +12,13 @@ export default function initialize(passport) {
             if (!user || !passwordCheck) throw new Error('Invalid credentials');
 
             delete user.password;
-            return done(null, user);
+            done(null, user);
         } catch (error) {
-            return done(error, null);
+            done(error, null);
         }
     };
-    passport.use(new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, authenticateUser));
+    const localStrategy = new Strategy({ usernameField: 'username', passwordField: 'password' }, authenticateUser);
+    passport.use(localStrategy);
     passport.serializeUser((user, done) => done(null, user._id));
     passport.deserializeUser(async (id, done) => {
         try {
@@ -25,9 +26,9 @@ export default function initialize(passport) {
             if (!user) throw new Error('User not found');
 
             delete user.password;
-            return done(null, user);
+            done(null, user);
         } catch (error) {
-            return done(error, null);
+            done(error, null);
         }
     });
 };

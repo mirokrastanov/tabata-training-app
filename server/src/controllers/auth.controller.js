@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import { genAvatar } from "../utils/avatarUtils.js";
 import generateTokenAndSetCookie from "../utils/genToken.js";
+import passport from "passport";
 
 export const signup = async (req, res) => {
     try {
@@ -46,8 +47,24 @@ export const signup = async (req, res) => {
     }
 };
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     try {
+        passport.authenticate('local', (err, user, info) => {
+            console.log('tyk');
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: "Internal Server Error" });
+            }
+
+            if (err) return res.status(500).json({ error: "Internal Server Error" });
+            if (!user) return res.status(401).json({ error: "Invalid credentials" });
+            req.login(user, (err) => {
+                if (err) return res.status(500).json({ error: "Internal Server Error" });
+                res.status(200).json(user);
+            });
+        })
+
+
         generateTokenAndSetCookie(req.user._id, res);
         res.status(200).json(req.user);
     } catch (error) {

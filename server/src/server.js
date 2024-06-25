@@ -23,7 +23,7 @@ app.use(sessionConfig);
 
 // Passport.js
 initializePassport(passport);
-app.use(passport.initialize());
+app.use(passport.initialize()); // add req.login, req.logout, etc
 app.use(passport.session());
 
 // Routes
