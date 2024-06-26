@@ -47,22 +47,24 @@ export const signup = async (req, res) => {
     }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
     try {
-        passport.authenticate('local', (err, user, info) => {
-            console.log('tyk');
-            if (err) {
-                console.log(err);
-                return res.status(500).json({ error: "Internal Server Error" });
-            }
+        // TODO: Move the handlers from auth.routes here and do the mongoose validation FIRST before invoking passport
 
-            if (err) return res.status(500).json({ error: "Internal Server Error" });
-            if (!user) return res.status(401).json({ error: "Invalid credentials" });
-            req.login(user, (err) => {
-                if (err) return res.status(500).json({ error: "Internal Server Error" });
-                res.status(200).json(user);
-            });
-        })
+        // passport.authenticate('local', (err, user, info) => {
+        //     console.log(info);
+        //     if (err) {
+        //         console.log(err);
+        //         return res.status(500).json({ error: "Internal Server Error" });
+        //     }
+
+        //     if (err) return res.status(500).json({ error: "Internal Server Error" });
+        //     if (!user) return res.status(401).json({ error: "Invalid credentials" });
+        //     req.login(user, (err) => {
+        //         if (err) return res.status(500).json({ error: "Internal Server Error" });
+        //         res.status(200).json(user);
+        //     });
+        // })(req, res);
 
 
         generateTokenAndSetCookie(req.user._id, res);

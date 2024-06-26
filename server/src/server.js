@@ -5,7 +5,7 @@ import routes from './routes.js';
 import connectToMongoDB from './config/mongoDB.js';
 import sessionConfig from './config/sessionConfig.js';
 import passport from 'passport';
-import initializePassport from './config/passporConfig.js';
+import './config/passporConfig.js';
 
 dotenv.config();
 const app = express();
@@ -22,8 +22,7 @@ app.use(cookieParser());
 app.use(sessionConfig);
 
 // Passport.js
-initializePassport(passport);
-app.use(passport.initialize()); // add req.login, req.logout, etc
+app.use(passport.initialize()); // adds req.login, req.logout, etc
 app.use(passport.session());
 
 // Routes
