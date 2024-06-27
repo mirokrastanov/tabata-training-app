@@ -1,20 +1,17 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcryptjs';
 import { genAvatar } from "../utils/avatarUtils.js";
-import generateTokenAndSetCookie from "../utils/genToken.js";
 import passport from "passport";
 
 export const signup = async (req, res) => {
     try {
         const { fullName, username, email, password, confirmPassword } = req.body;
         if (password !== confirmPassword) return res.status(400).json({ error: "Passwords don't match" });
-
         const user = await User.findOne({ username });
         if (user) return res.status(400).json({ error: `User ${username} already exists` });
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-
         const newUser = new User({
             fullName,
             username,
@@ -22,28 +19,31 @@ export const signup = async (req, res) => {
             password: hashedPassword,
             profilePic: genAvatar(fullName),
         });
-
         if (newUser) {
             await newUser.save();
-
             newUser.password = undefined;
-            req.session.user = newUser;
-            generateTokenAndSetCookie(newUser._id, res);
-            res.status(201).json(newUser);
-
+            req.login(newUser, (err) => {
+                if (err) throw err;
+                res.status(200).json(newUser);
+            });
         } else {
             res.status(400).json({ error: "Invalid user data" });
         }
     } catch (error) {
         // For Mongoose schema errors
         if (error.name === 'ValidationError') {
+            const errors = Object.values(error.errors).map(val => val.message);
             return res.status(400).json({
-                msg: "Validation Error",
-                errors: Object.values(error.errors).map(val => val.message),
+                msg: `Validation Error${errors.length < 2 ? '' : 's'}`,
+                errors,
             });
+        } else if (error.code === 11000) {
+            const entries = Object.keys(error.keyValue);
+            if (entries.length < 2) return res.status(400).json({ msg: `${entries[0]} already in use.` });
+            return res.status(400).json({ msg: `${entries.join(', ')} already in use.` });
         }
         console.log("Error in signup controller: ", error.message);
-        res.status(500).json({ error: "Internal Server Error", msg: error.message });
+        res.status(500).json({ error: "Internal Server Error", msg: error.message, errObj: error });
     }
 };
 
@@ -103,17 +103,6 @@ export const getUser = async (req, res) => {
     }
 };
 
-// export const authStatus = (req, res) => {
-//     req.sessionStore.get(req.sessionID, (err, session) => {
-//         console.log(session);
-//     });
-
-//     if (!req.session.user) return res.status(401).send({ msg: 'Not Authenticated', status: false, user: null });
-//     res.status(200).send({ msg: 'Authenticated', status: true, user: req.session.user });
-// };
-
 export const authStatus = (req, res) => {
-    return req.user
-        ? res.status(200).json({ user: req.user, session: req.session })
-        : res.status(401).json({ user: null, session: req.session });
-}
+    res.status(req.user ? 200 : 401).json({ user: req.user, session: req.session });
+};
