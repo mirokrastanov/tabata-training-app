@@ -48,48 +48,31 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    try {
-        // TODO: Move the handlers from auth.routes here and do the mongoose validation FIRST before invoking passport
+    passport.authenticate('local', (err, user, info) => {
+        try {
+            if (err) throw err;
 
-        // passport.authenticate('local', (err, user, info) => {
-        //     console.log(info);
-        //     if (err) {
-        //         console.log(err);
-        //         return res.status(500).json({ error: "Internal Server Error" });
-        //     }
-
-        //     if (err) return res.status(500).json({ error: "Internal Server Error" });
-        //     if (!user) return res.status(401).json({ error: "Invalid credentials" });
-        //     req.login(user, (err) => {
-        //         if (err) return res.status(500).json({ error: "Internal Server Error" });
-        //         res.status(200).json(user);
-        //     });
-        // })(req, res);
-
-
-        generateTokenAndSetCookie(req.user._id, res);
-        res.status(200).json(req.user);
-    } catch (error) {
-        // For Mongoose schema errors
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                msg: "Validation Error",
-                errors: Object.values(error.errors).map(val => val.message),
+            req.login(user, (err) => {
+                if (err) throw err;
+                res.status(200).json(user);
             });
+        } catch (error) {
+            console.log("Error in login controller: ", error.message);
+            res.status(500).json({ error: "Internal Server Error", msg: error.message, user: null });
         }
-        console.log("Error in login controller: ", error.message);
-        res.status(500).json({ error: "Internal Server Error", msg: error.message });
-    }
+    })(req, res);
 };
 
 export const logout = (req, res) => {
     try {
+        if (!req.user) return res.status(401).json({ msg: "Cannot logout, because you are not logged in.", user: null });
+
         req.logout((err) => {
-            if (err) return res.status(500).json({ error: "Internal Server Error" });
-            res.status(200).json({ message: "Logged out successfully" });
+            if (err) return res.status(500).json({ error: "Internal Server Error", user: req.user });
+            res.status(200).json({ msg: "Logged out successfully", user: null });
         });
     } catch (error) {
-        console.log("Error in login controller: ", error.message);
+        console.log("Error in logout controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
 };
@@ -120,16 +103,16 @@ export const getUser = async (req, res) => {
     }
 };
 
+// export const authStatus = (req, res) => {
+//     req.sessionStore.get(req.sessionID, (err, session) => {
+//         console.log(session);
+//     });
+
+//     if (!req.session.user) return res.status(401).send({ msg: 'Not Authenticated', status: false, user: null });
+//     res.status(200).send({ msg: 'Authenticated', status: true, user: req.session.user });
+// };
+
 export const authStatus = (req, res) => {
-    req.sessionStore.get(req.sessionID, (err, session) => {
-        console.log(session);
-    });
-
-    if (!req.session.user) return res.status(401).send({ msg: 'Not Authenticated', status: false, user: null });
-    res.status(200).send({ msg: 'Authenticated', status: true, user: req.session.user });
-};
-
-export const isAuth = (req, res) => {
     return req.user
         ? res.status(200).json({ user: req.user, session: req.session })
         : res.status(401).json({ user: null, session: req.session });
