@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
             newUser.password = undefined;
             req.login(newUser, (err) => {
                 if (err) throw err;
-                res.status(200).json(newUser);
+                res.status(201).json(newUser);
             });
         } else {
             res.status(400).json({ error: "Invalid user data" });
@@ -104,5 +104,5 @@ export const getUser = async (req, res) => {
 };
 
 export const authStatus = (req, res) => {
-    res.status(req.user ? 200 : 401).json({ user: req.user, session: req.session });
+    res.status(req.user ? 200 : 401).json({ user: req.user, session: req.session, sessionID: req.sessionID });
 };
