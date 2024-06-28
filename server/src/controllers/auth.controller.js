@@ -48,16 +48,19 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    passport.authenticate('local', (err, user, info) => {
+    const authMethod = req.authMethod || 'local';
+    passport.authenticate(authMethod, (err, user, info) => {
         try {
             if (err) throw err;
 
             req.login(user, (err) => {
                 if (err) throw err;
+                req.authMethod = undefined;
                 res.status(200).json(user);
             });
         } catch (error) {
             console.log("Error in login controller: ", error.message);
+            req.authMethod = undefined;
             res.status(500).json({ error: "Internal Server Error", msg: error.message, user: null });
         }
     })(req, res);
@@ -75,6 +78,10 @@ export const logout = (req, res) => {
         console.log("Error in logout controller: ", error.message);
         res.status(500).json({ error: "Internal Server Error", msg: error.message });
     }
+};
+
+export const authStatus = (req, res) => {
+    res.status(req.user ? 200 : 401).json({ user: req.user || null, session: req.session, sessionID: req.sessionID });
 };
 
 export const getUsers = async (req, res) => {
@@ -103,6 +110,3 @@ export const getUser = async (req, res) => {
     }
 };
 
-export const authStatus = (req, res) => {
-    res.status(req.user ? 200 : 401).json({ user: req.user, session: req.session, sessionID: req.sessionID });
-};
