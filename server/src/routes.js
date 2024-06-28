@@ -3,10 +3,11 @@ import homeRoutes from './routes/home.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import workoutRoutes from './routes/workout.routes.js';
 import userRoute from './middlewares/userRoute.middleware.js';
-import guestRoute from './middlewares/guestRoute.middleware.js';
+import keepSession from './middlewares/keepSession.middleware.js';
 
 const router = express.Router();
 
+router.use(keepSession);
 router.use(homeRoutes);
 router.use('/api/auth', authRoutes);
 router.use('/api/workouts', userRoute, workoutRoutes);
