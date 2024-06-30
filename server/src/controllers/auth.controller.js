@@ -98,6 +98,7 @@ export const getUser = async (req, res) => {
     try {
         const { params: { id: userId } } = req;
         const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ msg: "User not found", user: null });
         res.status(200).json(user);
     } catch (error) {
         if (error.name === 'CastError') {
