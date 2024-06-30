@@ -1,22 +1,29 @@
 import { getUser } from "../controllers/auth.controller.js";
+import User from "../models/user.model.js";
 
-const mockRequest = {
-    params: { id: '666fe3ed5edc572d762d9287' },
+jest.mock('../models/user.model.js');
 
-};
-const mockResponse = {
-    status: () => {
-        return {
-            json: jest.fn(),
+describe('getUser by ID', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = { params: { id: 'userId' } };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
         };
-    },
-};
-
-describe('Get users', () => {
-    it('Should get user by id', () => {
-        //==>   /api/auth/get-user/:id
-        getUser(mockRequest, mockResponse);
-
-
     });
+
+    it('should return the user if found', async () => {
+        const user = { id: 'userId', name: 'John Doe' };
+        User.findById.mockResolvedValue(user);
+
+        await getUser(req, res);
+
+        expect(User.findById).toHaveBeenCalledWith('userId');
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(user);
+    });
+
+    
 });
