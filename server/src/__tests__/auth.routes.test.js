@@ -1,4 +1,4 @@
-import { getUser } from "../controllers/auth.controller.js";
+import { authStatus, getUser, getUsers } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
 
 jest.mock('../models/user.model.js');
@@ -56,5 +56,72 @@ describe('getUser by ID', () => {
         expect(User.findById).toHaveBeenCalledWith('userId');
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error', msg: error.message });
+    });
+});
+
+describe('getUsers', () => {
+    let req, res;
+
+    beforeEach(() => {
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should return all users if any', async () => {
+        const users = [{ id: 'userId', name: 'John Doe' }, { id: 'userId2', name: 'Jane Doe' }];
+        User.find.mockResolvedValue(users);
+
+        await getUsers(req, res);
+
+        expect(User.find).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(users);
+    });
+
+    it('should return 500 for any error cases', async () => {
+        const error = new Error('Internal Server Error');
+        User.find.mockRejectedValue(error);
+
+        await getUsers(req, res);
+
+        expect(User.find).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error', msg: error.message });
+    });
+});
+
+describe('authStatus', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            user: null,
+            session: { some: 'sessionData' },
+            sessionID: 'someSessionID'
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should return 200 and user information if the user is authenticated', () => {
+        req.user = { id: 'userId', name: 'John Doe' };
+
+        authStatus(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ user: req.user, session: req.session, sessionID: req.sessionID });
+    });
+
+    it('should return 401 and null user if the user is not authenticated', () => {
+        req.user = null;
+
+        authStatus(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(401);
+        expect(res.json).toHaveBeenCalledWith({ user: null, session: req.session, sessionID: req.sessionID });
     });
 });
