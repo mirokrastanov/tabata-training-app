@@ -1,4 +1,4 @@
-import { authStatus, getUser, getUsers } from "../controllers/auth.controller.js";
+import { authStatus, getUser, getUsers, logout } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
 
 jest.mock('../models/user.model.js');
@@ -123,5 +123,64 @@ describe('authStatus', () => {
 
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.json).toHaveBeenCalledWith({ user: null, session: req.session, sessionID: req.sessionID });
+    });
+});
+
+describe('logout', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            user: null,
+            logout: jest.fn(),
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn().mockReturnThis(),
+        };
+    });
+
+    it('should return 401 if the user is not logged in', () => {
+        req.user = null;
+
+        logout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(401);
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Cannot logout, because you are not logged in.', user: null });
+    });
+
+    it('should return 500 if req.logout encounters an error', () => {
+        req.user = { id: '123' };
+
+        const logoutError = new Error('Logout error');
+        req.logout.mockImplementation((callback) => callback(logoutError));
+
+        logout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error", user: req.user });
+    });
+
+    it('should return 200 if logout is successful', () => {
+        req.user = { id: '123' };
+        req.logout.mockImplementation((callback) => callback(null));
+
+        logout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ msg: "Logged out successfully", user: null });
+    });
+
+    it('should return 500 if an exception occurs', () => {
+        req.user = { id: '123' };
+
+        const error = new Error('Unexpected error');
+        req.logout.mockImplementation(() => {
+            throw error;
+        });
+        logout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error", msg: error.message });
     });
 });
