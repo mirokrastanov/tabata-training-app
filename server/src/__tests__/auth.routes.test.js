@@ -1,7 +1,9 @@
-import { authStatus, getUser, getUsers, logout } from "../controllers/auth.controller.js";
+import { authStatus, getUser, getUsers, login, logout } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
+import passport from "passport";
 
 jest.mock('../models/user.model.js');
+jest.mock('passport');
 
 describe('getUser by ID', () => {
     let req, res;
@@ -182,5 +184,77 @@ describe('logout', () => {
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error", msg: error.message });
+    });
+});
+
+describe('login', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            authMethod: 'local',
+            login: jest.fn(),
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn().mockReturnThis(),
+        };
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should return 200 if login is successful', async () => {
+        const user = { id: 1, name: 'Test User' };
+
+        passport.authenticate.mockImplementation((method, callback) => (req, res) => {
+            callback(null, user, null);
+        });
+
+        req.login.mockImplementation((user, callback) => {
+            callback(null);
+        });
+
+        await login(req, res);
+
+        expect(passport.authenticate).toHaveBeenCalledWith('local', expect.any(Function));
+        expect(req.login).toHaveBeenCalledWith(user, expect.any(Function));
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(user);
+    });
+
+    it('should handle authentication error', async () => {
+        const authError = new Error('Authentication failed');
+
+        passport.authenticate.mockImplementation((method, callback) => (req, res) => {
+            callback(authError, null, null);
+        });
+
+        await login(req, res);
+
+        expect(passport.authenticate).toHaveBeenCalledWith('local', expect.any(Function));
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error', msg: authError.message, user: null });
+    });
+
+    it('should handle login error', async () => {
+        const user = { id: 1, name: 'Test User' };
+        const loginError = new Error('Login failed');
+
+        passport.authenticate.mockImplementation((method, callback) => (req, res) => {
+            callback(null, user, null);
+        });
+
+        req.login.mockImplementation((user, callback) => {
+            callback(loginError);
+        });
+
+        await login(req, res);
+
+        expect(passport.authenticate).toHaveBeenCalledWith('local', expect.any(Function));
+        expect(req.login).toHaveBeenCalledWith(user, expect.any(Function));
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error', msg: loginError.message, user: null });
     });
 });
