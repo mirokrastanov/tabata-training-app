@@ -309,4 +309,42 @@ describe('signup', () => {
         expect(res.json).toHaveBeenCalledWith({ error: 'User testuser already exists' });
     });
 
+    it('should return 201 and create a new user if data is valid', async () => {
+        req.body = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'password123',
+            confirmPassword: 'password123'
+        };
+
+        User.findOne.mockResolvedValue(null);
+        bcrypt.genSalt.mockResolvedValue('somesalt');
+        bcrypt.hash.mockResolvedValue('hashedpassword');
+        genAvatar.mockReturnValue('someavatar');
+
+        const saveMock = jest.fn().mockResolvedValue();
+        const newUser = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'hashedpassword',
+            profilePic: 'someavatar',
+            save: saveMock
+        };
+
+        User.mockImplementation(() => newUser);
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(req.login).toHaveBeenCalledWith(newUser, expect.any(Function));
+        expect(res.json).toHaveBeenCalledWith({
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            profilePic: 'someavatar'
+        });
+    });
+
 });
