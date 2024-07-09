@@ -1,9 +1,13 @@
-import { authStatus, getUser, getUsers, login, logout } from "../controllers/auth.controller.js";
+import { authStatus, getUser, getUsers, login, logout, signup } from "../controllers/auth.controller.js";
 import User from "../models/user.model.js";
 import passport from "passport";
+import bcrypt from 'bcryptjs';
+import { genAvatar } from "../utils/avatarUtils.js";
 
 jest.mock('../models/user.model.js');
 jest.mock('passport');
+jest.mock('bcryptjs');
+jest.mock('../utils/avatarUtils.js');
 
 describe('getUser by ID', () => {
     let req, res;
@@ -257,4 +261,52 @@ describe('login', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ error: 'Internal Server Error', msg: loginError.message, user: null });
     });
+});
+
+describe('signup', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            body: {},
+            login: jest.fn((user, callback) => callback(null))
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should return 400 if passwords do not match', async () => {
+        req.body = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'password123',
+            confirmPassword: 'password321'
+        };
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: "Passwords don't match" });
+    });
+
+    it('should return 400 if user already exists', async () => {
+        req.body = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'password123',
+            confirmPassword: 'password123'
+        };
+
+        User.findOne.mockResolvedValue({ username: 'testuser' });
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ error: 'User testuser already exists' });
+    });
+
 });
