@@ -319,15 +319,17 @@ describe('signup', () => {
         };
 
         User.findOne.mockResolvedValue(null);
+
         bcrypt.genSalt.mockResolvedValue('somesalt');
         bcrypt.hash.mockResolvedValue('hashedpassword');
         genAvatar.mockReturnValue('someavatar');
 
         const saveMock = jest.fn().mockResolvedValue();
+
         const newUser = {
-            fullName: 'Test User',
-            username: 'testuser',
-            email: 'testuser@example.com',
+            fullName: req.body.fullName,
+            username: req.body.username,
+            email: req.body.email,
             password: 'hashedpassword',
             profilePic: 'someavatar',
             save: saveMock
@@ -337,14 +339,135 @@ describe('signup', () => {
 
         await signup(req, res);
 
+        newUser.password = 'hashedpassword';
+
         expect(res.status).toHaveBeenCalledWith(201);
         expect(req.login).toHaveBeenCalledWith(newUser, expect.any(Function));
         expect(res.json).toHaveBeenCalledWith({
+            fullName: req.body.fullName,
+            username: req.body.username,
+            email: req.body.email,
+            password: 'hashedpassword',
+            profilePic: 'someavatar',
+            save: saveMock
+        });
+        expect(saveMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return 400 for Mongoose ValidationError', async () => {
+        req.body = {
             fullName: 'Test User',
             username: 'testuser',
             email: 'testuser@example.com',
-            profilePic: 'someavatar'
+            password: 'password123',
+            confirmPassword: 'password123'
+        };
+
+        const validationError = new Error('Validation Error');
+        validationError.name = 'ValidationError';
+        validationError.errors = {
+            email: { message: 'Email is invalid' },
+            username: { message: 'Username is required' }
+        };
+
+        User.findOne.mockResolvedValue(null);
+        bcrypt.genSalt.mockResolvedValue('somesalt');
+        bcrypt.hash.mockResolvedValue('hashedpassword');
+        genAvatar.mockReturnValue('someavatar');
+
+        const newUser = {
+            fullName: req.body.fullName,
+            username: req.body.username,
+            email: req.body.email,
+            password: 'hashedpassword',
+            profilePic: 'someavatar',
+            save: jest.fn().mockRejectedValue(validationError) // Mock save to throw validation error
+        };
+
+        User.mockImplementation(() => newUser);
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            msg: 'Validation Errors',
+            errors: ['Email is invalid', 'Username is required']
+        });
+    });
+
+    it('should return 400 for duplicate key error (11000)', async () => {
+        req.body = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'password123',
+            confirmPassword: 'password123'
+        };
+
+        const duplicateKeyError = new Error('Duplicate key error');
+        duplicateKeyError.code = 11000;
+        duplicateKeyError.keyValue = { username: 'testuser' };
+
+        User.findOne.mockResolvedValue(null);
+        bcrypt.genSalt.mockResolvedValue('somesalt');
+        bcrypt.hash.mockResolvedValue('hashedpassword');
+        genAvatar.mockReturnValue('someavatar');
+
+        const newUser = {
+            fullName: req.body.fullName,
+            username: req.body.username,
+            email: req.body.email,
+            password: 'hashedpassword',
+            profilePic: 'someavatar',
+            save: jest.fn().mockRejectedValue(duplicateKeyError) // Mock save to throw duplicate key error
+        };
+
+        User.mockImplementation(() => newUser);
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+            msg: 'username already in use.'
+        });
+    });
+
+    it('should return 500 for general internal server error', async () => {
+        req.body = {
+            fullName: 'Test User',
+            username: 'testuser',
+            email: 'testuser@example.com',
+            password: 'password123',
+            confirmPassword: 'password123'
+        };
+
+        const generalError = new Error('Something went wrong');
+
+        User.findOne.mockResolvedValue(null);
+        bcrypt.genSalt.mockResolvedValue('somesalt');
+        bcrypt.hash.mockResolvedValue('hashedpassword');
+        genAvatar.mockReturnValue('someavatar');
+
+        const newUser = {
+            fullName: req.body.fullName,
+            username: req.body.username,
+            email: req.body.email,
+            password: 'hashedpassword',
+            profilePic: 'someavatar',
+            save: jest.fn().mockRejectedValue(generalError) // Mock save to throw general error
+        };
+
+        User.mockImplementation(() => newUser);
+
+        await signup(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({
+            error: 'Internal Server Error',
+            msg: generalError.message,
+            errObj: generalError
         });
     });
 
 });
+
