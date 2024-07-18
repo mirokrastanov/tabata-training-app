@@ -1,4 +1,4 @@
-import { getAllWorkouts, getMyWorkouts } from '../controllers/workout.controller.js';
+import { getAllWorkouts, getMyWorkouts, getOneWorkout } from '../controllers/workout.controller.js';
 import { workoutManager } from '../managers/workout.manager.js';
 
 jest.mock('../managers/workout.manager.js');
@@ -83,6 +83,43 @@ describe('getMyWorkouts', () => {
         workoutManager.getMine.mockRejectedValue(mockError);
 
         await getMyWorkouts(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Internal Server Error', error: mockError.message });
+    });
+});
+
+
+describe('getOneWorkout', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            params: {
+                id: 'mockWorkoutId'
+            }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should return the workout if it is found', async () => {
+        const mockWorkout = { id: 'mockWorkoutId', name: 'Workout 1' };
+        workoutManager.getOne.mockResolvedValue(mockWorkout);
+
+        await getOneWorkout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(mockWorkout);
+    });
+
+    it('should return a 500 status code and error message if an error occurs', async () => {
+        const mockError = new Error('Something went wrong');
+        workoutManager.getOne.mockRejectedValue(mockError);
+
+        await getOneWorkout(req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ msg: 'Internal Server Error', error: mockError.message });
