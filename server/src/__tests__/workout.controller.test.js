@@ -1,7 +1,15 @@
-import { deleteWorkout, getAllWorkouts, getMyWorkouts, getOneWorkout } from '../controllers/workout.controller.js';
+import {
+    deleteWorkout,
+    editWorkout,
+    getAllWorkouts,
+    getMyWorkouts,
+    getOneWorkout,
+} from '../controllers/workout.controller.js';
 import { workoutManager } from '../managers/workout.manager.js';
+import Workout from '../models/workout.model.js';
 
 jest.mock('../managers/workout.manager.js');
+jest.mock('../models/workout.model.js');
 
 describe('getAllWorkouts', () => {
     let req, res;
@@ -154,6 +162,46 @@ describe('deleteWorkout', () => {
         workoutManager.delOne.mockRejectedValue(mockError);
 
         await deleteWorkout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Internal Server Error', error: mockError.message });
+    });
+});
+
+describe('editWorkout', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            body: { name: 'Updated Workout' },
+            params: { id: 'mockWorkoutId' },
+            user: { _id: 'mockUserId' }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should update the workout and return the new workout', async () => {
+        const currentWorkout = { id: 'mockWorkoutId', name: 'Old Workout' };
+        const newWorkout = { id: 'mockWorkoutId', name: 'Updated Workout', creatorId: 'mockUserId' };
+
+        workoutManager.getOne.mockResolvedValue(currentWorkout);
+        workoutManager.edit.mockResolvedValue();
+        Workout.mockImplementation((data) => data);
+
+        await editWorkout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith(newWorkout);
+    });
+
+    it('should return a 500 status code and error message if an error occurs', async () => {
+        const mockError = new Error('Something went wrong');
+        workoutManager.getOne.mockRejectedValue(mockError);
+
+        await editWorkout(req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ msg: 'Internal Server Error', error: mockError.message });
