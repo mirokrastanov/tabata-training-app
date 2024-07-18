@@ -9,7 +9,8 @@
         "start": "node ./src/server.js",
         "test": "jest",
         "test-auth": "jest /src/__tests__/auth.controller.test.js",
-        "test-workout": "jest /src/__tests__/workout.controller.test.js"
+        "test-workout": "jest /src/__tests__/workout.controller.test.js",
+        "test-home": "jest /src/__tests__/home.controller.test.js"
     },
     "keywords": [],
     "author": "Miro Krastanov",
