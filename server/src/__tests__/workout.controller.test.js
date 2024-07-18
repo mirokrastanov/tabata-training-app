@@ -1,4 +1,5 @@
 import {
+    createWorkout,
     deleteWorkout,
     editWorkout,
     getAllWorkouts,
@@ -208,3 +209,39 @@ describe('editWorkout', () => {
     });
 });
 
+describe('createWorkout', () => {
+    let req, res;
+
+    beforeEach(() => {
+        req = {
+            body: { name: 'New Workout' },
+            user: { _id: 'mockUserId' }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+    });
+
+    it('should create a new workout and return it', async () => {
+        const newWorkout = { name: 'New Workout', creatorId: 'mockUserId' };
+
+        Workout.mockImplementation((data) => data);
+        workoutManager.create.mockResolvedValue();
+
+        await createWorkout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(201);
+        expect(res.json).toHaveBeenCalledWith(newWorkout);
+    });
+
+    it('should return a 500 status code and error message if an error occurs', async () => {
+        const mockError = new Error('Something went wrong');
+        workoutManager.create.mockRejectedValue(mockError);
+
+        await createWorkout(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith({ msg: 'Internal Server Error', error: mockError.message });
+    });
+});
