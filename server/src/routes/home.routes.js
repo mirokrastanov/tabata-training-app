@@ -6,6 +6,8 @@ const router = express.Router();
 // const { isAuth } = require('../middlewares/authMiddleware');
 
 router.get('/', (req, res) => {
+    //TODO: Write API Documentation and return it here
+    // as JSON
     res.status(200).send({ msg: 'Home', path: req.url });
 });
 
