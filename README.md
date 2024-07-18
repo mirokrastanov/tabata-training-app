@@ -18,6 +18,45 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 ## Sneak Peak Images
 - NYI...
 
+## Routes
+### General Routes
+- Prefix: `no prefix`
+
+| Method | Endpoint |             Function             |
+| :----: | :------: | :------------------------------: |
+| `GET`  |   `/`    |     Returns API docs as JSON     |
+| `GET`  | `/test`  |            Test route            |
+| `GET`  |  `/404`  | All unknown routes redirect here |
+
+### Auth Routes 
+- Prefix: `/api/auth`
+- To Build a URL combine: `prefix` + `endpoint`
+- Example: `/api/auth/status` - Returns Auth Status
+
+| Method | Endpoint (add prefix) |                Function                |
+| :----: | :-------------------: | :------------------------------------: |
+| `GET`  |       `/status`       |          Returns Auth status           |
+| `GET`  |   `/discord/login`    | Discord login route. Explained below.  |
+| `GET`  |  `/discord/redirect`  | Once authorized the user is redirected |
+| `GET`  |         TODO          |           TODO from here on            |
+| `GET`  |          `/`          |                  home                  |
+| `GET`  |          `/`          |                  home                  |
+| `GET`  |          `/`          |                  home                  |
+| `GET`  |          `/`          |                  home                  |
+| `GET`  |          `/`          |                  home                  |
+| `GET`  |          `/`          |                  home                  |
+
+### Discord Login (via OAuth2) - How it works
+1. Send a `GET` request to `/discord/login`. 
+2. It redirects you to Discord for Authorization.
+3. Authorize and you are redirected to `/discord/redirect` and a **Query Parameter** is attached. Example: `/discord/redirect?code=AuthorizationStringHere`
+4. You are logged in and receive a user JSON object. `{ user: {...}, session: {...} }`
+___
+- If you deny Authorization you are NOT logged in and you receive a JSON object with information and `{ user: null, errors: {...} }`.
+
+
+
+
 ## Project Tools & Technologies used
 ### IDE
 - [VS Code](https://code.visualstudio.com/)
