@@ -11,3 +11,29 @@ export const getPublicRelativePath = (filePath) => {
     result = result.replaceAll('\\', '/');
     return result;
 }
+
+export async function getPublicFiles(publicPath) {
+    let finalArr = [];
+    await getFilesFromDir(publicPath, finalArr);
+    return finalArr;
+}
+
+async function getFilesFromDir(publicPath, finalArr) {
+    try {
+        const files = await fs.promises.readdir(publicPath);
+
+        for (const file of files) {
+            const filePath = path.join(publicPath, file);
+            const stats = await fs.promises.stat(filePath);
+
+            if (stats.isDirectory()) {
+                // invoked recursively to explore ALL sub-directories
+                await getFilesFromDir(filePath, finalArr);
+            } else {
+                finalArr.push(getPublicRelativePath(filePath));
+            }
+        }
+    } catch (err) {
+        console.error('Error reading public directory:', err);
+    }
+}
