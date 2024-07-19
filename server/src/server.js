@@ -1,3 +1,4 @@
+import path from 'path';
 import dotenv from 'dotenv';
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -7,14 +8,27 @@ import sessionConfig from './config/sessionConfig.js';
 import passport from 'passport';
 import { localStrategy, discordStrategy } from './config/passporConfig.js';
 import { preRoutesErrorHandler } from './middlewares/errorHandlers.middleware.js';
+import { allowCORS } from './middlewares/allowCORS.middleware.js';
+import { attachPublicPath } from './middlewares/attachPublicPath.middleware.js';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Allows CORS
+app.use(allowCORS);
+
 // Body parsers
 app.use(express.urlencoded({ extended: false })); // parse form fields
 app.use(express.json()); // parse JSON from incoming requests (req.body)
+
+// Static files
+const currentDir = process.cwd();
+const publicPath = path.resolve(currentDir, 'public');
+app.use(attachPublicPath(publicPath)); // attach to request object (custom)
+app.use('/assets', express.static(publicPath));
+// External requests (real use): /assets + file (relative) 
+// Internal use: publicPath + file (full path)
 
 // Cookie parser
 app.use(cookieParser());
