@@ -18,8 +18,8 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 ## Sneak Peak Images
 - NYI...
 
-## Routes
-### General Routes
+## RESTful API
+### General Endpoints
 - Prefix: `no prefix`
 
 | Method | Endpoint |             Function             |
@@ -28,7 +28,7 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 | `GET`  | `/test`  |            Test route            |
 | `GET`  |  `/404`  | All unknown routes redirect here |
 
-### Auth Routes 
+### Auth Endpoints
 - Prefix: `/api/auth`
 - To Build a URL combine: `prefix` + `endpoint`
 - Example: `/api/auth/status` - Returns Auth Status
