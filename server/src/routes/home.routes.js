@@ -1,14 +1,28 @@
 import express from 'express';
 import { query } from 'express-validator';
 import { wildcard } from '../controllers/home.controller.js';
+import { getPublicFiles } from '../utils/getters.js';
+import { parseFiles } from '../utils/parsers.js';
 
 const router = express.Router();
-// const { isAuth } = require('../middlewares/authMiddleware');
 
 router.get('/', (req, res) => {
     //TODO: Write API Documentation and return it here
-    // as JSON
+    // when the README API is done, copy some of it here and rework as JSON
+    // add extra info 
     res.status(200).send({ msg: 'Home', path: req.url });
+});
+
+router.get('/public', async (req, res) => {
+    // const filePath = getInternalFilePath(req.publicPath, '/test1/index.html');
+    // res.status(200).sendFile(filePath);
+    const allFiles = await getPublicFiles(req.publicPath);
+    const result = {};
+    allFiles.forEach((f, i) => result[i] = `/assets/${f}`);
+    res.status(200).json({
+        simple: result,
+        nested: parseFiles(result),
+    });
 });
 
 router.get('/test', (req, res) => {
