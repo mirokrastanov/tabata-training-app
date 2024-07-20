@@ -1,5 +1,5 @@
-# Tabata Training App
-🏃⌚Tabata timer app with customizable workouts. Users build profiles with exercise names, durations &amp; see them on screen during intervals.
+# Tabata Training App* (work in progress...)
+🏃⌚Tabata timer app with customizable workouts. Users build profiles with exercise names and durations, and see them on screen during intervals.
 - (Preview img) NYI...
 
 ## App Demo
@@ -19,14 +19,40 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 - NYI...
 
 ## RESTful API
+- **All endpoints return a JSON object.**
+
+### API MAP
+- `API_URL`
+    - `/`
+    - `/public`
+    - `/test`
+    - `/404`
+    - `/api/auth`
+        - `/status`
+        - `/discord/login`
+        - `/discord/redirect`
+        - `/get-users`
+        - `/get-user/:id`
+        - `/signup`
+        - `/login`
+        - `/logout`
+    - `/api/workouts`
+        - `/get/one/:id`
+        - `/get/mine`
+        - `/get/all`
+        - `/create`
+        - `/edit/:id`
+        - `/delete/:id`
+
 ### General Endpoints
 - Prefix: `no prefix`
 
-| Method | Endpoint |             Function             |
-| :----: | :------: | :------------------------------: |
-| `GET`  |   `/`    |     Returns API docs as JSON     |
-| `GET`  | `/test`  |            Test route            |
-| `GET`  |  `/404`  | All unknown routes redirect here |
+| Method | Endpoint  |             Function              |
+| :----: | :-------: | :-------------------------------: |
+| `GET`  |    `/`    |         Returns API docs          |
+| `GET`  | `/public` | Serves all available public files |
+| `GET`  |  `/test`  |            Test route             |
+| `GET`  |  `/404`   | All unknown routes redirect here  |
 
 ### Auth Endpoints
 - Prefix: `/api/auth`
@@ -37,23 +63,41 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 | :----: | :-------------------: | :------------------------------------: |
 | `GET`  |       `/status`       |          Returns Auth status           |
 | `GET`  |   `/discord/login`    | Discord login route. Explained below.  |
-| `GET`  |  `/discord/redirect`  | Once authorized the user is redirected |
-| `GET`  |         TODO          |           TODO from here on            |
-| `GET`  |          `/`          |                  home                  |
-| `GET`  |          `/`          |                  home                  |
-| `GET`  |          `/`          |                  home                  |
-| `GET`  |          `/`          |                  home                  |
-| `GET`  |          `/`          |                  home                  |
-| `GET`  |          `/`          |                  home                  |
+| `GET`  |  `/discord/redirect`  | Used by the back end. Explained below. |
+| `GET`  |     `/get-users`      |    Admin route. Get all users. NYI.    |
+| `GET`  |    `/get-user/:id`    |  Admin route. Get a user by ID. NYI.   |
+| `POST` |       `/signup`       |     Send a user object to Register     |
+| `POST` |       `/login`        |      Send a user object to Login       |
+| `POST` |       `/logout`       |      If logged in it logs you out      |
 
 ### Discord Login (via OAuth2) - How it works
 1. Send a `GET` request to `/discord/login`. 
 2. It redirects you to Discord for Authorization.
-3. Authorize and you are redirected to `/discord/redirect` and a **Query Parameter** is attached. Example: `/discord/redirect?code=AuthorizationStringHere`
-4. You are logged in and receive a user JSON object. `{ user: {...}, session: {...} }`
-___
-- If you deny Authorization you are NOT logged in and you receive a JSON object with information and `{ user: null, errors: {...} }`.
+3. You are asked to **Authorize** and then Redirected to `/discord/redirect` and an authorization **Query Parameter** is attached.
+   - Example: `/discord/redirect?code=QueryParameter`
+4. **Successful Login (Authorized)**
+   - You are logged in and receive a user JSON object. 
+   - Example: `{ user: {...}, session: {...} }`
+5. **Unsuccessful Login (Unauthorized)**
+   - You are NOT logged in and you receive a JSON object. 
+   - Example: `{ user: null, errors: {...} }`
+- Additionally, a session is created for you, and the experience is the same as a local login. 
 
+### Workouts Endpoints
+- Prefix: `/api/workouts`
+- To Build a URL combine: `prefix` + `endpoint`
+- Example: `/api/workouts/get/one/:id` - Returns a single workout by ID
+
+|  Method  | Endpoint (add prefix) |             Function              |
+| :------: | :-------------------: | :-------------------------------: |
+|  `GET`   |    `/get/one/:id`     |        Get a workout by ID        |
+|  `GET`   |      `/get/mine`      | Get the logged in user's workouts |
+|  `GET`   |      `/get/all`       |         Get all workouts          |
+|  `POST`  |       `/create`       |         Create a workout          |
+|  `PUT`   |      `/edit/:id`      |       Edit a workout by ID        |
+| `DELETE` |     `/delete/:id`     |      Delete a workout by ID       |
+
+<br />
 
 
 
