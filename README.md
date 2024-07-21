@@ -19,22 +19,22 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 - NYI...
 
 ## RESTful API
-- **All endpoints return a JSON object.**
+### <font color=#0fb503><b>All endpoints return a JSON object</b></font>
 
 ### API MAP
-- `API_URL`
+- `hostname`
     - `/`
     - `/public`
     - `/test`
     - `/404`
     - `/api/auth`
         - `/status`
+        - `/signup`
+        - `/login`
         - `/discord/login`
         - `/discord/redirect`
         - `/get-users`
         - `/get-user/:id`
-        - `/signup`
-        - `/login`
         - `/logout`
     - `/api/workouts`
         - `/get/one/:id`
@@ -44,31 +44,45 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
         - `/edit/:id`
         - `/delete/:id`
 
+<!-- <font color=#0fb503>other color</font> -->
+<!-- The above colors the text here. -->
+
+<br />
+
+
 ### General Endpoints
 - Prefix: `no prefix`
 
-| Method | Endpoint  |             Function              |
-| :----: | :-------: | :-------------------------------: |
-| `GET`  |    `/`    |         Returns API docs          |
-| `GET`  | `/public` | Serves all available public files |
-| `GET`  |  `/test`  |            Test route             |
-| `GET`  |  `/404`   | All unknown routes redirect here  |
+| Method | Endpoint  |             Function              | Access |
+| :----: | :-------: | :-------------------------------: | :----: |
+| `GET`  |    `/`    |         Returns API docs          |   🟡🟢   |
+| `GET`  | `/public` | Serves all available public files |   🟡🟢   |
+| `GET`  |  `/test`  |            Test route             |   🟡🟢   |
+| `GET`  |  `/404`   | All unknown routes redirect here  |   🟡🟢   |
+
+|   🔴   |   🟡   |   🟢   |
+| :---: | :---: | :---: |
+| Admin | User  | Guest |
 
 ### Auth Endpoints
 - Prefix: `/api/auth`
 - To Build a URL combine: `prefix` + `endpoint`
 - Example: `/api/auth/status` - Returns Auth Status
 
-| Method | Endpoint (add prefix) |                Function                |
-| :----: | :-------------------: | :------------------------------------: |
-| `GET`  |       `/status`       |          Returns Auth status           |
-| `GET`  |   `/discord/login`    | Discord login route. Explained below.  |
-| `GET`  |  `/discord/redirect`  | Used by the back end. Explained below. |
-| `GET`  |     `/get-users`      |    Admin route. Get all users. NYI.    |
-| `GET`  |    `/get-user/:id`    |  Admin route. Get a user by ID. NYI.   |
-| `POST` |       `/signup`       |     Send a user object to Register     |
-| `POST` |       `/login`        |      Send a user object to Login       |
-| `POST` |       `/logout`       |      If logged in it logs you out      |
+| Method | Endpoint (add prefix) |                Function                | Access |
+| :----: | :-------------------: | :------------------------------------: | :----: |
+| `GET`  |       `/status`       |          Returns Auth status           |   🟡🟢   |
+| `GET`  |   `/discord/login`    | Discord login route. Explained below.  |   🟢    |
+| `GET`  |  `/discord/redirect`  | Used by the back end. Explained below. |   🟢    |
+| `GET`  |     `/get-users`      |    Admin route. Get all users. NYI.    |   🔴    |
+| `GET`  |    `/get-user/:id`    |  Admin route. Get a user by ID. NYI.   |   🔴    |
+| `POST` |       `/signup`       |     Send a user object to Register     |   🟢    |
+| `POST` |       `/login`        |      Send a user object to Login       |   🟢    |
+| `POST` |       `/logout`       |      If logged in it logs you out      |   🟡    |
+
+|   🔴   |   🟡   |   🟢   |
+| :---: | :---: | :---: |
+| Admin | User  | Guest |
 
 ### Discord Login (via OAuth2) - How it works
 1. Send a `GET` request to `/discord/login`. 
@@ -88,14 +102,18 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 - To Build a URL combine: `prefix` + `endpoint`
 - Example: `/api/workouts/get/one/:id` - Returns a single workout by ID
 
-|  Method  | Endpoint (add prefix) |             Function              |
-| :------: | :-------------------: | :-------------------------------: |
-|  `GET`   |    `/get/one/:id`     |        Get a workout by ID        |
-|  `GET`   |      `/get/mine`      | Get the logged in user's workouts |
-|  `GET`   |      `/get/all`       |         Get all workouts          |
-|  `POST`  |       `/create`       |         Create a workout          |
-|  `PUT`   |      `/edit/:id`      |       Edit a workout by ID        |
-| `DELETE` |     `/delete/:id`     |      Delete a workout by ID       |
+|  Method  | Endpoint (add prefix) |             Function              | Access |
+| :------: | :-------------------: | :-------------------------------: | :----: |
+|  `GET`   |    `/get/one/:id`     |        Get a workout by ID        |   🟡🟢   |
+|  `GET`   |      `/get/mine`      | Get the logged in user's workouts |   🟡🟢   |
+|  `GET`   |      `/get/all`       |         Get all workouts          |   🟡🟢   |
+|  `POST`  |       `/create`       |         Create a workout          |   🟡🟢   |
+|  `PUT`   |      `/edit/:id`      |       Edit a workout by ID        |   🟡🟢   |
+| `DELETE` |     `/delete/:id`     |      Delete a workout by ID       |   🟡🟢   |
+
+|   🔴   |   🟡   |   🟢   |
+| :---: | :---: | :---: |
+| Admin | User  | Guest |
 
 <br />
 
