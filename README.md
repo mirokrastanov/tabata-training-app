@@ -19,10 +19,7 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 - NYI...
 
 ## RESTful API
-
-<font color=#0fb503><b>All endpoints return a JSON object</b></font>
-
-$${\color{red}Welcome \space \color{lightblue}To \space \color{orange}Stackoverflow}$$
+- $${\color{red}All endpoints \space \color{lightblue}return a \space \color{orange}JSON object!}$$
 
 
 ### API MAP
