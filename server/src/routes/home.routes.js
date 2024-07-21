@@ -7,10 +7,12 @@ import { parseFiles } from '../utils/parsers.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    //TODO: Write API Documentation and return it here
-    // when the README API is done, copy some of it here and rework as JSON
-    // add extra info 
-    res.status(200).send({ msg: 'Home', path: req.url });
+    res.status(200).send({
+        title: 'Tabata Training App - API',
+        msg: 'For more information on how to use this API, check out the documentation linked below',
+        documentation: 'https://github.com/mirokrastanov/tabata-training-app/blob/main/README.md',
+        user: req.user,
+    });
 });
 
 router.get('/public', async (req, res) => {
@@ -32,7 +34,6 @@ router.get('/test', (req, res) => {
     req.session.visited = true; // to keep the initial session id for subsequent requests
     req.sessionStore.get(req.session.id, (err, sessionData) => {
         if (err) {
-            // throw err;
             resultObject.sessionStoreError = err;
         }
         resultObject.sessionData = sessionData;
