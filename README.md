@@ -20,12 +20,17 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 
 ## RESTful API
 $${
-   \color{cyan}All \space 
-   \color{cyan}endpoints \space 
-   \color{cyan}return \space 
-   \color{cyan}a \space 
-   \color{violet}JSON \space 
-   \color{cyan}object! 
+   \begin{array}{l}
+   \large 
+   \textbf{
+      {\color{cyan}All \space} 
+      {\color{cyan}endpoints \space} 
+      {\color{cyan}return \space} 
+      {\color{cyan}a \space} 
+      {\color{violet}JSON \space} 
+      {\color{cyan}object!}
+   }
+   \end{array} 
 }$$
 
 
