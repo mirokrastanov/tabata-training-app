@@ -19,20 +19,19 @@ Looking to push your limits with custom HIIT workouts? This Tabata timer app goe
 - NYI...
 
 ## RESTful API
-$${
-   \begin{array}{l}
-   \large 
-   \textbf{
-      {\color{cyan}All \space} 
-      {\color{cyan}endpoints \space} 
-      {\color{cyan}return \space} 
-      {\color{cyan}a \space} 
-      {\color{violet}JSON \space} 
-      {\color{cyan}object!}
-   }
-   \end{array} 
-}$$
-
+<ul type="none">
+   <li>
+      $${
+         \large 
+         \color{cyan}All \space 
+         \color{cyan}endpoints \space 
+         \color{cyan}return \space 
+         \color{cyan}a \space 
+         \color{violet}\textbf{JSON} \space 
+         \color{cyan}object! \space
+      }$$
+   </li>
+</ul> 
 
 ### API MAP
 - `hostname`
