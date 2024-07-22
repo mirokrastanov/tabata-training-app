@@ -25,10 +25,10 @@ app.use(express.json()); // parse JSON from incoming requests (req.body)
 // Static files
 const currentDir = process.cwd();
 const publicPath = path.resolve(currentDir, 'public');
-app.use(attachPublicPath(publicPath)); // attach to request object (custom)
+app.use(attachPublicPath(publicPath)); // attach req.publicPath
 app.use('/assets', express.static(publicPath));
-// External requests (real use): /assets + file (relative) 
-// Internal use: publicPath + file (full path)
+// External requests (real use):    /assets + file (relative) 
+//             Internal use:     publicPath + file (full path)
 
 // Cookie parser
 app.use(cookieParser());
