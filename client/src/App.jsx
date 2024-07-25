@@ -13,7 +13,7 @@ function App() {
         <>
             <Toaster />
 
-            <div id="app__wrapper" className="bg-purple-900 text-white min-w-full max-w-[23rem] max-h-[46rem] flex flex-nowrap flex-col justify-start items-stretch rounded-xl relative">
+            <div id="app__wrapper" className="bg-purple-900 text-white w-full h-[calc(100vh-4rem)] flex flex-nowrap flex-col justify-start items-stretch rounded-xl relative">
 
                 <div id="app__titlebar" className="w-full flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl">
                     {/* TODO --> Change content inside based on page requirements */}
@@ -43,7 +43,7 @@ function App() {
                 {/* TODO --> Render conditionally only on certain pages */}
                 <div className="app__bottom-overlay w-full absolute bottom-0 z-10 bg-black/50">
                     <div className="overlay-btn w-full">
-                        <div className="bg-purple-900 hover:bg-purple-600 text-white w-14 h-14 absolute bottom-5 right-5 flex justify-center items-center text-xl cursor-pointer transition-all rounded-full hover:rounded-2xl active:scale-90"><FaPlus /></div>
+                        <div className="bg-purple-900 hover:bg-purple-600 text-white w-20 h-20 absolute bottom-12 right-12 flex justify-center items-center text-3xl cursor-pointer transition-all rounded-full hover:rounded-2xl active:scale-90"><FaPlus /></div>
                     </div>
                 </div>
 
