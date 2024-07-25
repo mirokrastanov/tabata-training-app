@@ -1,4 +1,5 @@
 #root {
+    width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     padding: 2rem;
@@ -44,24 +45,31 @@
     color: #888;
 }
 
-
-#app__wrapper {
-    width: 23rem;
-    height: 46rem;
-    /* MOVE TO: max-width query for mobile devices - responsive design */
-    /* width: unset;
-  height: unset; */
-}
-
 #app__wrapper * {
     user-select: none;
 }
 
 #app__wrapper .overlay-btn>* {
     /* box-shadow: rgba(136, 165, 191, 0.48) 0px 0px 10px 0px, rgba(255, 255, 255, 0.8) 0px 0px 10px 0px; */
+    /* box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
+        rgba(255, 255, 255, 0.8) -6px -2px 16px 0px; */
+    /* border: 1px solid #555; */
     box-shadow: 3px 3px 26px 3px rgba(0, 0, 0, 0.5);
 }
 
 #app__wrapper .overlay-btn>*:hover {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+
+
+@media screen and (max-width: 767px) {
+    #app__wrapper .app__bottom-overlay .overlay-btn>* {
+        width: 4rem;
+        height: 4rem;
+        bottom: 2rem;
+        right: 2rem;
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+    }
 }
