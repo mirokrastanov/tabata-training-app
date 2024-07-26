@@ -25,11 +25,11 @@ function WorkoutCard({ color, i, handlers = [], data = {} }) {
                 <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaEllipsisVertical /></div>
             </section>
             <section className="card__mid flex flex-col pl-3 pt-1 justify-center items-start leading-5">
-                <p>1. Prepare: 30 sec</p>
-                <p>2. Work: 45 sec - {genActivities(1)}</p>
-                <p>3. Rest: 15 sec</p>
-                <p>4. Work: 45 sec - {genActivities(2)}</p>
-                <p>5. Rest: 15 sec</p>
+                <p className="text-ellipsis line-clamp-1">1. Prepare: 30 sec</p>
+                <p className="text-ellipsis line-clamp-1">2. Work: 45 sec - {genActivities(1)}</p>
+                <p className="text-ellipsis line-clamp-1">3. Rest: 15 sec</p>
+                <p className="text-ellipsis line-clamp-1">4. Work: 45 sec - {genActivities(2)}</p>
+                <p className="text-ellipsis line-clamp-1">5. Rest: 15 sec</p>
                 <p>...</p>
             </section>
             <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md">
