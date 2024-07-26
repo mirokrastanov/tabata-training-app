@@ -1,3 +1,10 @@
 #app__wrapper #workouts__wrapper .workout__card:last-child {
     margin-bottom: 2px;
 }
+
+@media screen and (min-width: 768px) {
+    #app__wrapper #workouts__wrapper {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
