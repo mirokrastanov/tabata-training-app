@@ -2,12 +2,12 @@
     width: calc((100% - 3 * 0.8rem) / 3);
     height: fit-content;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.6) 0px 2px 2px;
-    transition: 0.3s linear;
+    transition: 0.2s linear;
 }
 
 #app__wrapper #workouts__wrapper .workout__card:hover {
     transform: translateY(-3px);
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 10px 30px, rgba(0, 0, 0, 0.4) 6px 10px 6px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 10px 30px, rgba(0, 0, 0, 0.4) 0px 10px 6px;
 }
 
 #app__wrapper #workouts__wrapper .workout__card .card__mid p {
