@@ -1,11 +1,13 @@
-.workout__card:hover {
-    box-shadow: rgba(0, 0, 0, 0.5) 2px 3px 10px;
+#app__wrapper #workouts__wrapper .workout__card {
+    width: calc((100% - 3 * 0.8rem) / 3);
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.6) 0px 2px 2px;
+    transition: 0.3s linear;
 }
 
-#app__wrapper #workouts__wrapper .workout__card {
-    width: calc((100% - 3 * 0.5rem) / 3);
-    /* height: calc((100% - 3 * 0.5rem) / 3); */
-    height: 206px;
+#app__wrapper #workouts__wrapper .workout__card:hover {
+    transform: translateY(-3px);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 10px 30px, rgba(0, 0, 0, 0.4) 6px 10px 6px;
 }
 
 #app__wrapper #workouts__wrapper .workout__card .card__mid p {
@@ -18,6 +20,6 @@
 /* MOBILE */
 @media screen and (max-width: 768px) {
     #app__wrapper #workouts__wrapper .workout__card {
-        width: 100%;
+        width: calc(100% - 0.3rem);
     }
 }
