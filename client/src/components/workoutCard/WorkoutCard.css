@@ -2,21 +2,22 @@
     box-shadow: rgba(0, 0, 0, 0.5) 2px 3px 10px;
 }
 
-@media screen and (min-width: 768px) {
-    #app__wrapper #workouts__wrapper .workout__card {
-        height: fit-content;
-        width: calc((100% - 3 * 0.5rem) / 3);
-        /* height: calc((100% - 3 * 0.5rem) / 3); */
-        height: 206px;
-    }
-
-    #app__wrapper #workouts__wrapper .workout__card .card__mid p{
-        width: calc(100% - 0.75rem);
-        text-align: left;
-    }
+#app__wrapper #workouts__wrapper .workout__card {
+    width: calc((100% - 3 * 0.5rem) / 3);
+    /* height: calc((100% - 3 * 0.5rem) / 3); */
+    height: 206px;
 }
 
-/* 
-gap: 0.5rem 
+#app__wrapper #workouts__wrapper .workout__card .card__mid p {
+    width: calc(100% - 0.75rem);
+    text-align: left;
+}
 
-*/
+
+
+/* MOBILE */
+@media screen and (max-width: 768px) {
+    #app__wrapper #workouts__wrapper .workout__card {
+        width: 100%;
+    }
+}
