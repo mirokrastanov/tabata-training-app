@@ -18,7 +18,7 @@ function Workouts() {
 
 
     return (
-        <div id="workouts__wrapper" className="w-full bg-white p-3 pt-2 pr-1 flex flex-col flex-nowrap gap-2 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
+        <div id="workouts__wrapper" className="w-full bg-white p-3 pt-2 pr-1 flex flex-wrap gap-2 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
             {/* <PageLoader /> */}
             
             {/* Render from DB and pass [data] through the loop */}
