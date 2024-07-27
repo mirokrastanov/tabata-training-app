@@ -75,6 +75,10 @@
     }
 }
 
+/* #app__wrapper #app__titlebar {
+    z-index: 2;
+} */
+
 #app__wrapper .overlay-btn>* {
     /* box-shadow: rgba(136, 165, 191, 0.48) 0px 0px 10px 0px, rgba(255, 255, 255, 0.8) 0px 0px 10px 0px; */
     /* box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
@@ -94,4 +98,16 @@
 
 
 
-@media screen and (max-width: 768px) {}
+@media screen and (max-width: 500px) {
+    #root {
+        padding: 0;
+        margin: 0;
+        min-height: unset;
+        height: 100vh;
+    }
+
+    #app__wrapper {
+        height: inherit;
+        border-radius: 0;
+    }
+}
