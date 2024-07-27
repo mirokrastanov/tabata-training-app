@@ -32,8 +32,9 @@ function WorkoutCard({ color, i, handlers = [], data = {} }) {
                 <p className="text-ellipsis line-clamp-1">5. Rest: 15 sec</p>
                 <p>...</p>
             </section>
-            <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md">
-                <p>Total: 08:35 - 26 intervals</p>
+            <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md mt-2">
+                <p>Total Time: 08:35</p>
+                <p>Intervals: 26</p>
             </section>
         </article>
     )
