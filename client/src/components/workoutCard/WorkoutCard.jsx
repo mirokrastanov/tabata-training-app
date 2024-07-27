@@ -4,6 +4,10 @@ import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-i
 
 
 function WorkoutCard({ color, i, handlers = [], data = {} }) {
+    const colorScheme = {
+        "--bg-c": color,
+    };
+
     // asign random color on workout creation & save it as part of the schema on DB
 
     // Temp funciton
@@ -16,7 +20,7 @@ function WorkoutCard({ color, i, handlers = [], data = {} }) {
     };
 
     return (
-        <article className="workout__card rounded-md transition-all cursor-pointer" style={{ background: color }}>
+        <article className="workout__card rounded-md cursor-pointer" style={colorScheme}>
             <section className="card__top text-white rounded-t-md w-full flex flex-nowrap flex-row items-center h-10">
                 <div className="h-full w-[calc(100%-5rem)] flex justify-start items-center pl-3 rounded-tl-md">
                     <h3 className="text-lg font-bold text-ellipsis line-clamp-1">HIIT Circuit c{i}</h3>
@@ -32,7 +36,7 @@ function WorkoutCard({ color, i, handlers = [], data = {} }) {
                 <p className="text-ellipsis line-clamp-1">5. Rest: 15 sec</p>
                 <p>...</p>
             </section>
-            <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md mt-2">
+            <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md">
                 <p>Total Time: 08:35</p>
                 <p>Intervals: 26</p>
             </section>
