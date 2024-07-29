@@ -110,3 +110,42 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* CUSTOM TOOLTIPS */
+.tooltip-anchor {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  background: blueviolet;
+  padding: 5px 20px;
+  border-radius: 6px;
+  transition: 0.2s linear;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.6) 0px 2px 2px;
+}
+
+.tooltip-anchor:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Base offsets - increase for longer tooltips at the dedicated .css file */
+.tooltip-right {
+  right: -50px;
+}
+
+.tooltip-anchor:hover .tooltip-right {
+  right: -110px;
+}
+
+.tooltip-left {
+  left: -50px;
+}
+
+.tooltip-anchor:hover .tooltip-left {
+  left: -110px;
+}
