@@ -1,9 +1,9 @@
 #app__wrapper #workouts__wrapper .workout__card {
-    width: calc((100% - 3 * 0.8rem) / 3);
+    width: calc((100% - 4 * 0.8rem) / 4);
     height: fit-content;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.6) 0px 2px 2px;
     background: var(--bg-c);
-    transition: 0.2s linear;
+    transition: 0.3s ease-in-out;
     opacity: 1;
 }
 
@@ -27,7 +27,19 @@
 
 
 /* MOBILE */
+@media screen and (max-width: 1000px) {
+    #app__wrapper #workouts__wrapper .workout__card {
+        width: calc((100% - 3 * 0.8rem) / 3);
+    }
+}
+
 @media screen and (max-width: 768px) {
+    #app__wrapper #workouts__wrapper .workout__card {
+        width: calc((100% - 1.5 * 0.8rem) / 2);
+    }
+}
+
+@media screen and (max-width: 600px) {
     #app__wrapper #workouts__wrapper .workout__card {
         width: calc(100% - 0.3rem);
     }

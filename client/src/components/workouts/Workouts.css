@@ -5,6 +5,10 @@
 
 /* MOBILE */
 @media screen and (max-width: 768px) {
+    
+}
+
+@media screen and (max-width: 600px) {
     #app__wrapper #workouts__wrapper {
         flex-direction: column;
         flex-wrap: nowrap;
