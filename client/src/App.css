@@ -59,10 +59,22 @@
         margin: 0;
         min-height: unset;
         height: 100vh;
+        overflow: hidden;
     }
 
     #app__wrapper {
         height: inherit;
         border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 330px) {
+    body {
+        overflow: hidden;
+    }
+
+    #root {
+        width: 100vw;
+        height: 100vh;
     }
 }
