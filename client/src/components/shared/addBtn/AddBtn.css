@@ -43,3 +43,26 @@
     border-radius: 10px;
     box-shadow: 0px 0px 15px 10px rgba(255, 255, 255, 0.5);
 }
+
+
+
+#app__wrapper .app__bottom-overlay #o-tip {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    background: blueviolet;
+    padding: 5px 20px;
+    border-radius: 6px;
+    transition: 0.2s linear;
+    left: -50px;
+    box-shadow: 0px 0px 15px 10px rgba(255, 255, 255, 0.5);
+    transition: 0.3s ease-in-out;
+    border: none;
+}
+
+#app__wrapper .app__bottom-overlay #o-tip-anchor:hover #o-tip {
+    visibility: visible;
+    opacity: 1;
+    left: -130px;
+    border: 2px solid white;
+}
