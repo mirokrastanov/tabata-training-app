@@ -32,49 +32,52 @@ export const api = {
     },
 };
 
+async function request(method, url, data) {
+    try {
+        const options = {
+            method,
+            headers: {}
+        };
+        if (data != undefined) {
+            options.headers['Content-Type'] = 'application/json';
+            options.body = JSON.stringify(data);
+        }
+        const response = await fetch(url, options);
+        let result;
+        if (response.status != 204) {
+            result = await response.json();
+        }
+        if (response.ok == false) {
+            // if (response.status == 403) {
+            //     localStorage.removeItem('userData');
+            // }
+            const error = result;
+            throw error;
+        }
+        return result;
+    } catch (err) {
+        // alert(err.message);
+        console.log(err.message);
+        throw err;
+    }
+}
 
-export async function requestor(url, options = { method: 'GET', headers: { 'Content-Type': 'application/json' } }, body) {
-    const response = await fetch(url, {
-        ...options,
-        body: JSON.stringify(body),
-    });
-    const data = await response.json();
-    console.log(data);
-    return data;
+export const get = request.bind(null, 'get');
+export const post = request.bind(null, 'post');
+export const put = request.bind(null, 'put');
+export const del = request.bind(null, 'delete');
+
+
+
+
+
+const sampleWorkout = {
+    creatorId: 'creatorId',
+    preparation: 30,
+    break: 15,
+    cooldown: 60,
+    exercises: [
+        { exercise: 'Jumping Jacks', duration: 45, orderIndex: 1 },
+    ],
 };
 
-
-
-// import mongoose from "mongoose";
-
-// const workoutSchema = new mongoose.Schema({
-//     creatorId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "User",
-//         required: true,
-//     },
-//     preparation: { type: Number, required: true },
-//     break: { type: Number, required: true },
-//     cooldown: { type: Number, required: true },
-//     exercises: [
-//         {
-//             exercise: {
-//                 type: String,
-//                 required: true,
-//             },
-//             duration: {
-//                 type: Number,
-//                 required: true,
-//             },
-//             orderIndex: {
-//                 type: Number,
-//                 required: true,
-//             },
-//         },
-//     ],
-//     // createdAt, updatedAt
-// }, { timestamps: true });
-
-// const Workout = mongoose.model('Workout', workoutSchema);
-
-// export default Workout;
