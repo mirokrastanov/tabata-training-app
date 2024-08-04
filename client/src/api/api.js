@@ -2,7 +2,7 @@ const hostname = 'http://localhost:8000';
 const auth = '/api/auth';
 const workouts = '/api/workouts';
 
-export const api = {
+export const urlBuilder = {
     workouts: {
         get: {
             one: (id) => hostname + workouts + `/get/one/${id}`,
@@ -66,7 +66,6 @@ export const get = request.bind(null, 'get');
 export const post = request.bind(null, 'post');
 export const put = request.bind(null, 'put');
 export const del = request.bind(null, 'delete');
-
 
 
 
