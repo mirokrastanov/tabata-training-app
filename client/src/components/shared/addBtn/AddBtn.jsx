@@ -11,7 +11,7 @@ function AddBtn() {
     // TODO: Render conditionally only on certain pages
 
     useEffect(() => {
-        console.log(location);
+        // console.log(location);
 
     }, []);
 

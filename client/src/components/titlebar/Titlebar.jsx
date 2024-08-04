@@ -13,7 +13,7 @@ function Titlebar() {
 
 
     useEffect(() => {
-        console.log(location);
+        // console.log(location);
 
     }, []);
 
