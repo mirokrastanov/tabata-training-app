@@ -9,6 +9,7 @@ import SignUp from './components/signup/SignUp';
 import Titlebar from './components/titlebar/Titlebar';
 import AddBtn from './components/shared/addBtn/AddBtn';
 import NotFound from './components/notFound/NotFound';
+import SignIn from './components/signin/SignIn';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                     <Route path="index" element={<Navigate to="/" />} />
                     <Route path="user/login" element={<Login />} />
                     <Route path="user/signup" element={<SignUp />} />
+                    <Route path="user/signin" element={<SignIn />} />
                     
 
 
