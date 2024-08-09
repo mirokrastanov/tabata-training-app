@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Titlebar.css';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus, FaArrowsUpDown, FaArrowRightFromBracket } from "react-icons/fa6";
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 function Titlebar() {
     const location = useLocation();
@@ -35,12 +35,13 @@ function Titlebar() {
                 <h2 className="text-ellipsis line-clamp-1 font-bold">Workouts: 2</h2>
             </div>
 
-            <div className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-br-none transition-all cursor-pointer hover:shadow-md active:scale-90 active:rounded-br-xl">
+            <Link className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-br-none transition-all cursor-pointer hover:shadow-md active:scale-90 active:rounded-br-xl text-white hover:text-white"
+                to="/settings" >
                 <div className="tooltip-anchor h-full w-14 flex justify-center items-center transition-all">
                     <FaGear />
                     <span className="tooltip tooltip-left settings-tooltip">Settings</span>
                 </div>
-            </div>
+            </Link>
 
         </div>
     )
