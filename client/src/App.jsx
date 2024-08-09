@@ -9,6 +9,7 @@ import Titlebar from './components/titlebar/Titlebar';
 import AddBtn from './components/shared/addBtn/AddBtn';
 import NotFound from './components/notFound/NotFound';
 import SignIn from './components/signin/SignIn';
+import Settings from './components/settings/Settings';
 
 function App() {
 
@@ -19,10 +20,10 @@ function App() {
             <div id="app__wrapper" className="bg-purple-900 text-white w-full h-[calc(100vh-4rem)] flex flex-nowrap flex-col justify-start items-stretch rounded-xl relative">
                 <Titlebar />
                 {/* TODO (in title bar) */}
-                {/* ==> Add overlay menu on settings click */}
                 {/* ==> Create CONTEXT for current view. Update the below based on that: */}
                 {/* ==> Update title based on view. Accept param for home view. */}
                 {/* ==> Update signin/logout btn based on view */}
+                {/* ==> Update settings/back btn based on view */}
 
                 <Routes>
                     <Route exact path="/" element={<Workouts />} />
@@ -30,6 +31,7 @@ function App() {
                     <Route path="index" element={<Navigate to="/" />} />
                     <Route path="user/signup" element={<SignUp />} />
                     <Route path="user/signin" element={<SignIn />} />
+                    <Route path="settings" element={<Settings />} />
                     {/* TODO */}
                     {/* Create Workout */}
                     {/* Edit Workout */}
