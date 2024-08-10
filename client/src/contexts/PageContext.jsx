@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import * as page from '../utils/pageParamLibrary.js';
 
 const PageContext = createContext();
 
@@ -16,8 +17,19 @@ export function PageProvider({ children }) {
         updatePageParams();
     }, [location]);
 
+    useEffect(() => {
+        console.log(pageParams);
+    }, [pageParams]);
+
     const updatePageParams = () => {
         // Set params based on current location
+        switch (location.pathname) {
+            case '/': setPageParams(page.workouts); break;
+            case '/settings': setPageParams(page.settings); break;
+            default: setPageParams(page.defaultCase); break;
+        }
+
+
 
     };
 
