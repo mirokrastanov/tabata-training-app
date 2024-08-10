@@ -3,7 +3,7 @@ const defaultCase = {
     title: 'Tabata Training',
     leftBtn: '',
     rightBtn: '',
-    titleParams: {},
+    params: {},
 };
 
 const workouts = {
@@ -11,8 +11,8 @@ const workouts = {
     title: 'Workouts',
     leftBtn: '',
     rightBtn: '',
-    titleParams: {
-        workoutCount: 24,
+    params: {
+        count: 24,
     },
 };
 const settings = {
@@ -20,7 +20,7 @@ const settings = {
     title: 'Settings',
     leftBtn: '',
     rightBtn: '',
-    titleParams: {},
+    params: {},
 };
 
 export {

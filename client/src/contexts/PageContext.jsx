@@ -4,8 +4,12 @@ import * as page from '../utils/pageParamLibrary.js';
 
 const PageContext = createContext();
 
+export function usePage() {
+    return useContext(PageContext);
+}
+
 export function PageProvider({ children }) {
-    const [pageParams, setPageParams] = useState({ test: '1' });
+    const [pageParams, setPageParams] = useState(page.defaultCase);
     const location = useLocation();
 
     useEffect(() => {
@@ -33,7 +37,7 @@ export function PageProvider({ children }) {
 
     };
 
-    const ContextData = { pageParams, updatePageParams };
+    const ContextData = { location, pageParams, updatePageParams };
 
     return (
         <PageContext.Provider value={ContextData}>
