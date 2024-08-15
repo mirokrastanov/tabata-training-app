@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './Titlebar.css';
-import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus, FaArrowsUpDown, FaArrowRightFromBracket, FaHouse } from "react-icons/fa6";
+import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus, FaArrowsUpDown, FaArrowRightFromBracket, FaHouse, FaArrowRightToBracket } from "react-icons/fa6";
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { usePage } from '../../contexts/PageContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Titlebar() {
     const { location: { pathname: path }, pageParams: p } = usePage();
+    const { user, checkUserStatus } = useAuth();
 
     // TODO: Different states for different paths
 
@@ -13,9 +15,9 @@ function Titlebar() {
 
 
     useEffect(() => {
-        console.log('Path: ', path);
-        console.log(p);
-
+        // console.log('Path: ', path);
+        // console.log(p);
+        console.log(user);
 
     }, []);
 
@@ -27,8 +29,20 @@ function Titlebar() {
 
                 {/* Conditional rendering based on param passed */}
                 <div className="tooltip-anchor h-full w-14 flex justify-center items-center transition-all">
-                    <FaArrowRightFromBracket className="rotate-180" />
-                    <span className="tooltip tooltip-right">Logout</span>
+                    {user
+                        ? (<>
+                            {/* TODO: Add Profile here and logout option inside
+                            either as an overlay menu or separate page
+                            In the profile page or context menu - add a refresh button
+                            for profile data fetch /apu/auth/status fetcher */}
+                            <FaArrowRightFromBracket className="rotate-180" />
+                            <span className="tooltip tooltip-right">Logout</span>
+                        </>)
+                        : (<>
+                            {/* TODO: Add a transition page for   Login<>SignUp */}
+                            <FaArrowRightToBracket />
+                            <span className="tooltip tooltip-right">Login</span>
+                        </>)}
                 </div>
 
             </div>
