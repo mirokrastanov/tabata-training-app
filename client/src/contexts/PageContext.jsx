@@ -13,17 +13,13 @@ export function PageProvider({ children }) {
     const location = useLocation();
 
     useEffect(() => {
-        updatePageParams();
-    }, []);
-
-    useEffect(() => {
-        console.log('Current pathname:', location.pathname);
+        // console.log('Current pathname:', location.pathname);
         updatePageParams();
     }, [location]);
 
-    useEffect(() => {
-        console.log(pageParams);
-    }, [pageParams]);
+    // useEffect(() => {
+    //     console.log(pageParams);
+    // }, [pageParams]);
 
     const updatePageParams = () => {
         // Set params based on current location
