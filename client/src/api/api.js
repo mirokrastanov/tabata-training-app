@@ -3,6 +3,11 @@ const auth = '/api/auth';
 const workouts = '/api/workouts';
 
 export const urlBuilder = {
+    root: {
+        get: {
+            home: () => hostname,
+        },
+    },
     workouts: {
         get: {
             one: (id) => hostname + workouts + `/get/one/${id}`,
@@ -38,23 +43,26 @@ async function request(method, url, data) {
             method,
             headers: {}
         };
+
         if (data != undefined) {
             options.headers['Content-Type'] = 'application/json';
             options.body = JSON.stringify(data);
         }
+
         const response = await fetch(url, options);
-        let result;
-        if (response.status != 204) {
-            result = await response.json();
-        }
-        if (response.ok == false) {
-            // if (response.status == 403) {
-            //     localStorage.removeItem('userData');
-            // }
-            const error = result;
-            throw error;
-        }
-        return result;
+        // console.log(response);
+
+        // if (response.status === 204) {
+        //     return null;
+        // }
+        // if (!response.ok) {
+        //     throw await response.json();
+        // }
+        // if (response.status == 403) {
+        //     localStorage.removeItem('userData');
+        // }
+
+        return await response.json();
     } catch (err) {
         // alert(err.message);
         console.log(err.message);
