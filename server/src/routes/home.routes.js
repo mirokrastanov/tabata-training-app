@@ -11,7 +11,8 @@ router.get('/', (req, res) => {
         title: 'Tabata Training App - API',
         msg: 'For more information on how to use this API, check out the documentation linked below',
         documentation: 'https://github.com/mirokrastanov/tabata-training-app/blob/main/README.md',
-        user: req.user,
+        user: req.user || null,
+        statusCheck: '/api/auth/status'
     });
 });
 
