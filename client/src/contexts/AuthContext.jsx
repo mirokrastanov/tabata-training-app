@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import AppLoader from "../components/shared/appLoader/AppLoader";
+import { createContext, useState, useEffect, useContext } from 'react';
+import AppLoader from '../components/shared/appLoader/AppLoader';
+import * as api from '../api/api.js';
 
 const AuthContext = createContext();
 
@@ -9,11 +10,15 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false); // TODO: CHANGE to TRUE once logging is implemented !!!
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         checkUserStatus();
     }, []);
+
+    // useEffect(() => {
+    //     console.log(loading);
+    // }, [loading]);
 
     const loginUser = async (userInfo) => {
         const { username, password } = userInfo;
@@ -52,12 +57,26 @@ export function AuthProvider({ children }) {
 
     const checkUserStatus = async () => {
         // executes on initial loading
+        setLoading(true);
         try {
-            // get user token either from express jwt or local storage
-            // check and save to local storage if not present (as JSON)
-            // setUser(accountDetails) -- the obj received
-            // setLoading(false)
-            // return accountDetails -- in case I need it
+            const address = api.urlBuilder.auth.get.status();
+            const requestData = await api.get(address);
+            // console.log('req data: \n ', requestData);
+
+            if (requestData?.user) {
+                localStorage.setItem('tabata-user', requestData.user);
+                localStorage.setItem('tabata-session', requestData);
+                // get user token either from express jwt or local storage
+                setUser(requestData.user);
+            } else {
+                localStorage.removeItem('tabata-user');
+                localStorage.removeItem('tabata-session');
+                // nullify token
+                setUser(null);
+            }
+
+            setLoading(false);
+            return requestData;
         } catch (error) {
             // setUser(null);
             // remove cookie from local storage
