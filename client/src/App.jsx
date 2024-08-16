@@ -10,6 +10,9 @@ import AddBtn from './components/shared/addBtn/AddBtn';
 import NotFound from './components/notFound/NotFound';
 import SignIn from './components/signin/SignIn';
 import Settings from './components/settings/Settings';
+import UserRoutes from './routeGuards/UserRoutes';
+import GuestRoutes from './routeGuards/GuestRoutes';
+import Home from './components/home/Home';
 
 function App() {
 
@@ -26,12 +29,21 @@ function App() {
                 {/* ==> Update settings/back btn based on view */}
 
                 <Routes>
-                    <Route exact path="/" element={<Workouts />} />
+                    <Route exact path="/" element={<Home />} />
                     <Route path="home" element={<Navigate to="/" />} />
                     <Route path="index" element={<Navigate to="/" />} />
-                    <Route path="user/signup" element={<SignUp />} />
-                    <Route path="user/signin" element={<SignIn />} />
                     <Route path="settings" element={<Settings />} />
+
+                    <Route element={<UserRoutes />}>
+                        <Route path="workouts" element={<Workouts />} />
+                    </Route>
+
+                    <Route element={<GuestRoutes />}>
+                        <Route path="user/signup" element={<SignUp />} />
+                        <Route path="user/signin" element={<SignIn />} />
+                    </Route>
+
+
                     {/* TODO */}
                     {/* Create Workout */}
                     {/* Edit Workout */}
