@@ -154,3 +154,46 @@ button:focus-visible {
 .tooltip-anchor:hover .tooltip-left {
   left: -110px;
 }
+
+
+/* CUSTOM HOVER UNDERLINE ANIMATION */
+.a-left,
+.a-right {
+  position: relative;
+}
+
+.a-left::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: blueviolet;
+  transform-origin: bottom right;
+  transition: transform 0.5s ease-out;
+}
+
+.a-left:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.a-right::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  right: 0;
+  background-color: blueviolet;
+  transform-origin: bottom left;
+  transition: transform 0.5s ease-out;
+}
+
+.a-right:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom right;
+}
