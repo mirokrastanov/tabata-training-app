@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './SignUp.css';
 import FormInput from '../shared/formInput/FormInput';
+import { Link } from 'react-router-dom';
 
 
 const SignUp = () => {
@@ -36,6 +37,9 @@ const SignUp = () => {
 
                     <button type="submit" className="w-full bg-purple-900 text-white my-6 py-2 rounded-lg  hover:bg-purple-600 focus:outline-none border-none active:scale-90 transition-all">Sign Up</button>
                 </form>
+                <p className="text-black px-2"
+                >Have an Account? <Link to="/user/signin"
+                className="a-left px-1 pb-1 font-bold hover:text-purple-600" >Sign In</Link></p>
             </div>
         </div>
     );
