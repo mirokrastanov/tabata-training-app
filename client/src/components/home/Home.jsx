@@ -7,36 +7,20 @@ const Home = () => {
 
     return (
         <div className="bg-gray-100 flex flex-col justify-between w-full h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
-            <header className="bg-purple-900 text-white py-6 shadow-lg">
-                <div className="container mx-auto px-6 flex justify-between items-center">
-                    <h1 className="text-3xl font-bold">Tabata Training</h1>
-                    <nav>
-                        <ul className="flex space-x-6">
-                            <li><Link to="#features" className="hover:text-gray-300">Features</Link></li>
-                            <li><Link to="#how-it-works" className="hover:text-gray-300">How It Works</Link></li>
-                            <li><Link to="#contact" className="hover:text-gray-300">Contact</Link></li>
-                        </ul>
-                    </nav>
-                </div>
-            </header>
-
-            <main className="flex-grow">
+            <article className="flex-grow">
                 <section className="bg-white py-20">
                     <div className="container mx-auto px-6 text-center">
                         <h2 className="text-4xl font-bold text-gray-800">Get Fit with Tabata Training</h2>
                         <p className="text-gray-600 mt-4">
                             High-intensity interval training to maximize your fitness level.
                         </p>
-                        <a
-                            href="#download"
-                            className="inline-block mt-8 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600"
-                        >
+                        <Link to="/user/signup" className="inline-block mt-8 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
                             Get Started
-                        </a>
+                        </Link>
                     </div>
                 </section>
 
-                <section id="features" className="bg-gray-50 py-20">
+                <section id="features" className="bg-gray-100 py-20">
                     <div className="container mx-auto px-6 text-center">
                         <h2 className="text-3xl font-bold text-gray-800">Features</h2>
                         <div className="mt-10 flex flex-wrap justify-center">
@@ -106,35 +90,28 @@ const Home = () => {
                     </div>
                 </section>
 
-                <section id="contact" className="bg-gray-50 py-20">
+                <section className="bg-gray-100 py-20">
                     <div className="container mx-auto px-6 text-center">
-                        <h2 className="text-3xl font-bold text-gray-800">Contact Us</h2>
-                        <p className="text-gray-600 mt-4">Have questions or feedback? We'd love to hear from you!</p>
-                        <form className="mt-8 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Your Email"
-                                className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-900"
-                            />
-                            <textarea
-                                placeholder="Your Message"
-                                className="w-full p-4 mt-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-900"
-                                rows="5"
-                            ></textarea>
-                            <button
-                                type="submit"
-                                className="w-full mt-6 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600"
-                            >
-                                Send Message
-                            </button>
-                        </form>
+                        <h2 className="text-4xl font-bold text-gray-800">The time to get fit is now!</h2>
+                        <p className="text-gray-600 mt-4">
+                            Sign up for free or sign in if you already have an account.
+                        </p>
+                        <Link to="/user/signup" className="inline-block mt-8 mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
+                            Sign Up
+                        </Link>
+                        <Link to="/user/signin" className="inline-block mt-8 mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
+                            Sign In
+                        </Link>
                     </div>
                 </section>
-            </main>
+            </article>
 
             <footer className="bg-purple-900 text-white py-6">
                 <div className="container mx-auto px-6 text-center">
-                    <p>&copy; 2024 Tabata Training. All rights reserved.</p>
+                    <p>&copy; 2024 Tabata Training. Source code
+                        <Link to="https://github.com/mirokrastanov"
+                        className="text-cyan-200 hover:text-cyan-400" target="_blank"> here</Link>.
+                    </p>
                 </div>
             </footer>
         </div>
