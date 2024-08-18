@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import './App.css';
 import { Toaster } from 'react-hot-toast';
-import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus, FaArrowsUpDown, FaArrowRightFromBracket } from "react-icons/fa6";
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Workouts from './components/workouts/Workouts';
 import SignUp from './components/signup/SignUp';
@@ -13,6 +11,7 @@ import Settings from './components/settings/Settings';
 import UserRoutes from './routeGuards/UserRoutes';
 import GuestRoutes from './routeGuards/GuestRoutes';
 import Home from './components/home/Home';
+import Profile from './components/profile/Profile';
 
 function App() {
 
@@ -22,11 +21,6 @@ function App() {
 
             <div id="app__wrapper" className="bg-purple-900 text-white w-full h-[calc(100vh-4rem)] flex flex-nowrap flex-col justify-start items-stretch rounded-xl relative">
                 <Titlebar />
-                {/* TODO (in title bar) */}
-                {/* ==> Create CONTEXT for current view. Update the below based on that: */}
-                {/* ==> Update title based on view. Accept param for home view. */}
-                {/* ==> Update signin/logout btn based on view */}
-                {/* ==> Update settings/back btn based on view */}
 
                 <Routes>
                     <Route exact path="/" element={<Home />} />
@@ -36,6 +30,7 @@ function App() {
 
                     <Route element={<UserRoutes />}>
                         <Route path="workouts" element={<Workouts />} />
+                        <Route path="user/profile" element={<Profile />} />
                     </Route>
 
                     <Route element={<GuestRoutes />}>
@@ -49,9 +44,6 @@ function App() {
                     {/* For the create workout add a btn to select from preset workouts & add them to param lib */}
                     {/* Edit Workout */}
                     {/* View Workout */}
-
-                    {/* View User Profile */}
-
                     {/* Workout in progress | Action View | Timers | Main */}
 
 
