@@ -18,6 +18,8 @@ const SignIn = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', form);
+        // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
+
     };
 
     return (

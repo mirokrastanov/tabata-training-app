@@ -3,30 +3,33 @@ import './Workouts.css';
 import { bgColors } from '../../utils/colors';
 import WorkoutCard from '../workoutCard/WorkoutCard';
 import PageLoader from '../shared/pageLoader/PageLoader';
+import AddBtn from '../shared/addBtn/AddBtn';
 
 
 function Workouts() {
-    function playClick(e) { 
+    function playClick(e) {
         // start workout directly - load timers and render workout in progress view
     }
     function dotsClick(e) {
         // show overlay menu with item specific options
-     }
+    }
     function cardClick(e) {
         // open workout showcase view
     }
 
 
-    return (
+    return (<>
         <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
             {/* <PageLoader /> */}
-            
+
             {/* Render from DB and pass [data] through the loop */}
             {bgColors.map((x, i) => (
                 <WorkoutCard color={x} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]} data={x} />
             ))}
         </div>
-    )
+
+        <AddBtn />
+    </>)
 }
 
 export default Workouts;

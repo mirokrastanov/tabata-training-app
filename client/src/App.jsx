@@ -28,10 +28,10 @@ function App() {
                     <Route path="index" element={<Navigate to="/" />} />
                     <Route path="settings" element={<Settings />} />
 
-                    <Route element={<UserRoutes />}>
+                    {/* <Route element={<UserRoutes />}> */}
                         <Route path="workouts" element={<Workouts />} />
                         <Route path="user/profile" element={<Profile />} />
-                    </Route>
+                    {/* </Route> */}
 
                     <Route element={<GuestRoutes />}>
                         <Route path="user/signup" element={<SignUp />} />
@@ -50,8 +50,6 @@ function App() {
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>
-
-                <AddBtn />
             </div>
         </>
     )
