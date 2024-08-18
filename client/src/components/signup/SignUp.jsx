@@ -24,7 +24,7 @@ const SignUp = () => {
     };
 
     return (
-        <div id="reg-form-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-slate-300 rounded-b-xl">
+        <div id="reg-form-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-gray-100 rounded-b-xl">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
                 <form onSubmit={handleSubmit} autoComplete="off">

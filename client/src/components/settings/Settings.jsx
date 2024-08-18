@@ -4,7 +4,7 @@ import ToggleBtn from '../shared/toggleBtn/ToggleBtn';
 
 function Settings() {
     return (
-        <div className="bg-slate-300 w-full rounded-b-xl text-black flex flex-col items-center h-[calc(100%-3.5rem)] overflow-y-scroll pb-8">
+        <div className="bg-gray-100 w-full rounded-b-xl text-black flex flex-col items-center h-[calc(100%-3.5rem)] overflow-y-scroll pb-8">
 
             <h2 className="text-2xl font-bold mt-4 mb-1 rounded-md">Timer</h2>
             <article className="text-lg p-2 px-4 rounded-md border-b-2 border-t-2 border-black hover:border-purple-700 transition-all cursor-pointer">
