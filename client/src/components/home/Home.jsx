@@ -55,38 +55,34 @@ const Home = () => {
                 <section id="how-it-works" className="bg-white py-20">
                     <div className="container mx-auto px-6">
                         <h2 className="text-3xl font-bold text-center text-gray-800">How It Works</h2>
+
                         <div className="mt-10 flex flex-wrap justify-center">
-                            <div className="w-full md:w-1/2 lg:w-1/3 px-4 py-6">
-                                <div className="flex items-center">
-                                    <div className="w-12 h-12 bg-purple-900 text-white flex items-center justify-center rounded-full">
-                                        <span className="text-lg font-bold">1</span>
+                            {[{
+                                number: 1,
+                                text: "Choose your workout routine from our list or create your own."
+                            },
+                            {
+                                number: 2,
+                                text: "Set the duration for each exercise and rest period."
+                            },
+                            {
+                                number: 3,
+                                text: "Start your workout and let the app guide you through each interval."
+                            }
+                            ].map((step, index) => (
+                                <div key={index} className="w-full md:w-1/2 lg:w-1/3 flex">
+                                    <div className="flex items-center">
+                                        <div className="ml-2 bg-purple-900 text-white flex items-center justify-center rounded-full">
+                                            <span className="text-lg font-bold w-12 h-12 flex items-center justify-center">{step.number}</span>
+                                        </div>
+                                        <div className="ml-2 text-gray-600 py-6">
+                                            <p>{step.text}</p>
+                                        </div>
                                     </div>
-                                    <p className="ml-4 text-gray-600">
-                                        Choose your workout routine from our list or create your own.
-                                    </p>
                                 </div>
-                            </div>
-                            <div className="w-full md:w-1/2 lg:w-1/3 px-4 py-6">
-                                <div className="flex items-center">
-                                    <div className="w-12 h-12 bg-purple-900 text-white flex items-center justify-center rounded-full">
-                                        <span className="text-lg font-bold">2</span>
-                                    </div>
-                                    <p className="ml-4 text-gray-600">
-                                        Set the duration for each exercise and rest period.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/2 lg:w-1/3 px-4 py-6">
-                                <div className="flex items-center">
-                                    <div className="w-12 h-12 bg-purple-900 text-white flex items-center justify-center rounded-full">
-                                        <span className="text-lg font-bold">3</span>
-                                    </div>
-                                    <p className="ml-4 text-gray-600">
-                                        Start your workout and let the app guide you through each interval.
-                                    </p>
-                                </div>
-                            </div>
+                            ))}
                         </div>
+
                     </div>
                 </section>
 
@@ -110,7 +106,7 @@ const Home = () => {
                 <div className="container mx-auto px-6 text-center">
                     <p>&copy; 2024 Tabata Training. Source code
                         <Link to="https://github.com/mirokrastanov"
-                        className="text-cyan-200 hover:text-cyan-400" target="_blank"> here</Link>.
+                            className="text-cyan-200 hover:text-cyan-400" target="_blank"> here</Link>.
                     </p>
                 </div>
             </footer>

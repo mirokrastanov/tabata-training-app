@@ -26,7 +26,7 @@ function Titlebar() {
             </Link>
 
             <div className="titlebar-title h-full flex justify-center items-center px-2 w-[calc(100%-7.5rem)]">
-                <h2 className="text-ellipsis line-clamp-1 font-bold">
+                <h2 className="text-ellipsis line-clamp-1 font-bold text-3xl">
                     {p.title}
                 </h2>
             </div>
