@@ -23,13 +23,9 @@ export function PageProvider({ children }) {
 
     const updatePageParams = () => {
         // Set params based on current location
-        switch (location.pathname) {
-            case '/': setPageParams(page.workouts); break;
-            case '/settings': setPageParams(page.settings); break;
-            default: setPageParams(page.defaultCase); break;
-        }
-
-
+        Object.values(page).forEach(v => {
+            if (v.path === location.pathname) setPageParams(v);
+        });
 
     };
 
