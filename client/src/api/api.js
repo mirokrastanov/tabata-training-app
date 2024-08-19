@@ -66,7 +66,8 @@ async function request(method, url, data) {
     } catch (err) {
         // alert(err.message);
         console.log(err.message);
-        throw err;
+        return null;
+        // throw err;
     }
 }
 
