@@ -1,29 +1,45 @@
-const defaultCase = {
+export const defaultCase = {
     path: '*',
     title: 'Not Found',
-    params: {}, // update based on DB fetched data (if any)
+    params: {},
 };
-const home = {
+export const home = {
     path: '/',
     title: 'Tabata Training',
-    params: {}, // update based on DB fetched data (if any)
+    params: {},
 };
-const workouts = {
+export const workouts = {
     path: '/workouts',
     title: 'Workouts',
-    params: { count: 24 }, // update based on DB fetched data (if any)
+    params: { count: 24 },
 };
-const settings = {
+export const settings = {
     path: '/settings',
     title: 'Settings',
-    params: {}, // update based on DB fetched data (if any)
+    params: {},
 };
-
-
-export {
-    defaultCase,
-    workouts,
-    settings,
-    home,
-
+export const signup = {
+    path: '/user/signup',
+    title: 'Sign Up',
+    params: {},
+};
+export const signin = {
+    path: '/user/signin',
+    title: 'Sign In',
+    params: {},
+};
+export const profile = {
+    path: '/user/profile',
+    title: 'Profile',
+    params: {},
+};
+export const createWorkout = {
+    path: '/workouts/create',
+    title: 'Create Workout',
+    params: {},
+};
+export const editWorkout = {
+    path: '/workouts/edit/:id', // handle this differently at the PageContext level / adjust logic
+    title: 'Edit Workout',
+    params: {},
 };
