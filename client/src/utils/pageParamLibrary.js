@@ -43,3 +43,8 @@ export const editWorkout = {
     title: 'Edit Workout',
     params: {},
 };
+export const viewWorkout = {
+    path: '/workouts/details/:id',
+    title: 'Workout Details',
+    params: {},
+};

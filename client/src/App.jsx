@@ -12,6 +12,9 @@ import UserRoutes from './routeGuards/UserRoutes';
 import GuestRoutes from './routeGuards/GuestRoutes';
 import Home from './components/home/Home';
 import Profile from './components/profile/Profile';
+import CreateWorkout from './components/createWorkout/CreateWorkout';
+import EditWorkout from './components/editWorkout/EditWorkout';
+import ViewWorkout from './components/viewWorkout/ViewWorkout';
 
 function App() {
 
@@ -30,7 +33,12 @@ function App() {
 
                     {/* <Route element={<UserRoutes />}> */}
                         <Route path="workouts" element={<Workouts />} />
+                        <Route path="workouts/create" element={<CreateWorkout />} />
+                        <Route path="workouts/edit/:id" element={<EditWorkout />} />
+                        <Route path="workouts/details/:id" element={<ViewWorkout />} />
+
                         <Route path="user/profile" element={<Profile />} />
+                        {/* TODO: Implement Logout and import it from Auth Context */}
                     {/* </Route> */}
 
                     <Route element={<GuestRoutes />}>
