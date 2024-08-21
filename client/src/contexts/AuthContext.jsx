@@ -49,10 +49,19 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const logoutUser = () => {
-        // setUser(null);
-        // clear local storage
-        // clear session / cookie whatever
+    const logoutUser = async () => {
+        try {
+            const address = api.urlBuilder.auth.post.logout();
+            const requestData = await api.post(address);
+            // console.log('Logged out. Response: \n ', requestData);
+            localStorage.removeItem('tabata-user');
+            localStorage.removeItem('tabata-session');
+            setUser(null);
+
+        } catch (error) {
+            console.log(error.message);
+
+        }
     };
 
     const checkUserStatus = async () => {
