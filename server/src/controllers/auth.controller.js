@@ -56,7 +56,7 @@ export const login = async (req, res) => {
             req.login(user, (err) => {
                 if (err) throw err;
                 req.authMethod = undefined;
-                res.status(200).json(user);
+                res.status(200).json({ user, session: req.session, sessionID: req.sessionID });
             });
         } catch (error) {
             console.log("Error in login controller: ", error.message);
