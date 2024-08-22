@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FaArrowRightFromBracket, FaArrowRightToBracket, FaBars, FaBarsStaggered, FaCircleUser, FaDiscord, FaDumbbell, FaGear, FaUser, FaUserPlus } from 'react-icons/fa6';
 import { MdAlternateEmail } from "react-icons/md";
 import BtnLoader from '../shared/btnLoader/btnLoader';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignUp = () => {
     const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ const SignUp = () => {
         confirmPassword: ''
     });
     const [signInType, setSignInType] = useState(null);
+    const {registerUser } = useAuth();
 
     const chooseLocalSignUp = (e) => {
         e.preventDefault();
@@ -31,9 +33,10 @@ const SignUp = () => {
         setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted:', form);
+        await registerUser(form);
         // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
     };
 
