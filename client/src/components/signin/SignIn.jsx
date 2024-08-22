@@ -2,22 +2,26 @@ import React, { useState } from 'react';
 import './SignIn.css';
 import FormInput from '../shared/formInput/FormInput';
 import { Link } from 'react-router-dom';
-
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignIn = () => {
+    const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         username: '',
         password: '',
     });
+    const [signInType, setSignInType] = useState(null);
+    const { loginUser } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted:', form);
+        await loginUser(form);
         // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
 
     };
