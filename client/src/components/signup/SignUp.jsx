@@ -16,16 +16,16 @@ const SignUp = () => {
         password: '',
         confirmPassword: ''
     });
-    const [signInType, setSignInType] = useState(null);
+    const [signUpType, setSignUpType] = useState(null);
     const {registerUser } = useAuth();
 
     const chooseLocalSignUp = (e) => {
         e.preventDefault();
-        setSignInType('local');
+        setSignUpType('local');
     }
     const chooseDiscordSignUp = (e) => {
         e.preventDefault();
-        setSignInType('discord');
+        setSignUpType('discord');
     }
 
     const handleChange = (e) => {
@@ -44,7 +44,7 @@ const SignUp = () => {
         <div id="reg-form-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-gray-100 rounded-b-xl">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
-                {signInType === null
+                {signUpType === null
                     ? (<>
                         <button className="w-full text-lg flex justify-center items-center gap-4 bg-purple-900 text-white mt-6 mb-2 py-2 h-[46px] rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseLocalSignUp}>
                             <MdAlternateEmail className="text-3xl" /><p className="max-custom-mq-300:hidden">Use Email</p>
@@ -58,7 +58,7 @@ const SignUp = () => {
                             <FaDiscord className="text-3xl" /><p className="max-custom-mq-300:hidden">Use Discord</p>
                         </button>
                     </>)
-                    : (<>{signInType === 'local'
+                    : (<>{signUpType === 'local'
                         ? (<>
                             <form onSubmit={handleSubmit} autoComplete="off">
 
