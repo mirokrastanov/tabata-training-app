@@ -34,15 +34,41 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const registerUser = async (userInfo) => {
-        const { fullName, username, password } = userInfo;
+    const discordLogin = async (userInfo) => {
+        const { username, password } = userInfo;
         // console.log(userInfo);
         try {
-            // send req to register with the data provided
+            // send req to login endpoint with the data provided
             // get response with token, session, cookie whatever
             // save to local storage
             // set user
             // return accountDetails -- in case I need it
+        } catch (error) {
+            return error;
+        }
+    };
+
+    const registerUser = async (userInfo) => {
+        const { fullName, username, email, password, confirmPassword } = userInfo;
+        console.log(userInfo);
+
+        // VERIFY INPUTS - return any errors and display them on the form + display a toast
+        // fullName: max 20
+        // email: valid email (do check on the FRONT END)
+        // username: 3 - 10
+        // password: >6
+        // confirmPassword: match password
+
+        try {
+            // send req to register with the data provided
+            const address = api.urlBuilder.auth.post.signup();
+            const requestData = await api.post(address, userInfo);
+            console.log(requestData);
+
+            // get response with token, session, cookie whatever
+            // save to local storage
+            // set user
+            return requestData;
         } catch (error) {
             // console.log(error, '-- on register');
             return error;
@@ -70,27 +96,30 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
-            // console.log('req data: \n ', requestData);
+            console.log('req data: \n ', requestData);
 
             if (requestData?.user) {
-                localStorage.setItem('tabata-user', requestData.user);
-                localStorage.setItem('tabata-session', requestData);
+                localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
+                localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 // get user token either from express jwt or local storage
                 setUser(requestData.user);
+                setLoading(false);
             } else {
                 localStorage.removeItem('tabata-user');
                 localStorage.removeItem('tabata-session');
                 // nullify token
                 setUser(null);
+                setLoading(false);
             }
 
-            setLoading(false);
             return requestData;
         } catch (error) {
+            // localStorage.removeItem('tabata-user');
+            // localStorage.removeItem('tabata-session');
+            // nullify token
             // setUser(null);
-            // remove cookie from local storage
-            // setLoading(false);
-            // return error;
+            setLoading(false);
+            return { msg: error.message, err: error };
         }
     };
 
