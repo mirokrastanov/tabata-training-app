@@ -10,6 +10,15 @@ export const signup = async (req, res) => {
         const user = await User.findOne({ username });
         if (user) return res.status(400).json({ error: `User ${username} already exists` });
 
+        // ADD verifications for the rest
+
+        // VERIFY INPUTS - return any errors and display them on the form + display a toast
+        // fullName: max 20
+        // email: valid email (do check on the FRONT END)
+        // username: 3 - 10
+        // password: >6
+        // confirmPassword: match password
+
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new User({
@@ -49,14 +58,31 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     const authMethod = req.authMethod || 'local';
+    console.log(req.body);
+    // ADD verifications
+
+    // VERIFY INPUTS - return any errors and display them on the form + display a toast
+    // fullName: max 20
+    // email: valid email (do check on the FRONT END)
+    // username: 3 - 10
+    // password: >6
+    // confirmPassword: match password
+
     passport.authenticate(authMethod, (err, user, info) => {
         try {
             if (err) throw err;
 
             req.login(user, (err) => {
-                if (err) throw err;
-                req.authMethod = undefined;
-                res.status(200).json({ user, session: req.session, sessionID: req.sessionID });
+                try {
+                    if (err) throw err;
+
+                    req.authMethod = undefined;
+                    res.status(200).json({ user, session: req.session, sessionID: req.sessionID });
+                } catch (error) {
+                    console.log(error.message);
+                    req.authMethod = undefined;
+                    res.status(500).json({ error: "Internal Server Error", msg: error.message, user: null });
+                }
             });
         } catch (error) {
             console.log("Error in login controller: ", error.message);
