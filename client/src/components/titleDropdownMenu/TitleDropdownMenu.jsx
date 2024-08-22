@@ -4,11 +4,13 @@ import { FaArrowRightFromBracket, FaArrowRightToBracket, FaBars, FaBarsStaggered
 import TitleDropdownLink from '../shared/titleDropdownLink/TitleDropdownLink';
 import { usePage } from '../../contexts/PageContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const TitleDropdownMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { location } = usePage();
-    const { user } = useAuth();
+    const { user, logoutUser } = useAuth();
+    const navigate = useNavigate();
 
     const dropdownRef = useRef(null);
     const buttonRef = useRef(null);
@@ -24,6 +26,11 @@ const TitleDropdownMenu = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        await logoutUser();
+        navigate('/');
+    };
 
     useEffect(() => {
         setIsOpen(false);
@@ -46,7 +53,8 @@ const TitleDropdownMenu = () => {
                             ? (<>
                                 <TitleDropdownLink to="/workouts" text="Workouts" icon={<FaDumbbell />} />
                                 <TitleDropdownLink to="/user/profile" text="Profile" icon={<FaCircleUser />} />
-                                <TitleDropdownLink to="/user/logout" text="Sign Out" icon={<FaArrowRightFromBracket />} />
+                                <TitleDropdownLink to="/user/logout" text="Sign Out" icon={<FaArrowRightFromBracket />}
+                                    signOut={handleLogout} />
 
                             </>)
                             : (<>
