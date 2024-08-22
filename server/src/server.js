@@ -20,13 +20,10 @@ const PORT = process.env.PORT || 8000;
 //     origin: 'http://localhost:5173',
 //     credentials: true,
 // }));
-
-const allowedOrigins = ['http://localhost:8000', 'TODO: add production URL'];
-
+const allowedOrigins = ['http://localhost:5173', 'TODO: add production URL here'];
 app.use(cors({
     origin: (origin, callback) => {
-        // if (allowedOrigins.includes(origin) || !origin) {
-        if (true) { // ALLOW ALL (TODO: add production URL to all allowed origins and remove this)
+        if (allowedOrigins.includes(origin) || !origin) { // inc !origin req from mobile apps or curl req
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
