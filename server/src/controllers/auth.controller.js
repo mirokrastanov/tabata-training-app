@@ -24,6 +24,10 @@ export const signup = async (req, res) => {
             newUser.password = undefined;
             req.login(newUser, (err) => {
                 if (err) throw err;
+                console.log(req.user);
+                console.log(req.session);
+                console.log(req.sessionID);
+                
                 res.status(201).json(newUser);
             });
         } else {

@@ -8,15 +8,33 @@ import sessionConfig from './config/sessionConfig.js';
 import passport from 'passport';
 import { localStrategy, discordStrategy } from './config/passporConfig.js';
 import { preRoutesErrorHandler } from './middlewares/errorHandlers.middleware.js';
-import { allowCORS } from './middlewares/allowCORS.middleware.js';
 import { attachPublicPath } from './middlewares/attachPublicPath.middleware.js';
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Allows CORS
-app.use(allowCORS);
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true,
+// }));
+
+const allowedOrigins = ['http://localhost:8000', 'TODO: add production URL'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // if (allowedOrigins.includes(origin) || !origin) {
+        if (true) { // ALLOW ALL (TODO: add production URL to all allowed origins and remove this)
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+}));
+
 
 // Body parsers
 app.use(express.urlencoded({ extended: false })); // parse form fields
