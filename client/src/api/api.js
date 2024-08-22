@@ -41,6 +41,7 @@ async function request(method, url, data) {
     try {
         const options = {
             method,
+            credentials: 'include', // to send cookies with the request
             headers: {}
         };
 
