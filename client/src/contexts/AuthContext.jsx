@@ -123,9 +123,11 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
-            console.log('req data: \n ', requestData);
+            console.log('User and Session data: \n ', requestData);
 
             if (requestData?.user) {
+                console.log('Expires: ', requestData.session.cookie.expires);
+                
                 localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 // get user token either from express jwt or local storage

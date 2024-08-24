@@ -13,7 +13,7 @@ function Titlebar() {
     useEffect(() => {
         // console.log('Path: ', path);
         // console.log(p);
-        console.log(user);
+        // console.log(user);
 
     }, []);
 

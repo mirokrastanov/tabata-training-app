@@ -6,6 +6,7 @@ import { FaArrowRightFromBracket, FaArrowRightToBracket, FaBars, FaBarsStaggered
 import { MdAlternateEmail } from "react-icons/md";
 import BtnLoader from '../shared/btnLoader/btnLoader';
 import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 const SignUp = () => {
     const [loading, setLoading] = useState(false);
@@ -17,7 +18,8 @@ const SignUp = () => {
         confirmPassword: ''
     });
     const [signUpType, setSignUpType] = useState(null);
-    const {registerUser } = useAuth();
+
+    const { registerUser, discordLogin } = useAuth();
 
     const chooseLocalSignUp = (e) => {
         e.preventDefault();
@@ -25,7 +27,8 @@ const SignUp = () => {
     }
     const chooseDiscordSignUp = (e) => {
         e.preventDefault();
-        setSignUpType('discord');
+        // setSignUpType('discord');
+        toast.error(`Hey, line 1 \n line 2 \n line 3...`);
     }
 
     const handleChange = (e) => {
@@ -36,8 +39,13 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Form submitted:', form);
-        await registerUser(form);
+        // TODO: PULL ALL THE LOGIC INTO A HOOK - useSignIn
+
+        // TODO: perform validation
         // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
+        await registerUser(form);
+
+        // TODO: manually dismiss the toast in case of issues
     };
 
     return (
@@ -57,6 +65,8 @@ const SignUp = () => {
                         <button className="w-full text-lg flex justify-center items-center gap-4 bg-purple-900 text-white mb-6 mt-2 py-2 rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseDiscordSignUp}>
                             <FaDiscord className="text-3xl" /><p className="max-custom-mq-300:hidden">Use Discord</p>
                         </button>
+                        <p className="text-black px-2">Have an Account? <Link to="/user/signin"
+                            className="a-left px-1 pb-1 font-bold hover:text-purple-600" >Sign In</Link></p>
                     </>)
                     : (<>{signUpType === 'local'
                         ? (<>

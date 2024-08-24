@@ -9,6 +9,8 @@ const Profile = () => {
         email: 'johndoe@example.com',
         created_At: '2022-01-01',
         updated_At: '2023-01-01',
+        session_expires_In: '13 days, 2 hours, 35 minutes', // restructure and display accordingly
+        // also display a smaller font message what happens after - essentially prompting the user to login again to refresh
     };
 
     return (<>
