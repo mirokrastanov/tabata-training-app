@@ -16,7 +16,8 @@ function FormInput({ name, v, handler }) {
     return (
         <div className="mb-2">
             <label htmlFor={data[1]} className="block text-gray-700">{data[2]}</label>
-            <input type={data[0]} name={data[1]} value={v} onChange={handler}
+            <input type={data[0]} id={data[1]} name={data[1]} value={v} onChange={handler}
+                autoComplete="on" 
                 className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
             />
         </div>
