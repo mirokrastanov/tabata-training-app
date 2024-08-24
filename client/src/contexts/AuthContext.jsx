@@ -2,8 +2,22 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import AppLoader from '../components/shared/appLoader/AppLoader';
 import * as api from '../api/api.js';
 
+/**
+ * @typedef ContextData
+ * @property {null | Object} user
+ * @property {function} loginUser
+ * @property {function} logoutUser
+ * @property {function} registerUser
+ * @property {function} checkUserStatus
+ */
+
+
+
 const AuthContext = createContext();
 
+/**
+ * @returns {ContextData}
+ */
 export function useAuth() {
     return useContext(AuthContext);
 }
