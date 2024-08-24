@@ -6,18 +6,13 @@ import passport from "passport";
 export const signup = async (req, res) => {
     try {
         const { fullName, username, email, password, confirmPassword } = req.body;
-        if (password !== confirmPassword) return res.status(400).json({ error: "Passwords don't match" });
+        console.log(req.body);
+
+        if (fullName.length > 20) return res.status(400).json({ msg: 'Full name must not be longer than 20 characters' });
+        if (password.length < 6) return res.status(400).json({ msg: 'Password must be at least 6 characters' });
+        if (password !== confirmPassword) return res.status(400).json({ msg: "Passwords don't match" });
         const user = await User.findOne({ username });
-        if (user) return res.status(400).json({ error: `User ${username} already exists` });
-
-        // ADD verifications for the rest
-
-        // VERIFY INPUTS - return any errors and display them on the form + display a toast
-        // fullName: max 20
-        // email: valid email (do check on the FRONT END)
-        // username: 3 - 10
-        // password: >6
-        // confirmPassword: match password
+        if (user) return res.status(400).json({ msg: `User ${username} already exists` });
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -36,7 +31,7 @@ export const signup = async (req, res) => {
                 res.status(201).json({ user: newUser, session: req.session, sessionID: req.sessionID });
             });
         } else {
-            res.status(400).json({ error: "Invalid user data" });
+            res.status(400).json({ msg: "Invalid user data" });
         }
     } catch (error) {
         // For Mongoose schema errors
@@ -58,19 +53,13 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
     const authMethod = req.authMethod || 'local';
-    console.log(req.body);
-    // ADD verifications
-
-    // VERIFY INPUTS - return any errors and display them on the form + display a toast
-    // fullName: max 20
-    // email: valid email (do check on the FRONT END)
-    // username: 3 - 10
-    // password: >6
-    // confirmPassword: match password
+    const { username, password } = req.body;
 
     passport.authenticate(authMethod, (err, user, info) => {
         try {
             if (err) throw err;
+            if (authMethod === 'local' &&
+                (!user || username === '' || password === '')) throw new Error('Inputs cannot be blank');
 
             req.login(user, (err) => {
                 try {
