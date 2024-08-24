@@ -16,10 +16,6 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Allows CORS
-// app.use(cors({
-//     origin: 'http://localhost:5173',
-//     credentials: true,
-// }));
 const allowedOrigins = ['http://localhost:5173', 'TODO: add production URL here'];
 app.use(cors({
     origin: (origin, callback) => {
@@ -31,7 +27,6 @@ app.use(cors({
     },
     credentials: true,
 }));
-
 
 // Body parsers
 app.use(express.urlencoded({ extended: false })); // parse form fields
@@ -63,8 +58,9 @@ app.use(preRoutesErrorHandler);
 // Routes
 app.use(routes);
 
+// Potentially a future global error handler will appear here.
+
 // Connect to DB and Run Server
 connectToMongoDB()
     .then(() => app.listen(PORT, () => console.log(`The server is running on port ${PORT}...`)))
     .catch((error) => console.log(`Could not start the server. Error: ${error}`));
-
