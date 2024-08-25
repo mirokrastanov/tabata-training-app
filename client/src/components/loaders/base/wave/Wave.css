@@ -16,11 +16,12 @@
     position: absolute;
     left: 0;
     top: 0;
-    animation: animloader 2s linear infinite;
+    animation: animloader 1.4s linear infinite;
 }
 
 .loader-wave::after {
-    animation-delay: 1s;
+    animation-delay: 0.7s;
+    opacity: 0;
 }
 
 @keyframes animloader {
