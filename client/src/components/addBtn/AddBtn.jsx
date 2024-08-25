@@ -2,7 +2,7 @@ import './AddBtn.css';
 import React, { useEffect } from 'react';
 import { FaPlus } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-import { usePage } from '../../../contexts/PageContext';
+import { usePage } from '../../contexts/PageContext';
 
 function AddBtn() {
     const { location } = usePage();

@@ -42,7 +42,21 @@ const SignUp = () => {
 
         // TODO: perform validation
         // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
-        await registerUser(form);
+        // const simSubmit = async () => await new Promise((resolve) => setTimeout(resolve, 1000));
+        const simSubmit = async () => {
+            return await new Promise((resolve, reject) => {
+                if (Math.random() * 100 >= 51) setTimeout(resolve, 1000);
+                else setTimeout(reject, 1000);
+            });
+        };
+
+        const toastId = toast.promise(simSubmit(), {
+            loading: 'Loading...',
+            success: 'Request successful!',
+            error: 'Request failed',
+        });
+
+        // await registerUser(form);
 
         // TODO: manually dismiss the toast in case of issues
     };
@@ -58,7 +72,7 @@ const SignUp = () => {
         <div id="reg-form-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-gray-100 rounded-b-xl">
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
-                
+
                 {/* LANDING VIEW */}
                 {signUpType == null && (<>
                     <ActiveBtn handler={chooseLocalSignUp} text={'Use Email'} />
@@ -66,7 +80,7 @@ const SignUp = () => {
                     <ActiveBtn handler={chooseDiscordSignUp} text={'Use Discord'} />
                     <FormChange goTo={'signIn'} />
                 </>)}
-                
+
                 {/* EMAIL SIGNUP VIEW */}
                 {signUpType === 'local' && (<>
                     <form onSubmit={handleSubmit}>

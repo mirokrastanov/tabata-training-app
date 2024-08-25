@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import Workouts from './components/workouts/Workouts';
 import SignUp from './components/signup/SignUp';
 import Titlebar from './components/titlebar/Titlebar';
-import AddBtn from './components/shared/addBtn/AddBtn';
 import NotFound from './components/notFound/NotFound';
 import SignIn from './components/signin/SignIn';
 import Settings from './components/settings/Settings';
