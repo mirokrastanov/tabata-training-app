@@ -18,7 +18,6 @@ const SignUp = () => {
         confirmPassword: ''
     });
     const [signUpType, setSignUpType] = useState(null);
-
     const { registerUser, discordLogin } = useAuth();
 
     const chooseLocalSignUp = (e) => {
@@ -87,7 +86,7 @@ const SignUp = () => {
                     <VBtnSeparator lHandler={handleDiscordLogin} lIcon={true} rHandler={chooseLocalSignUp} />
                     <FormChange goTo={'signIn'} />
                 </>)}
-                
+
             </div>
         </div>
     );
