@@ -3,7 +3,7 @@ import AppLoader from '../components/loaders/final/appLoader/AppLoader.jsx';
 import * as api from '../api/api.js';
 
 /**
- * @typedef ContextData
+ * @typedef AuthContextData
  * @property {null | Object} user
  * @property {function} loginUser
  * @property {function} logoutUser
@@ -16,7 +16,7 @@ import * as api from '../api/api.js';
 const AuthContext = createContext();
 
 /**
- * @returns {ContextData}
+ * @returns {AuthContextData}
  */
 export function useAuth() {
     return useContext(AuthContext);

@@ -2,8 +2,20 @@ import { createContext, useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import * as page from '../utils/pageParamLibrary.js';
 
+/**
+ * @typedef PageContextData
+ * @property {null | Object} location
+ * @property {null | Object} pageParams
+ * @property {function} updatePageParams
+ */
+
+
+
 const PageContext = createContext();
 
+/**
+ * @returns {PageContextData}
+ */
 export function usePage() {
     return useContext(PageContext);
 }
