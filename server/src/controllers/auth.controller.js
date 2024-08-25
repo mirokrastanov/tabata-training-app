@@ -7,7 +7,11 @@ export const signup = async (req, res) => {
     try {
         const { fullName, username, email, password, confirmPassword } = req.body;
         console.log(req.body);
-
+        
+        if (!fullName || !username || !email || !password || !confirmPassword || fullName == '' ||
+            username == '' || email == '' || password == '' || confirmPassword == '') {
+            return res.status(400).json({ msg: 'Inputs cannot be blank' });
+        }
         if (fullName.length > 20) return res.status(400).json({ msg: 'Full name must not be longer than 20 characters' });
         if (password.length < 6) return res.status(400).json({ msg: 'Password must be at least 6 characters' });
         if (password !== confirmPassword) return res.status(400).json({ msg: "Passwords don't match" });
