@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import AppLoader from '../components/shared/appLoader/AppLoader';
+import AppLoader from '../components/loaders/final/appLoader/AppLoader.jsx';
 import * as api from '../api/api.js';
 
 /**
@@ -77,7 +77,6 @@ export function AuthProvider({ children }) {
 
     const registerUser = async (userInfo) => {
         const { fullName, username, email, password, confirmPassword } = userInfo;
-        console.log(userInfo);
 
         // VERIFY INPUTS - return any errors and display them on the form + display a toast
         // fullName: max 20

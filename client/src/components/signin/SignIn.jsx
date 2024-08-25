@@ -4,7 +4,7 @@ import FormInput from '../shared/formInput/FormInput';
 import { Link } from 'react-router-dom';
 import { FaArrowRightFromBracket, FaArrowRightToBracket, FaBars, FaBarsStaggered, FaCircleUser, FaDiscord, FaDumbbell, FaGear, FaUser, FaUserPlus } from 'react-icons/fa6';
 import { MdAlternateEmail } from "react-icons/md";
-import BtnLoader from '../shared/btnLoader/btnLoader';
+import BtnLoader from '../loaders/final/btnLoader/btnLoader';
 import { useAuth } from '../../contexts/AuthContext';
 
 const SignIn = () => {

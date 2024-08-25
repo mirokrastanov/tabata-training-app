@@ -2,8 +2,8 @@ import React from 'react';
 import './Workouts.css';
 import { bgColors } from '../../utils/colors';
 import WorkoutCard from '../workoutCard/WorkoutCard';
-import PageLoader from '../shared/pageLoader/PageLoader';
 import AddBtn from '../shared/addBtn/AddBtn';
+import PageLoader from '../loaders/final/pageLoader/PageLoader';
 
 
 function Workouts() {
