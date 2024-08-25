@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import './SignUp.css';
 import FormInput from '../shared/formInput/FormInput';
 import { Link } from 'react-router-dom';
-import { FaArrowRightFromBracket, FaArrowRightToBracket, FaBars, FaBarsStaggered, FaCircleUser, FaDiscord, FaDumbbell, FaGear, FaUser, FaUserPlus } from 'react-icons/fa6';
+import { FaDiscord } from 'react-icons/fa6';
 import { MdAlternateEmail } from "react-icons/md";
-import BtnLoader from '../shared/btnLoader/btnLoader';
+import BtnLoader from '../loaders/final/btnLoader/btnLoader';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
+import InactiveBtn from '../btns/inactiveBtn';
+import ActiveBtn from '../btns/activeBtn';
+import HBtnSeparator from '../btns/HBtnSeparator';
+import FormChange from '../btns/FormChange';
 
 const SignUp = () => {
     const [loading, setLoading] = useState(false);
@@ -54,19 +58,13 @@ const SignUp = () => {
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Sign Up</h2>
                 {signUpType === null
                     ? (<>
-                        <button className="w-full text-lg flex justify-center items-center gap-4 bg-purple-900 text-white mt-6 mb-2 py-2 h-[46px] rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseLocalSignUp}>
-                            <MdAlternateEmail className="text-3xl" /><p className="max-custom-mq-300:hidden">Use Email</p>
-                        </button>
-                        <div className="flex w-full justify-center items-center">
-                            <hr className="border-0 ml-4 border-t-4 flex-1 z-[1]" />
-                            <p className="text-black text-lg px-2">or</p>
-                            <hr className="border-0 mr-4 border-t-4 flex-1 z-[1]" />
-                        </div>
-                        <button className="w-full text-lg flex justify-center items-center gap-4 bg-purple-900 text-white mb-6 mt-2 py-2 rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseDiscordSignUp}>
-                            <FaDiscord className="text-3xl" /><p className="max-custom-mq-300:hidden">Use Discord</p>
-                        </button>
-                        <p className="text-black px-2">Have an Account? <Link to="/user/signin"
-                            className="a-left px-1 pb-1 font-bold hover:text-purple-600" >Sign In</Link></p>
+                        <ActiveBtn handler={chooseLocalSignUp} text={'Use Email'} />
+                        <HBtnSeparator />
+                        <ActiveBtn handler={chooseDiscordSignUp} text={'Use Discord'} />
+
+                        <InactiveBtn /> {/* FOR Submitting state */}
+
+                        <FormChange goTo={'signIn'} />
                     </>)
                     : (<>{signUpType === 'local'
                         ? (<>
@@ -78,16 +76,18 @@ const SignUp = () => {
                                 <FormInput name={'password'} v={form.password} handler={handleChange} />
                                 <FormInput name={'confirmPassword'} v={form.confirmPassword} handler={handleChange} />
 
-                                <div className="flex flex-row flex-nowrap justify-between">
-                                    <button type="submit" className="w-[87%] bg-purple-900 text-white my-6 py-2 rounded-lg  hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all">
+                                <div className="flex flex-row flex-nowrap justify-between my-6 bg-red-400">
+                                    <button type="submit" className="w-[87%] bg-purple-900 text-white py-2 rounded-lg  hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all">
                                         {loading ? <BtnLoader /> : 'Sign Up'}
                                     </button>
-                                    <p className="my-6 py-2 text-gray-800">|</p>
-                                    <button type="button" className="text-2xl flex justify-center items-center bg-purple-900 text-white my-6 p-2 rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseDiscordSignUp}><FaDiscord /></button>
+                                    <p className="py-2 text-xl text-gray-800">|</p>
+                                    <button type="button" className="text-2xl flex justify-center items-center bg-purple-900 text-white p-2 w-11 h-11 rounded-lg hover:bg-purple-600 active:bg-purple-500 focus:outline-none border-none transition-all" onClick={chooseDiscordSignUp}>
+                                        <FaDiscord />
+                                    </button>
+                                    {/* <InactiveBtn square={true} /> */}
                                 </div>
                             </form>
-                            <p className="text-black px-2">Have an Account? <Link to="/user/signin"
-                                className="a-left px-1 pb-1 font-bold hover:text-purple-600" >Sign In</Link></p>
+                            <FormChange goTo={'signIn'} />
                         </>)
                         : (<>
                             <div className="flex flex-row flex-nowrap justify-between">
