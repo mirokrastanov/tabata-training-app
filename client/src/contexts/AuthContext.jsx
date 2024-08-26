@@ -77,26 +77,19 @@ export function AuthProvider({ children }) {
 
     const registerUser = async (userInfo) => {
         const { fullName, username, email, password, confirmPassword } = userInfo;
-
-        // VERIFY INPUTS - return any errors and display them on the form + display a toast
-        // fullName: max 20
-        // email: valid email (do check on the FRONT END)
-        // username: 3 - 10
-        // password: >6
-        // confirmPassword: match password
-
         try {
-            // send req to register with the data provided
             const address = api.urlBuilder.auth.post.signup();
             const requestData = await api.post(address, userInfo);
-            console.log(requestData);
+            console.log('Signed up. Response: \n', requestData);
 
-            // get response with token, session, cookie whatever
-            // save to local storage
+            localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
+            localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(requestData.user);
+
+            requestData.ok = true;
+            requestData.msg = `User ${username} created successfully!`;
             return requestData;
         } catch (error) {
-            // console.log(error, '-- on register');
             return error;
         }
     };
@@ -105,14 +98,15 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.post.logout();
             const requestData = await api.post(address);
-            console.log('Logged out. Response: \n ', requestData);
+            console.log('Signed out. Response: \n ', requestData);
+
             localStorage.removeItem('tabata-user');
             localStorage.removeItem('tabata-session');
             setUser(null);
 
+            return requestData;
         } catch (error) {
-            console.log(error.message);
-
+            return error;
         }
     };
 
@@ -123,29 +117,22 @@ export function AuthProvider({ children }) {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
             console.log('User and Session data: \n ', requestData);
-
             if (requestData?.user) {
-                console.log('Expires: ', requestData.session.cookie.expires);
-                
                 localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));
-                // get user token either from express jwt or local storage
                 setUser(requestData.user);
                 setLoading(false);
             } else {
                 localStorage.removeItem('tabata-user');
                 localStorage.removeItem('tabata-session');
-                // nullify token
                 setUser(null);
                 setLoading(false);
             }
-
             return requestData;
         } catch (error) {
-            // localStorage.removeItem('tabata-user');
-            // localStorage.removeItem('tabata-session');
-            // nullify token
-            // setUser(null);
+            localStorage.removeItem('tabata-user');
+            localStorage.removeItem('tabata-session');
+            setUser(null);
             setLoading(false);
             return { msg: error.message, err: error };
         }
