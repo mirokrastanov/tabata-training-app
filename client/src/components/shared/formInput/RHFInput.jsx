@@ -1,6 +1,6 @@
 import React from 'react';
 
-function RHFInput({ name, register, errors }) {
+function RHFInput({ name, register, errors, values }) {
     const info = {
         fullName: ['text', 'fullName', 'Full Name', null, 20], // max 20
         username: ['text', 'username', 'Username', 3, 10], // min 3 max 10
@@ -18,10 +18,10 @@ function RHFInput({ name, register, errors }) {
     else if (data[1] == 'email') placeholder = 'Valid email address';
     else if (data[1] == 'confirmPassword') placeholder = 'Match password';
 
-    const validations = { required: ` is required`};
+    const validations = { required: ` is required` };
     if (min) validations.minLength = { value: min, message: ` must be ${min} or more characters` };
     if (max) validations.maxLength = { value: max, message: ` must be ${max} or fewer characters` };
-
+    if (data[1] == 'confirmPassword') validations.validate = (value) => value === values.password || ' must match';
 
     return (
         <div className="mb-2">

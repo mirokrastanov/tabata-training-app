@@ -86,11 +86,11 @@ const SignUp = () => {
                 {/* EMAIL SIGNUP VIEW */}
                 {signUpType === 'local' && (<>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <RHFInput name={'fullName'} register={register} errors={errors} />
-                        <RHFInput name={'username'} register={register} errors={errors} />
-                        <RHFInput name={'email'} register={register} errors={errors} />
-                        <RHFInput name={'password'} register={register} errors={errors} />
-                        <RHFInput name={'confirmPassword'} register={register} errors={errors} />
+                        <RHFInput name={'fullName'} register={register} errors={errors} values={getValues()} />
+                        <RHFInput name={'username'} register={register} errors={errors} values={getValues()} />
+                        <RHFInput name={'email'} register={register} errors={errors} values={getValues()} />
+                        <RHFInput name={'password'} register={register} errors={errors} values={getValues()} />
+                        <RHFInput name={'confirmPassword'} register={register} errors={errors} values={getValues()} />
 
                         <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignUp}
                             isSubmitting={isSubmitting} />
