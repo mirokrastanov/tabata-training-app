@@ -43,34 +43,26 @@ const SignUp = () => {
         setIsSubmitting(true);
         console.log('Form submitted:', validatedData);
 
-        // await registerUser(form);
-
-        // const simSubmit = async () => await new Promise((resolve) => setTimeout(resolve, 1000));
-        const simSubmit = async () => {
-            return await new Promise((resolve, reject) => {
-                if (Math.random() * 100 >= 51) setTimeout(() => {
-                    resolve();
-                    setIsSubmitting(false);
-                }, 1000);
-                else setTimeout(() => {
-                    reject();
-                    setIsSubmitting(false);
-                }, 1000);
-            });
+        const delayedResponse = async (validatedData) => {
+            // sim delay for testing
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const response = await registerUser(validatedData);
+            if (!response.ok) throw response;
+            return response;
         };
-        const toastId = toast.promise(simSubmit(), {
+        toast.promise(delayedResponse(validatedData), {
             loading: 'Loading...',
-            success: 'Request successful!',
-            error: 'Request failed',
+            success: (response) => {
+                setIsSubmitting(false);
+                // reset();
+                return response.msg || 'Request successful!';
+            },
+            error: (error) => {
+                setIsSubmitting(false);
+                return error.msg || error.error || error.message || 'Request failed';
+            },
         });
-        // Manually dismisses the toast in case of issues
-        setTimeout(() => {
-            // toast.dismiss(toastId);
-            toast.dismiss();
-        }, 5000);
-
-
-        // reset();
+        setTimeout(() => toast.dismiss(), 5000); // Manually dismisses the toast in case of issues
     };
 
     const handleDiscordLogin = async (e) => {
