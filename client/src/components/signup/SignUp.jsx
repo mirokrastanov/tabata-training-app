@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SignUp.css';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -15,13 +15,13 @@ const SignUp = () => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { errors },
         reset,
-        getValues,
     } = useForm({
         resolver: zodResolver(signUpSchema),
     });
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [signUpType, setSignUpType] = useState(null);
     const { registerUser, discordLogin } = useAuth();
 
@@ -35,20 +35,27 @@ const SignUp = () => {
         // toast.error(`Hey, line 1 \n line 2 \n line 3...`);
     }
 
+    // useEffect(() => {
+    //     console.log(isSubmitting, new Date().getUTCMilliseconds());
+    // }, [isSubmitting]);
+
     const onSubmit = async (validatedData) => {
+        setIsSubmitting(true);
         console.log('Form submitted:', validatedData);
 
-
-
-
         // await registerUser(form);
-
 
         // const simSubmit = async () => await new Promise((resolve) => setTimeout(resolve, 1000));
         const simSubmit = async () => {
             return await new Promise((resolve, reject) => {
-                if (Math.random() * 100 >= 51) setTimeout(resolve, 1000);
-                else setTimeout(reject, 1000);
+                if (Math.random() * 100 >= 51) setTimeout(() => {
+                    resolve();
+                    setIsSubmitting(false);
+                }, 1000);
+                else setTimeout(() => {
+                    reject();
+                    setIsSubmitting(false);
+                }, 1000);
             });
         };
         const toastId = toast.promise(simSubmit(), {
@@ -58,7 +65,8 @@ const SignUp = () => {
         });
         // Manually dismisses the toast in case of issues
         setTimeout(() => {
-            toast.dismiss(toastId);
+            // toast.dismiss(toastId);
+            toast.dismiss();
         }, 5000);
 
 
@@ -94,8 +102,7 @@ const SignUp = () => {
                         <RHFInput name={'password'} register={register} errors={errors} />
                         <RHFInput name={'confirmPassword'} register={register} errors={errors} />
 
-                        <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignUp}
-                            isSubmitting={isSubmitting} />
+                        <VBtnSeparator check={isSubmitting} rIcon={'discord'} rHandler={chooseDiscordSignUp} />
                     </form>
                     <FormChange goTo={'signIn'} />
                 </>)}

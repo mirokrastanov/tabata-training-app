@@ -3,7 +3,7 @@ import InactiveBtn from './inactiveBtn';
 import ActiveBtn from './activeBtn';
 import { usePage } from '../../contexts/PageContext';
 
-function VBtnSeparator({ text, lHandler, rHandler, check = false, rIcon, lIcon, isSubmitting }) {
+function VBtnSeparator({ text, lHandler, rHandler, check = false, rIcon, lIcon }) {
     if (!text) {
         const { location } = usePage();
 
@@ -20,8 +20,7 @@ function VBtnSeparator({ text, lHandler, rHandler, check = false, rIcon, lIcon, 
             {lIcon ? (<ActiveBtn left87={true} icon={true} handler={lHandler} text={'Use Discord'} />) : <>
                 {check
                     ? (<InactiveBtn left87={true} />)
-                    : (<ActiveBtn icon={false} text={text} left87={true} btnType={'submit'}
-                        disabled={isSubmitting} />)
+                    : (<ActiveBtn icon={false} text={text} left87={true} btnType={'submit'}/>)
                 }
             </>}
             <p className="py-2 text-xl text-gray-800">|</p>
