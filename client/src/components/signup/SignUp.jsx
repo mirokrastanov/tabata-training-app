@@ -8,15 +8,18 @@ import ActiveBtn from '../btns/activeBtn';
 import HBtnSeparator from '../btns/HBtnSeparator';
 import FormChange from '../btns/FormChange';
 import VBtnSeparator from '../btns/VBtnSeparator';
+import { useForm } from 'react-hook-form';
+import RHFInput from '../shared/formInput/RHFInput';
 
 const SignUp = () => {
-    const [form, setForm] = useState({
-        fullName: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+        getValues,
+    } = useForm();
+
     const [signUpType, setSignUpType] = useState(null);
     const { registerUser, discordLogin } = useAuth();
 
@@ -30,18 +33,15 @@ const SignUp = () => {
         // toast.error(`Hey, line 1 \n line 2 \n line 3...`);
     }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
+    const onSubmit = async (validatedData) => {
+        console.log('Form submitted:', validatedData);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', form);
-        // TODO: PULL ALL THE LOGIC INTO A HOOK - useSignIn
 
-        // TODO: perform validation
-        // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
+
+
+        // await registerUser(form);
+
+
         // const simSubmit = async () => await new Promise((resolve) => setTimeout(resolve, 1000));
         const simSubmit = async () => {
             return await new Promise((resolve, reject) => {
@@ -49,16 +49,18 @@ const SignUp = () => {
                 else setTimeout(reject, 1000);
             });
         };
-
         const toastId = toast.promise(simSubmit(), {
             loading: 'Loading...',
             success: 'Request successful!',
             error: 'Request failed',
         });
+        // Manually dismisses the toast in case of issues
+        setTimeout(() => {
+            toast.dismiss(toastId);
+        }, 5000);
 
-        // await registerUser(form);
 
-        // TODO: manually dismiss the toast in case of issues
+        // reset();
     };
 
     const handleDiscordLogin = async (e) => {
@@ -83,14 +85,15 @@ const SignUp = () => {
 
                 {/* EMAIL SIGNUP VIEW */}
                 {signUpType === 'local' && (<>
-                    <form onSubmit={handleSubmit}>
-                        <FormInput name={'fullName'} v={form.fullName} handler={handleChange} />
-                        <FormInput name={'username'} v={form.username} handler={handleChange} />
-                        <FormInput name={'email'} v={form.email} handler={handleChange} />
-                        <FormInput name={'password'} v={form.password} handler={handleChange} />
-                        <FormInput name={'confirmPassword'} v={form.confirmPassword} handler={handleChange} />
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <RHFInput name={'fullName'} register={register} errors={errors} />
+                        <RHFInput name={'username'} register={register} errors={errors} />
+                        <RHFInput name={'email'} register={register} errors={errors} />
+                        <RHFInput name={'password'} register={register} errors={errors} />
+                        <RHFInput name={'confirmPassword'} register={register} errors={errors} />
 
-                        <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignUp} />
+                        <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignUp}
+                            isSubmitting={isSubmitting} />
                     </form>
                     <FormChange goTo={'signIn'} />
                 </>)}
