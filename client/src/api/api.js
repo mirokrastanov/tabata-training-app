@@ -56,19 +56,14 @@ async function request(method, url, data) {
         // if (response.status === 204) {
         //     return null;
         // }
-        // if (!response.ok) {
-        //     throw await response.json();
-        // }
         // if (response.status == 403) {
         //     localStorage.removeItem('userData');
         // }
-
-        return await response.json();
+        const resData = await response.json();
+        resData.ok = response.ok;
+        return await resData;
     } catch (err) {
-        // alert(err.message);
-        console.log(err.message);
-        return null;
-        // throw err;
+        return err;
     }
 }
 
