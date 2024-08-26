@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './SignUp.css';
-import FormInput from '../shared/formInput/FormInput';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import ActiveBtn from '../btns/activeBtn';
@@ -10,6 +8,8 @@ import FormChange from '../btns/FormChange';
 import VBtnSeparator from '../btns/VBtnSeparator';
 import { useForm } from 'react-hook-form';
 import RHFInput from '../shared/formInput/RHFInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpSchema } from '../../lib/ValidationSchemas';
 
 const SignUp = () => {
     const {
@@ -18,7 +18,9 @@ const SignUp = () => {
         formState: { errors, isSubmitting },
         reset,
         getValues,
-    } = useForm();
+    } = useForm({
+        resolver: zodResolver(signUpSchema),
+    });
 
     const [signUpType, setSignUpType] = useState(null);
     const { registerUser, discordLogin } = useAuth();
@@ -86,11 +88,11 @@ const SignUp = () => {
                 {/* EMAIL SIGNUP VIEW */}
                 {signUpType === 'local' && (<>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <RHFInput name={'fullName'} register={register} errors={errors} values={getValues()} />
-                        <RHFInput name={'username'} register={register} errors={errors} values={getValues()} />
-                        <RHFInput name={'email'} register={register} errors={errors} values={getValues()} />
-                        <RHFInput name={'password'} register={register} errors={errors} values={getValues()} />
-                        <RHFInput name={'confirmPassword'} register={register} errors={errors} values={getValues()} />
+                        <RHFInput name={'fullName'} register={register} errors={errors} />
+                        <RHFInput name={'username'} register={register} errors={errors} />
+                        <RHFInput name={'email'} register={register} errors={errors} />
+                        <RHFInput name={'password'} register={register} errors={errors} />
+                        <RHFInput name={'confirmPassword'} register={register} errors={errors} />
 
                         <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignUp}
                             isSubmitting={isSubmitting} />
