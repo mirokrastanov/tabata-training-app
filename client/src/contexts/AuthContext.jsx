@@ -36,27 +36,20 @@ export function AuthProvider({ children }) {
 
     const loginUser = async (userInfo) => {
         const { username, password } = userInfo;
-        console.log(userInfo);
-
-        // VERIFY INPUTS - return any errors and display them on the form + display a toast
-        // fullName: max 20
-        // email: valid email (do check on the FRONT END)
-        // username: 3 - 10
-        // password: >6
-        // confirmPassword: match password
-
         try {
-            // send req to login endpoint with the data provided
             const address = api.urlBuilder.auth.post.login();
             const requestData = await api.post(address, userInfo);
-            console.log(requestData);
+            if (!requestData.ok) throw requestData;
 
-            // get response with token, session, cookie whatever
-            // save to local storage
+            console.log('Signed in. Response: \n', requestData);
+            localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
+            localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(requestData.user);
+
+            requestData.ok = true;
+            requestData.msg = `User ${username} signed in successfully!`;
             return requestData;
         } catch (error) {
-            // console.log(error, '-- on login');
             return error;
         }
     };
@@ -80,8 +73,9 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.post.signup();
             const requestData = await api.post(address, userInfo);
-            console.log('Signed up. Response: \n', requestData);
+            if (!requestData.ok) throw requestData;
 
+            console.log('Signed up. Response: \n', requestData, requestData.ok);
             localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
             localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(requestData.user);
@@ -98,8 +92,9 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.post.logout();
             const requestData = await api.post(address);
-            console.log('Signed out. Response: \n ', requestData);
+            if (!requestData.ok) throw requestData;
 
+            console.log('Signed out. Response: \n ', requestData);
             localStorage.removeItem('tabata-user');
             localStorage.removeItem('tabata-session');
             setUser(null);
@@ -116,6 +111,7 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
+            if (!requestData.ok) throw requestData;
             console.log('User and Session data: \n ', requestData);
             if (requestData?.user) {
                 localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
@@ -130,6 +126,7 @@ export function AuthProvider({ children }) {
             }
             return requestData;
         } catch (error) {
+            console.log('User and Session data: \n ', error);
             localStorage.removeItem('tabata-user');
             localStorage.removeItem('tabata-session');
             setUser(null);
