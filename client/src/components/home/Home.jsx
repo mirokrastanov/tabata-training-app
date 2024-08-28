@@ -17,7 +17,8 @@ const Home = () => {
             toast.success(`User ${user?.username} signed in successfully!`);
         }
     }, []);
-
+    // TODO: REVISE USER LANDING VIEW once more after workouts are all completed.
+    // Might need an extra mongoDB collection for statistics/history connected to objectIDs
 
     return (
         <div className="bg-gray-100 flex flex-col justify-between w-full h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
