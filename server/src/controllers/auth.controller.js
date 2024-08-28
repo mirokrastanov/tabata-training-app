@@ -7,7 +7,7 @@ export const signup = async (req, res) => {
     try {
         const { fullName, username, email, password, confirmPassword } = req.body;
         console.log(req.body);
-        
+
         if (!fullName || !username || !email || !password || !confirmPassword || fullName == '' ||
             username == '' || email == '' || password == '' || confirmPassword == '') {
             return res.status(400).json({ msg: 'Inputs cannot be blank' });
@@ -70,11 +70,19 @@ export const login = async (req, res) => {
                     if (err) throw err;
 
                     req.authMethod = undefined;
-                    res.status(200).json({ user, session: req.session, sessionID: req.sessionID });
+                    if (authMethod === 'local') {
+                        res.status(200).json({ user, session: req.session, sessionID: req.sessionID });
+                    } else {
+                        res.redirect('http://localhost:5173/?referrer=discord');
+                    }
                 } catch (error) {
                     console.log(error.message);
                     req.authMethod = undefined;
-                    res.status(500).json({ error: "Internal Server Error", msg: error.message, user: null });
+                    if (authMethod === 'local') {
+                        res.status(500).json({ error: "Internal Server Error", msg: error.message, user: null });
+                    } else {
+                        res.redirect('http://localhost:5173/?referrer=discord');
+                    }
                 }
             });
         } catch (error) {

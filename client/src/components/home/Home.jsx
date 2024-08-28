@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Home.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 const Home = () => {
     const { user } = useAuth();
+    const [searchParams] = useSearchParams();
+    const referrer = searchParams.get('referrer');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (referrer && user) {
+            navigate('/');
+            toast.success(`Welcome to Tabata Training!`);
+        }
+    }, []);
 
 
     return (
         <div className="bg-gray-100 flex flex-col justify-between w-full h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
             {user
                 ? (
+                    <article className="flex-grow bg-slate-400">
+                        <h1>Logged in landing view {'{}'}</h1>
+                        <h2>NYI...</h2>
+                        {/* TODO: Implement a user landing page view */}
+                    </article>
+                )
+                : (
                     <article className="flex-grow">
                         <section className="bg-white py-20">
                             <div className="container mx-auto px-6 text-center">
@@ -104,13 +122,6 @@ const Home = () => {
                                 </Link>
                             </div>
                         </section>
-                    </article>
-                )
-                : (
-                    <article className="flex-grow bg-slate-400">
-                        <h1>Logged in landing view {'{}'}</h1>
-                        <h2>NYI...</h2>
-                        {/* TODO: Implement a user landing page view */}
                     </article>
                 )}
 

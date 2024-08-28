@@ -19,6 +19,8 @@ const Profile = () => {
                 <h1 className="text-2xl font-bold text-gray-800 my-6">Profile</h1>
             </div>
 
+            {/* TODO: check if discordId exists and render differently for discord users */}
+
             {Object.entries(user).map(([k, value], i) => (
                 <div className="bg-white shadow-md rounded-lg w-full max-w-4xl mt-4" key={i + 'p-props'}>
                     <div className="my-4 px-2">

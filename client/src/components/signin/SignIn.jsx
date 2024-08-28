@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SignIn.css';
 import FormInput from '../shared/formInput/FormInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import ActiveBtn from '../btns/activeBtn';
@@ -16,6 +16,7 @@ const SignIn = () => {
     });
     const [signInType, setSignInType] = useState(null);
     const { loginUser, discordLogin } = useAuth();
+    const navigate = useNavigate();
 
     const chooseLocalSignIn = (e) => {
         e.preventDefault();
@@ -39,7 +40,8 @@ const SignIn = () => {
         // TODO: PULL ALL THE LOGIC INTO A HOOK - useSignIn
         // TODO: perform validation
         // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
-        await loginUser(form);
+        const requestData = await loginUser(form);
+        if (requestData.ok) navigate('/?referrer=signin');
         // TODO: manually dismiss the toast in case of issues
     };
 
