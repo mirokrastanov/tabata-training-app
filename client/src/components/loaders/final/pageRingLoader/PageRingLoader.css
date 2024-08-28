@@ -1,0 +1,20 @@
+.skeleton-anim {
+    background-color: #e0e0e0;
+    animation: shimmer 3s infinite linear;
+    background: linear-gradient(to right,
+            #e0e0e0 0%,
+            #f0f0f0 50%,
+            #e0e0e0 100%);
+    background-size: 200% 100%;
+    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 0px 0px 1px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
