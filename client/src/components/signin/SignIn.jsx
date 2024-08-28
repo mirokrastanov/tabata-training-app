@@ -47,13 +47,13 @@ const SignIn = () => {
             if (!response.ok) throw response;
             return response;
         };
-        toast.promise(delayedResponse(validatedData), {
+        await toast.promise(delayedResponse(validatedData), {
             loading: 'Loading...',
             success: (response) => {
                 setIsSubmitting(false);
                 // reset();
-                // return response.msg || 'Request successful!';
-                return navigate('/?referrer=signin');
+                return response.msg || 'Request successful!';
+                // return navigate('/?referrer=signin');
             },
             error: (error) => {
                 setIsSubmitting(false);
@@ -61,6 +61,7 @@ const SignIn = () => {
             },
         });
         setTimeout(() => toast.dismiss(), 5000); // Manually dismisses the toast in case of issues
+        navigate('/');
     };
 
     const handleDiscordLogin = async (e) => {
@@ -83,7 +84,7 @@ const SignIn = () => {
 
                 {/* LOCAL SIGNIN VIEW */}
                 {signInType === 'local' && (<>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <RHFInput name={'username'} register={register} errors={errors} />
                         <RHFInput name={'password'} register={register} errors={errors} />
 

@@ -5,6 +5,7 @@ import TitleDropdownLink from '../shared/titleDropdownLink/TitleDropdownLink';
 import { usePage } from '../../contexts/PageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const TitleDropdownMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +31,7 @@ const TitleDropdownMenu = () => {
         e.preventDefault();
         await logoutUser();
         navigate('/');
+        toast.success('Signed out successfully!');
     };
 
     useEffect(() => {

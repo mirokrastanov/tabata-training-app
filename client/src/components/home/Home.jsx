@@ -12,9 +12,9 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (referrer && user) {
+        if (referrer == 'discord' && user) {
             navigate('/');
-            toast.success(`Welcome to Tabata Training!`);
+            toast.success(`User ${user?.username} signed in successfully!`);
         }
     }, []);
 

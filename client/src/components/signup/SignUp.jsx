@@ -47,13 +47,13 @@ const SignUp = () => {
             if (!response.ok) throw response;
             return response;
         };
-        toast.promise(delayedResponse(validatedData), {
+        await toast.promise(delayedResponse(validatedData), {
             loading: 'Loading...',
             success: (response) => {
                 setIsSubmitting(false);
                 // reset();
-                // return response.msg || 'Request successful!';
-                return navigate('/?referrer=signup');
+                return response.msg || 'Request successful!';
+                // return navigate('/?referrer=signup');
             },
             error: (error) => {
                 setIsSubmitting(false);
@@ -61,6 +61,7 @@ const SignUp = () => {
             },
         });
         setTimeout(() => toast.dismiss(), 5000); // Manually dismisses the toast in case of issues
+        navigate('/');
     };
 
     const handleDiscordLogin = async (e) => {
