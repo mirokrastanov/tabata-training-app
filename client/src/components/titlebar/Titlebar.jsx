@@ -18,9 +18,9 @@ function Titlebar() {
     }, []);
 
     return (
-        <div id="app__titlebar" className="w-full flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl">
+        <div id="app__titlebar" className="w-full flex flex-row flex-nowrap items-center gap-x-1 h-14 text-xl z-10 rounded-t-xl max-custom-mq-500:rounded-none">
             {/* LEFT BTN - HOME */}
-            <Link className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-bl-none transition-all cursor-pointer hover:shadow-md active:bg-purple-500 text-white hover:text-white"
+            <Link className="tb_link-hover w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-bl-none transition-all cursor-pointer hover:shadow-md active:bg-purple-500 text-white hover:text-white"
                 to="/" >
                 <FaHouse />
             </Link>
@@ -32,7 +32,7 @@ function Titlebar() {
             </div>
 
             {/* RIGHT BTN - MENU */}
-            <div className="w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-br-none transition-all cursor-pointer hover:shadow-md active:active:bg-purple-500 text-white hover:text-white relative">
+            <div className="tb_link-hover w-14 h-full flex justify-center items-center hover:bg-purple-600 rounded-xl rounded-br-none transition-all cursor-pointer hover:shadow-md active:active:bg-purple-500 text-white hover:text-white relative">
                 <TitleDropdownMenu />
             </div>
         </div>
