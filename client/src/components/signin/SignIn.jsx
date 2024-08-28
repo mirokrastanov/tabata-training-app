@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SignIn.css';
-import FormInput from '../shared/formInput/FormInput';
-import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import ActiveBtn from '../btns/activeBtn';
 import HBtnSeparator from '../btns/HBtnSeparator';
 import FormChange from '../btns/FormChange';
 import VBtnSeparator from '../btns/VBtnSeparator';
+import { useForm } from 'react-hook-form';
+import RHFInput from '../shared/formInput/RHFInput';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signInSchema } from '../../lib/ValidationSchemas';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-    const [form, setForm] = useState({
-        username: '',
-        password: '',
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm({
+        resolver: zodResolver(signInSchema),
     });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [signInType, setSignInType] = useState(null);
     const { loginUser, discordLogin } = useAuth();
     const navigate = useNavigate();
@@ -25,31 +34,38 @@ const SignIn = () => {
     const chooseDiscordSignIn = (e) => {
         e.preventDefault();
         setSignInType('discord');
-        // toast.error(`Hey, line 1 \n line 2 \n line 3...`);
     }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
+    const onSubmit = async (validatedData) => {
+        setIsSubmitting(true);
+        // console.log('Form submitted:', validatedData);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', form);
-        // try catch - set loading, etc
-        // TODO: PULL ALL THE LOGIC INTO A HOOK - useSignIn
-        // TODO: perform validation
-        // TODO: GENERATE A TOAST FOR EACH SCENARIO UPON SUBMISSION !!!
-        const requestData = await loginUser(form);
-        if (requestData.ok) navigate('/?referrer=signin');
-        // TODO: manually dismiss the toast in case of issues
+        const delayedResponse = async (validatedData) => {
+            // sim delay for testing
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const response = await loginUser(validatedData);
+            if (!response.ok) throw response;
+            return response;
+        };
+        toast.promise(delayedResponse(validatedData), {
+            loading: 'Loading...',
+            success: (response) => {
+                setIsSubmitting(false);
+                // reset();
+                // return response.msg || 'Request successful!';
+                return navigate('/?referrer=signin');
+            },
+            error: (error) => {
+                setIsSubmitting(false);
+                return error.msg || error.error || error.message || 'Request failed';
+            },
+        });
+        setTimeout(() => toast.dismiss(), 5000); // Manually dismisses the toast in case of issues
     };
 
     const handleDiscordLogin = async (e) => {
         e.preventDefault();
-        console.log('Discord login attempted...');
-
-        // await discordLogin();
+        await discordLogin();
     }
 
     return (
@@ -59,19 +75,19 @@ const SignIn = () => {
 
                 {/* LANDING VIEW */}
                 {signInType == null && (<>
-                    <ActiveBtn handler={chooseLocalSignIn} text={'Use Email'} />
+                    <ActiveBtn handler={chooseLocalSignIn} text={'Use Credentials'} />
                     <HBtnSeparator />
                     <ActiveBtn handler={chooseDiscordSignIn} text={'Use Discord'} />
                     <FormChange goTo={'signUp'} />
                 </>)}
 
-                {/* EMAIL SIGNIN VIEW */}
+                {/* LOCAL SIGNIN VIEW */}
                 {signInType === 'local' && (<>
                     <form onSubmit={handleSubmit}>
-                        <FormInput name={'username'} v={form.username} handler={handleChange} />
-                        <FormInput name={'password'} v={form.password} handler={handleChange} />
+                        <RHFInput name={'username'} register={register} errors={errors} />
+                        <RHFInput name={'password'} register={register} errors={errors} />
 
-                        <VBtnSeparator check={false} rIcon={'discord'} rHandler={chooseDiscordSignIn} />
+                        <VBtnSeparator check={isSubmitting} rIcon={'discord'} rHandler={chooseDiscordSignIn} />
                     </form>
                     <FormChange goTo={'signUp'} />
                 </>)}
