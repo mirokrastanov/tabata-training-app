@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import RHFInput from '../shared/formInput/RHFInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../../lib/ValidationSchemas';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const {
@@ -24,6 +25,7 @@ const SignUp = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [signUpType, setSignUpType] = useState(null);
     const { registerUser, discordLogin } = useAuth();
+    const navigate = useNavigate();
 
     const chooseLocalSignUp = (e) => {
         e.preventDefault();
@@ -32,16 +34,11 @@ const SignUp = () => {
     const chooseDiscordSignUp = (e) => {
         e.preventDefault();
         setSignUpType('discord');
-        // toast.error(`Hey, line 1 \n line 2 \n line 3...`);
     }
-
-    // useEffect(() => {
-    //     console.log(isSubmitting, new Date().getUTCMilliseconds());
-    // }, [isSubmitting]);
 
     const onSubmit = async (validatedData) => {
         setIsSubmitting(true);
-        console.log('Form submitted:', validatedData);
+        // console.log('Form submitted:', validatedData);
 
         const delayedResponse = async (validatedData) => {
             // sim delay for testing
@@ -55,7 +52,8 @@ const SignUp = () => {
             success: (response) => {
                 setIsSubmitting(false);
                 // reset();
-                return response.msg || 'Request successful!';
+                // return response.msg || 'Request successful!';
+                return navigate('/?referrer=signup');
             },
             error: (error) => {
                 setIsSubmitting(false);
@@ -67,9 +65,7 @@ const SignUp = () => {
 
     const handleDiscordLogin = async (e) => {
         e.preventDefault();
-        console.log('Discord login attempted...');
-
-        // await discordLogin();
+        await discordLogin();
     }
 
     return (
@@ -79,13 +75,13 @@ const SignUp = () => {
 
                 {/* LANDING VIEW */}
                 {signUpType == null && (<>
-                    <ActiveBtn handler={chooseLocalSignUp} text={'Use Email'} />
+                    <ActiveBtn handler={chooseLocalSignUp} text={'Create Account'} />
                     <HBtnSeparator />
                     <ActiveBtn handler={chooseDiscordSignUp} text={'Use Discord'} />
                     <FormChange goTo={'signIn'} />
                 </>)}
 
-                {/* EMAIL SIGNUP VIEW */}
+                {/* LOCAL SIGNUP VIEW */}
                 {signUpType === 'local' && (<>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <RHFInput name={'fullName'} register={register} errors={errors} />
