@@ -1,9 +1,9 @@
 import React from 'react';
 import './Dots.css';
 
-function Dots() {
+function Dots({ color }) {
     return (
-        <span className="horizontal-loader"></span>
+        <span className={`horizontal-loader ${color}`}></span>
     )
 }
 
