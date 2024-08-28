@@ -58,17 +58,6 @@ export function AuthProvider({ children }) {
         try {
             const address = api.urlBuilder.auth.get.discordLogin();
             return window.location.href = address;
-
-
-            const requestData = await api.get(address);
-            console.log(requestData);
-            return requestData;
-
-            // send req to login endpoint with the data provided
-            // get response with token, session, cookie whatever
-            // save to local storage
-            // set user
-            // return accountDetails -- in case I need it
         } catch (error) {
             return error;
         }
