@@ -8,6 +8,7 @@ const Profile = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
     const [dUser, setDUser] = useState(null);
+
     // useEffect(() => {
     //     setLoading(true);
     // }, []);
@@ -49,24 +50,29 @@ const Profile = () => {
                 </div>
             </div>
 
-            {dUser && Object.entries(dUser).map(([k, v], i) => (
-                <div className="bg-white shadow-md rounded-lg w-full max-w-4xl mt-4" key={i + 'p-props'}>
-                    <div className="my-4 px-2">
-                        <div className="w-full flex flex-wrap justify-center items-center gap-x-2">
-                            <span className="font-semibold text-gray-800 text-lg">
-                                {/* KEYS */}
-                                {k !== '_id' && k !== '__v' && k}
-                            </span>
-                            <span className="text-gray-600 text-lg">
-                                {/* VALUES */}
-                                {k == 'createdAt' || k == 'updatedAt'
-                                    ? getHhMmSs(v) + ' | ' + getDdMmYyyy(v)
-                                    : v}
-                            </span>
+            {dUser && Object.entries(dUser)
+                .filter(([k, v], i) => k !== '_id' && k !== '__v' && k !== 'profilePic' && k !== 'username')
+                .map(([k, v], i) => (
+                    <div className="bg-white shadow-md rounded-lg min-w-[50%] max-w-4xl mt-4" key={i + 'p-props'}>
+                        <div className="my-4 px-2">
+                            <div className="w-full flex flex-wrap justify-center items-center gap-x-2">
+                                <span className="font-semibold text-gray-800 text-lg">
+                                    {/* KEYS */}
+                                    {k == 'fullName' && 'Full Name: '}
+                                    {k == 'email' && 'Email: '}
+                                    {k == 'createdAt' && 'Created: '}
+                                    {k == 'updatedAt' && 'Updated: '}
+                                </span>
+                                <span className="text-gray-600 text-lg">
+                                    {/* VALUES */}
+                                    {k == 'createdAt' || k == 'updatedAt'
+                                        ? getHhMmSs(v) + ' | ' + getDdMmYyyy(v)
+                                        : v}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
 
             <div className="flex flex-wrap justify-center gap-4 mt-8">
                 <Link to="/workouts" className="bg-purple-900 text-white py-3 px-6 rounded-lg hover:bg-purple-600 active:bg-purple-500">Workouts</Link>
