@@ -7,42 +7,61 @@ import { getDdMmYyyy, getHhMmSs } from '../../utils/dateConversions';
 const Profile = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
-
+    const [dUser, setDUser] = useState(null);
     // useEffect(() => {
     //     setLoading(true);
     // }, []);
 
     useEffect(() => {
         if (user) {
-            console.log(user);
+            // console.log(user);
+            setDUser(user);
+            setLoading(false);
             setTimeout(() => {
-                setLoading(false);
             }, 1000);
         }
     }, [user]);
 
     // TODO: Craft a better view. Test with both a regular and a discord user
     // Also add the date/time conversions using the util function -- ALSO extract and add time
+    // MODIFY dUser and plot after. Works with state.
 
     return (<>{loading
         ? (<PageRingLoader />)
-        : (<div className="h-[calc(100%-3.5rem)] bg-gray-100 flex flex-col items-center p-6 rounded-b-xl">
-            <div className="bg-white shadow-md rounded-lg w-full max-w-4xl">
-                <h1 className="text-2xl font-bold text-gray-800 my-6">Profile</h1>
+        : (<div className="h-[calc(100%-3.5rem)] bg-gray-100 flex flex-col items-center p-6 rounded-b-xl overflow-y-scroll">
+            <div className="bg-white shadow-md rounded-lg min-w-[50%] max-w-4xl p-2 py-4 flex flex-wrap justify-center items-center gap-5" data-id={dUser?._id}>
+                <div className="w-fit h-full rounded-full shadow-xl">
+                    {dUser?.profilePic
+                        ? <img src={dUser.profilePic} alt="profile-pic" height="70px" width="70px" className="rounded-full p-2 border max-custom-mq-500:w-[90px] max-custom-mq-500:h-[90px] max-custom-mq-300:w-[70px] max-custom-mq-300:h-[70px] max-custom-mq-300:p-0" />
+                        : <img src="/src/assets/user.png" alt="discord-user-icon" height="70px" width="70px" className="rounded-full max-custom-mq-500:w-[90px] max-custom-mq-500:h-[90px] max-custom-mq-300:w-[70px] max-custom-mq-300:h-[70px] max-custom-mq-300:p-0" />
+                    }
+                </div>
+                <div className="px-2 flex flex-col max-custom-mq-500:hidden">
+                    <p className="text-gray-600 text-md">username</p>
+                    <h2 className="text-gray-800 font-bold text-3xl">{dUser?.username}</h2>
+                </div>
             </div>
 
-            {user && Object.entries(user).map(([k, value], i) => (
+            <div className="bg-white shadow-md rounded-lg min-w-[50%] max-w-4xl p-2 py-4 mt-4 flex flex-wrap justify-center items-center gap-5 custom-mq-500:hidden max-custom-mq-500:w-full">
+                <div className="px-2 flex flex-col">
+                    <p className="text-gray-600 text-md">username</p>
+                    <h2 className="text-gray-800 font-bold text-3xl">{dUser?.username}</h2>
+                </div>
+            </div>
+
+            {dUser && Object.entries(dUser).map(([k, v], i) => (
                 <div className="bg-white shadow-md rounded-lg w-full max-w-4xl mt-4" key={i + 'p-props'}>
                     <div className="my-4 px-2">
                         <div className="w-full flex flex-wrap justify-center items-center gap-x-2">
                             <span className="font-semibold text-gray-800 text-lg">
-                                {/* {k[0].toUpperCase() + k.slice(1).replaceAll('_', ' ') + ':'} */}
-                                {k}
+                                {/* KEYS */}
+                                {k !== '_id' && k !== '__v' && k}
                             </span>
                             <span className="text-gray-600 text-lg">
+                                {/* VALUES */}
                                 {k == 'createdAt' || k == 'updatedAt'
-                                    ? getHhMmSs(value) + ' | ' + getDdMmYyyy(value)
-                                    : value}
+                                    ? getHhMmSs(v) + ' | ' + getDdMmYyyy(v)
+                                    : v}
                             </span>
                         </div>
                     </div>
