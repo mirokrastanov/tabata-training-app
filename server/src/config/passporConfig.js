@@ -45,6 +45,7 @@ const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, 
                 fullName: profile.global_name,
                 email: profile.email,
                 provider: profile.provider,
+                discordVerified: profile.verified,
                 fetchedAt: profile.fetchedAt,
             }, { new: true, upsert: true }).lean();
             console.log('Found in db and updated user:\n', user);
@@ -56,6 +57,7 @@ const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, 
                 fullName: profile.global_name,
                 email: profile.email,
                 provider: profile.provider,
+                discordVerified: profile.verified,
                 fetchedAt: profile.fetchedAt,
             });
             await user.save();
