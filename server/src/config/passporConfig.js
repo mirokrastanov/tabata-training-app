@@ -33,9 +33,9 @@ const discordOptions = {
 const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, refreshToken, profile, done) => {
     let user;
     try {
-        console.log('Fetched profile data from Discord:\n', profile);
+        // console.log('Fetched profile data from Discord:\n', profile);
         user = await DiscordUser.findOne({ discordId: profile.id });
-        console.log('Does user exist in db:\n', user ? true : false);
+        // console.log('Does user exist in db:\n', user ? true : false);
 
         if (user) {
             user = await DiscordUser.findByIdAndUpdate(user._id, {
@@ -48,7 +48,7 @@ const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, 
                 discordVerified: profile.verified,
                 fetchedAt: profile.fetchedAt,
             }, { new: true, upsert: true }).lean();
-            console.log('Found in db and updated user:\n', user);
+            // console.log('Found in db and updated user:\n', user);
         } else {
             user = new DiscordUser({
                 discordId: profile.id,
@@ -62,9 +62,9 @@ const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, 
             });
             await user.save();
             user = await DiscordUser.findOne({ discordId: profile.id }).lean();
-            console.log('New Discord User created:\n', user);
+            // console.log('New Discord User created:\n', user);
         }
-
+        
         done(null, user);
     } catch (error) {
         done(error, null);
