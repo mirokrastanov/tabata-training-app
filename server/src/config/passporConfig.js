@@ -28,18 +28,41 @@ const discordOptions = {
     clientID: process.env.DISCORD_CLIENT_ID,
     clientSecret: process.env.DISCORD_SECRET,
     callbackURL: process.env.DISCORD_REDIRECT_URI,
-    scope: ['identify', 'email', 'guilds'], // what to pull from discord - each requires permission
+    scope: ['identify', 'email'], // what to pull from discord - each requires permission
 };
 const discordStrategy = new DiscordStrategy(discordOptions, async (accessToken, refreshToken, profile, done) => {
     let user;
     try {
+        console.log('Fetched profile data from Discord:\n', profile);
         user = await DiscordUser.findOne({ discordId: profile.id });
-        if (!user) {
-            const newUser = new DiscordUser({ discordId: profile.id, username: profile.username, profile });
-            await newUser.save();
+        console.log('Does user exist in db:\n', user ? true : false);
 
+        if (user) {
+            user = await DiscordUser.findByIdAndUpdate(user._id, {
+                discordId: profile.id,
+                username: profile.username,
+                avatarId: profile.avatar,
+                fullName: profile.global_name,
+                email: profile.email,
+                provider: profile.provider,
+                fetchedAt: profile.fetchedAt,
+            }, { new: true, upsert: true }).lean();
+            console.log('Found in db and updated user:\n', user);
+        } else {
+            user = new DiscordUser({
+                discordId: profile.id,
+                username: profile.username,
+                avatarId: profile.avatar,
+                fullName: profile.global_name,
+                email: profile.email,
+                provider: profile.provider,
+                fetchedAt: profile.fetchedAt,
+            });
+            await user.save();
             user = await DiscordUser.findOne({ discordId: profile.id }).lean();
+            console.log('New Discord User created:\n', user);
         }
+
         done(null, user);
     } catch (error) {
         done(error, null);
