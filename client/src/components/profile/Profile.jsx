@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import PageRingLoader from '../loaders/final/pageRingLoader/PageRingLoader';
-import { getDdMmYyyy, getHhMmSs } from '../../utils/dateConversions';
 import ProfileImg from './ProfileImg';
 import ProfileDataBox from './ProfileDataBox';
 
@@ -27,11 +26,12 @@ const Profile = () => {
 
     return (<>{loading
         ? (<PageRingLoader />)
-        : (<div className="h-[calc(100%-3.5rem)] bg-gray-100 flex flex-col items-center p-6 rounded-b-xl overflow-y-scroll">
+        : (<div className="h-[calc(100%-3.5rem)] bg-gray-100 flex flex-col items-center p-6 rounded-b-xl overflow-y-scroll max-custom-mq-300:px-0">
             <ProfileImg dUser={dUser} />
 
             {dUser && Object.entries(dUser)
-                .filter(([k, v], i) => k !== '_id' && k !== '__v' && k !== 'profilePic' && k !== 'username')
+                .filter(([k, v], i) => k !== '_id' && k !== '__v' && k !== 'profilePic' && k !== 'username'
+                    && k !== 'discordId' && k !== 'avatarId' && k !== 'provider' && k !== 'fetchedAt')
                 .map(([k, v], i) => (<ProfileDataBox k={k} v={v} i={i} key={i + 'p-props'} />))}
 
             <div className="flex flex-wrap justify-center gap-4 mt-8">
