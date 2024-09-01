@@ -3,8 +3,8 @@ import './ToggleBtn.css';
 
 function ToggleBtn() {
     return (
-        <label className="switch">
-            <input type="checkbox" className="checkbox" />
+        <label className="switch" htmlFor="checkbox">
+            <input id="checkbox" name="checkbox" type="checkbox" className="checkbox" />
             <div className="slider"></div>
         </label>
     )
