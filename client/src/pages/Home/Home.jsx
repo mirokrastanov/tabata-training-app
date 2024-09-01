@@ -19,7 +19,7 @@ const Home = () => {
         if (referrer == 'discord-auth-denied' && session) {
             navigate('/');
             toast.error(`Discord authorization denied!
-                
+
                 Please grant permission when asked during sign in.`,
                 { duration: 7000 }
             );
@@ -35,18 +35,18 @@ const Home = () => {
                 ? (
                     <article className="flex-grow bg-slate-400">
                         <section className="bg-white py-20">
-                            <div className="container mx-auto px-6 text-center">
+                            <div className="container mx-auto px-6 text-center max-custom-mq-300:px-0">
                                 <h2 className="text-4xl font-bold text-gray-800 max-custom-mq-500:text-3xl after:content-['!'] max-custom-mq-300:after:content-[''] max-custom-mq-300:text-2xl">Welcome back, <Link to={'/user/profile'} className="a-left text-purple-500 font-bold hover:text-purple-700 transition-all">
                                     {user?.username}</Link></h2>
                                 <p className="text-gray-600 mt-4">
                                     Continue where you left off or start a new workout session.
                                 </p>
                                 <div className="flex justify-center mt-8 flex-wrap gap-y-4">
-                                    <Link to="/workouts" className="mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
+                                    <Link to="/workouts" className={`mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 max-custom-mq-300:px-2`}>
                                         Start New Workout
                                     </Link>
                                     {/* TODO: store and render from local storage - create component */}
-                                    <Link to="/workout/history" className="mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
+                                    <Link to="/workout/history" className={`mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 max-custom-mq-300:px-2`}>
                                         View Progress
                                     </Link>
                                 </div>
@@ -54,23 +54,23 @@ const Home = () => {
                         </section>
 
                         <section id="recent-activity" className="bg-gray-100 py-20">
-                            <div className="container mx-auto px-6">
-                                <h2 className="text-3xl font-bold text-gray-800">Your Activity</h2>
+                            <div className="mx-auto px-6 max-custom-mq-300:px-0">
+                                <h2 className="text-3xl font-bold text-gray-800 max-custom-mq-300:text-2xl">Your Activity</h2>
                                 <div className="mt-10 flex flex-wrap justify-center">
-                                    <div className="w-full sm:w-1/2 lg:w-1/3 px-4 py-6">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg">
+                                    <div className="w-full px-4 py-6 max-custom-mq-300:px-2 max-custom-mq-300:py-2 max-custom-mq-300:w-full md:max-w-[50%]">
+                                        <div className="bg-white p-6 rounded-xl shadow-lg max-custom-mq-300:px-2">
                                             <h3 className="text-2xl font-semibold text-gray-800 max-custom-mq-300:text-lg">Last Workout</h3>
                                             <p className="text-gray-600 mt-2">Completed on [Date].</p>
                                         </div>
                                     </div>
-                                    <div className="w-full sm:w-1/2 lg:w-1/3 px-4 py-6">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg">
+                                    <div className="w-full px-4 py-6 max-custom-mq-300:px-2 max-custom-mq-300:py-2 max-custom-mq-300:w-full md:max-w-[50%]">
+                                        <div className="bg-white p-6 rounded-xl shadow-lg max-custom-mq-300:px-2">
                                             <h3 className="text-2xl font-semibold text-gray-800 max-custom-mq-300:text-lg">Sets Completed</h3>
                                             <p className="text-gray-600 mt-2">You've completed [amount] sets!</p>
                                         </div>
                                     </div>
-                                    <div className="w-full sm:w-1/2 lg:w-1/3 px-4 py-6">
-                                        <div className="bg-white p-6 rounded-lg shadow-lg">
+                                    <div className="w-full px-4 py-6 max-custom-mq-300:px-2 max-custom-mq-300:py-2 max-custom-mq-300:w-full md:max-w-[50%]">
+                                        <div className="bg-white p-6 rounded-xl shadow-lg max-custom-mq-300:px-2">
                                             <h3 className="text-2xl font-semibold text-gray-800 max-custom-mq-300:text-lg">Workout time</h3>
                                             <p className="text-gray-600 mt-2">You've spent [amount] hours working out.</p>
                                         </div>
@@ -78,19 +78,19 @@ const Home = () => {
                                 </div>
                             </div>
                             <div className="flex justify-center mt-8">
-                                <Link to="/workouts/statistics" className="mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600">
+                                <Link to="/workouts/statistics" className="mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 max-custom-mq-300:px-2">
                                     Full Statistics
                                 </Link>
                             </div>
                         </section>
 
                         <section className="bg-white py-20">
-                            <div className="container mx-auto px-6 text-center">
+                            <div className="container mx-auto px-6 text-center max-custom-mq-300:px-2">
                                 <h2 className="text-4xl font-bold text-gray-800 max-custom-mq-300:text-2xl">Stay Motivated</h2>
                                 <p className="text-gray-600 mt-4">
                                     Keep pushing your limits and achieve your fitness goals.
                                 </p>
-                                <Link target='_blank' to="https://www.reddit.com/r/Fitness/" className="mt-8 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 flex flex-nowrap justify-center items-center w-fit mx-auto max-custom-mq-300:px-4">
+                                <Link target='_blank' to="https://www.reddit.com/r/Fitness/" className="mt-8 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 flex flex-nowrap justify-center items-center w-fit mx-auto max-custom-mq-300:px-2 max-custom-mq-300:flex-wrap max-custom-mq-300:gap-y-2">
                                     Join the Community
                                     <FaArrowUpRightFromSquare className="ml-2" />
                                 </Link>
