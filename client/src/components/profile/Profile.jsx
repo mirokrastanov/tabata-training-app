@@ -6,23 +6,24 @@ import ProfileImg from './ProfileImg';
 import ProfileDataBox from './ProfileDataBox';
 
 const Profile = () => {
-    const { user } = useAuth();
+    const { user, session } = useAuth();
     const [loading, setLoading] = useState(true);
     const [dUser, setDUser] = useState(null);
+    const [dSession, setDSession] = useState(null);
 
     useEffect(() => {
-        if (user) {
-            // console.log(user);
-            setDUser(user);
-            setLoading(false);
-            setTimeout(() => {
-            }, 1000);
-        }
+        if (user) setDUser(user)
     }, [user]);
 
-    // TODO: Craft a better view. Test with both a regular and a discord user
-    // Also add the date/time conversions using the util function -- ALSO extract and add time
-    // MODIFY dUser and plot after. Works with state.
+    useEffect(() => {
+        if (session) setDSession(session)
+    }, [session]);
+
+    useEffect(() => {
+        if (dUser && dSession) {
+            setLoading(false);
+        }
+    }, [dUser, dSession]);
 
     return (<>{loading
         ? (<PageRingLoader />)
@@ -32,7 +33,16 @@ const Profile = () => {
             {dUser && Object.entries(dUser)
                 .filter(([k, v], i) => k !== '_id' && k !== '__v' && k !== 'profilePic' && k !== 'username'
                     && k !== 'discordId' && k !== 'avatarId' && k !== 'provider' && k !== 'fetchedAt')
-                .map(([k, v], i) => (<ProfileDataBox k={k} v={v} i={i} key={i + 'p-props'} />))}
+                .map(([k, v], i) => (<ProfileDataBox k={k} v={v} key={i + 'p-props'} />))}
+
+
+            {dSession && (<>
+                <ProfileDataBox k={'session'} />
+                <ProfileDataBox k={'expires'} v={dSession.session.cookie.expires} />
+                <ProfileDataBox k={'timeLeft'} v={dSession.session.cookie.expires} />
+                <ProfileDataBox k={'maxAge'} v={dSession.session.cookie.originalMaxAge} />
+                <ProfileDataBox k={'session-msg'} />
+            </>)}
 
             <div className="flex flex-wrap justify-center gap-4 mt-8">
                 <Link to="/workouts" className="bg-purple-900 text-white py-3 px-6 rounded-lg hover:bg-purple-600 active:bg-purple-500">Workouts</Link>
@@ -45,48 +55,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-
-
-
-
-
-
-
-// <div className="space-y-4">
-//                     <div className="flex justify-between">
-//                         <span className="font-semibold text-gray-800">Full Name:</span>
-//                         <span className="text-gray-600">{user.fullName}</span>
-//                     </div>
-//                     <div className="flex justify-between">
-//                         <span className="font-semibold text-gray-800">Username:</span>
-//                         <span className="text-gray-600">{user.username}</span>
-//                     </div>
-//                     <div className="flex justify-between">
-//                         <span className="font-semibold text-gray-800">Email:</span>
-//                         <span className="text-gray-600">{user.email}</span>
-//                     </div>
-//                     <div className="flex justify-between">
-//                         <span className="font-semibold text-gray-800">Created At:</span>
-//                         <span className="text-gray-600">{user.createdAt}</span>
-//                     </div>
-//                     <div className="flex justify-between">
-//                         <span className="font-semibold text-gray-800">Updated At:</span>
-//                         <span className="text-gray-600">{user.updatedAt}</span>
-//                     </div>
-//                 </div>
-//                 <div className="flex flex-wrap justify-center gap-4 mt-8">
-//                     <Link to="/workouts">
-//                         <button className="bg-purple-900 text-white py-2 px-4 rounded-lg hover:bg-purple-600 active:bg-purple-500">
-//                             Workouts
-//                         </button>
-//                     </Link>
-//                     <Link to="/">
-//                         <button className="bg-purple-900 text-white py-2 px-4 rounded-lg hover:bg-purple-600 active:bg-purple-500">
-//                             Home
-//                         </button>
-//                     </Link>
-//                 </div>
-
-
-
