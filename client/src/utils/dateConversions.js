@@ -47,3 +47,22 @@ export const getZone = (dateString) => {
         str: `${timezoneAbbreviation}/${gmtOffset}`,
     };
 }
+
+
+export const getRemainingTime = (expiration) => {
+    const now = new Date();
+    const expirationDate = new Date(expiration);
+    const difference = expirationDate - now;
+
+    if (difference <= 0) {
+        return "Session expired";
+    }
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+    return `${days} days, ${hours} hours, ${minutes} minutes`;
+}
+// const expirationDate = new Date('2024-09-15T15:00:00');
+// console.log(getRemainingTime(expirationDate));
