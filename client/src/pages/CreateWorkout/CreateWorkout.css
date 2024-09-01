@@ -1,0 +1,11 @@
+@media screen and (max-width: 500px) {
+    #create-workout-ctr {
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #create-workout-ctr > div {
+        padding: 2rem 0.1rem;
+    }
+}
