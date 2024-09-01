@@ -7,11 +7,18 @@ const discordRedirect = (req, res, next) => {
         req.authMethod = undefined;
         req.user = null;
 
-        return res.status(401).json({
-            msg: "Discord authorization denied!",
-            user: null,
-            errors: { ...queryParams },
+        let redirectURL = 'http://localhost:5173/?referrer=discord-auth-denied';
+        Object.entries(queryParams).forEach(([k, v], i) => {
+            redirectURL += `&${k}=${v}`;
         });
+
+        return res.redirect(redirectURL);
+
+        // return res.status(401).json({
+        //     msg: "Discord authorization denied!",
+        //     user: null,
+        //     errors: { ...queryParams },
+        // });
     }
 
     req.authMethod = 'discord';
