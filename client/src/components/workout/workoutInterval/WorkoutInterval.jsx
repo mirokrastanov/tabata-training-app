@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { decrementBy1, incrementBy1 } from '../../../utils/math';
+import { FaDumbbell, FaStopwatch } from 'react-icons/fa6';
 
-function WorkoutInterval() {
+function WorkoutInterval({ type = 'Work' }) {
     const [counter, setCounter] = useState(0);
     const [exercise, setExercise] = useState('');
 
     const handleChange = (e) => {
         e.preventDefault();
-        console.log(e.target.type);
         if (e.target.type == 'number') {
             const newCounter = Number(e.target.value);
             if (newCounter <= 120 && newCounter >= 0) setCounter(newCounter);
@@ -21,14 +21,9 @@ function WorkoutInterval() {
 
     const handleClick = (e) => {
         e.preventDefault();
-        const action = e.target.textContent;
-        if (action == '+') setCounter(incrementBy1(counter));
-        else setCounter(decrementBy1(counter));
+        if (e.target.dataset.id == '+') setCounter(incrementBy1(counter));
+        if (e.target.dataset.id == '-') setCounter(decrementBy1(counter));
     };
-
-    useEffect(() => {
-        console.log(counter);
-    }, [counter]);
 
     const sampleWorkout = {
         creatorId: 'creatorId',
@@ -42,24 +37,38 @@ function WorkoutInterval() {
 
     // TODO: ADD i from mapping inside parent
     return (
-        <section className="crw-i-1--ctr">
-            {/* TYPE */}
-            <label htmlFor="crw-i-1--label" className="text-black text-xl bg-red-300 w-full block py-2">Prepare</label>
-            {/* NAME */}
-            <input name="crw-i-1--exercise" id="crw-i-1--exercise" type="text" value={exercise} onChange={handleChange} autoComplete="off" placeholder='Exercise name' className="w-full bg-gray-100 text-gray-700 p-2 text-center text-xl max-custom-mq-300:text-lg" />
-            {/* DURATION */}
-            <div className="crw-counter-input w-full bg-green-200 flex flex-nowrap justify-between max-custom-mq-500:justify-around">
-                <button onClick={handleClick}
-                    className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900">-
-                    <div className="absolute w-[6px] h-4/6 bg-white rounded"></div>
-                </button>
-                <input name="crw-i-1--counter" id="crw-i-1" type="number" value={counter} onChange={handleChange} min={0} max={120} className="bg-purple-900 text-white text-xl text-center w-12" />
-                <button onClick={handleClick}
-                    className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900">+
-                    <div className="absolute w-[6px] h-4/6 bg-white rounded"></div>
-                    <div className="absolute w-[6px] h-4/6 bg-white rounded rotate-90"></div>
-                </button>
+        <section className="crw-i-1--ctr flex flex-nowrap justify-between bg-yellow-100">
+            <div className="w-[20%] bg-pink-300 text-purple-900 text-5xl flex flex-col justify-center items-center gap-4 max-custom-mq-500:hidden">
+                <FaDumbbell className="rotate-45" />
+                <FaStopwatch />
             </div>
+
+            <div className="border-b-2 border-purple-900 pb-2 w-[80%] max-custom-mq-500:w-full">
+                
+                {/* TYPE */}
+                <label htmlFor="crw--exercise" className="text-black text-xl bg-red-300 w-full block py-2 max-custom-mq-300:text-lg">Work</label>
+                
+                {/* NAME */}
+                <input
+                    name="crw--exercise" id="crw--exercise" type="text" autoComplete="off" placeholder='Exercise name' value={exercise} onChange={handleChange}
+                    className="w-full bg-gray-100 text-gray-700 p-2 text-center text-xl max-custom-mq-300:text-lg"
+                />
+
+                {/* DURATION */}
+                <div className="w-full bg-green-200 flex flex-nowrap justify-between max-custom-mq-500:justify-around">
+                    <button onClick={handleClick} data-id="-"
+                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10">-
+                        <div data-id="-" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
+                    </button>
+                    <input name="crw--counter" id="crw-i-1" type="number" value={counter} onChange={handleChange} min={0} max={120} className="bg-purple-900 text-white text-2xl text-center w-12" />
+                    <button onClick={handleClick} data-id="+"
+                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10">+
+                        <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded max-custom-mq-300:h-1/2"></div>
+                        <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
+                    </button>
+                </div>
+            </div>
+
         </section>
     )
 }
