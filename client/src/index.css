@@ -68,6 +68,13 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* HIDE INPUT(type=number) ARROWS */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
