@@ -11,16 +11,11 @@ import RHFInput from '../../components/formInputs/RHFInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useNavigate } from 'react-router-dom';
+import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 
 function CreateWorkout() {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = useForm({
-        resolver: zodResolver(signUpSchema),
-    });
+    const { register, handleSubmit, formState: { errors }, reset }
+        = useForm({ resolver: zodResolver(signUpSchema) });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { user } = useAuth();
@@ -56,22 +51,28 @@ function CreateWorkout() {
 
     return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-gray-100 rounded-b-xl">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Title</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Workout Title</h2>
 
-            <form>
-                {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-                <RHFInput name={'fullName'} register={register} errors={errors} />
-                <RHFInput name={'username'} register={register} errors={errors} />
-                <RHFInput name={'email'} register={register} errors={errors} />
-                <RHFInput name={'password'} register={register} errors={errors} />
-                <RHFInput name={'confirmPassword'} register={register} errors={errors} />
+            <article>
+                <WorkoutInterval />
+            </article>
 
-                <VBtnSeparator check={isSubmitting} rIcon={'discord'} />
-            </form>
-            <FormChange goTo={'signIn'} />
 
         </div>
     </div>)
 }
 
 export default CreateWorkout;
+
+
+
+{/* <form onSubmit={handleSubmit(onSubmit)}>
+    <RHFInput name={'fullName'} register={register} errors={errors} />
+    <RHFInput name={'username'} register={register} errors={errors} />
+    <RHFInput name={'email'} register={register} errors={errors} />
+    <RHFInput name={'password'} register={register} errors={errors} />
+    <RHFInput name={'confirmPassword'} register={register} errors={errors} />
+
+    <VBtnSeparator check={isSubmitting} rIcon={'discord'} />
+</form>
+<FormChange goTo={'signIn'} /> */}
