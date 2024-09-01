@@ -48,7 +48,7 @@ const TitleDropdownMenu = () => {
             </div>
 
             {isOpen && (
-                <div className="tb_link absolute top-full right-0 w-40 bg-white text-black rounded-lg shadow-lg overflow-hidden z-10" ref={dropdownRef}>
+                <div className="tb_link absolute top-full right-0 w-40 bg-white text-black rounded-lg shadow-lg overflow-hidden z-10 mt-[1px]" ref={dropdownRef}>
                     <ul className="flex flex-col text-center">
                         <TitleDropdownLink to="/settings" text="Settings" icon={<FaGear />} />
                         {user
