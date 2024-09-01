@@ -1,0 +1,22 @@
+#app__wrapper #workouts__wrapper .workout__card:last-child {
+    margin-bottom: 2px;
+}
+
+
+/* MOBILE */
+@media screen and (max-width: 768px) {
+    
+}
+
+@media screen and (max-width: 600px) {
+    #app__wrapper #workouts__wrapper {
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #app__wrapper #workouts__wrapper {
+        border-radius: 0;
+    }
+}
