@@ -7,6 +7,7 @@ import * as api from '../api/api.js';
  * @property {null | Object} user
  * @property {null | Object} session
  * @property {function} loginUser
+ * @property {function} discordLogin
  * @property {function} logoutUser
  * @property {function} registerUser
  * @property {function} checkUserStatus
@@ -130,10 +131,14 @@ export function AuthProvider({ children }) {
         } catch (error) {
             console.log('User and Session data: \n ', error);
             localStorage.removeItem('tabata-user');
-            localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(null);
-            if (error?.user && error?.session && error?.sessionID) setSession(error);
-            else setSession(null);
+            if (error?.session && error?.sessionID) {
+                setSession(error);
+                localStorage.setItem('tabata-session', JSON.stringify(error));
+            } else {
+                setSession(null);
+                localStorage.removeItem('tabata-session');
+            }
             setLoading(false);
             return { msg: error.message, err: error };
         }
