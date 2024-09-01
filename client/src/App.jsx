@@ -7,7 +7,7 @@ import GuestRoutes from './routeGuards/GuestRoutes';
 import {
     CreateWorkout, EditWorkout, Home, NotFound, Profile,
     Settings, SignIn, SignUp, ViewWorkout, Workouts,
-} from './pages/index.js';
+} from './pages';
 
 function App() {
 
@@ -24,14 +24,14 @@ function App() {
                     <Route path="index" element={<Navigate to="/" />} />
                     <Route path="settings" element={<Settings />} />
 
-                    {/* <Route element={<UserRoutes />}> */}
-                    <Route path="workouts" element={<Workouts />} />
-                    <Route path="workouts/create" element={<CreateWorkout />} />
-                    <Route path="workouts/edit/:id" element={<EditWorkout />} />
-                    <Route path="workouts/details/:id" element={<ViewWorkout />} />
+                    <Route element={<UserRoutes />}>
+                        <Route path="workouts" element={<Workouts />} />
+                        <Route path="workouts/create" element={<CreateWorkout />} />
+                        <Route path="workouts/edit/:id" element={<EditWorkout />} />
+                        <Route path="workouts/details/:id" element={<ViewWorkout />} />
 
-                    <Route path="user/profile" element={<Profile />} />
-                    {/* </Route> */}
+                        <Route path="user/profile" element={<Profile />} />
+                    </Route>
 
                     <Route element={<GuestRoutes />}>
                         <Route path="user/signup" element={<SignUp />} />
