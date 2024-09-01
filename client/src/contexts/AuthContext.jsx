@@ -5,6 +5,7 @@ import * as api from '../api/api.js';
 /**
  * @typedef AuthContextData
  * @property {null | Object} user
+ * @property {null | Object} session
  * @property {function} loginUser
  * @property {function} logoutUser
  * @property {function} registerUser
@@ -24,6 +25,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [session, setSession] = useState(null);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -48,6 +50,7 @@ export function AuthProvider({ children }) {
 
             requestData.ok = true;
             requestData.msg = `User ${username} signed in successfully!`;
+            setSession(requestData);
             return requestData;
         } catch (error) {
             return error;
@@ -77,6 +80,7 @@ export function AuthProvider({ children }) {
 
             requestData.ok = true;
             requestData.msg = `User ${username} created successfully!`;
+            setSession(requestData);
             return requestData;
         } catch (error) {
             return error;
@@ -91,8 +95,9 @@ export function AuthProvider({ children }) {
 
             console.log('Signed out. Response: \n ', requestData);
             localStorage.removeItem('tabata-user');
-            localStorage.removeItem('tabata-session');
+            localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(null);
+            setSession(requestData);
 
             return requestData;
         } catch (error) {
@@ -112,19 +117,23 @@ export function AuthProvider({ children }) {
                 localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 setUser(requestData.user);
+                setSession(requestData);
                 setLoading(false);
             } else {
                 localStorage.removeItem('tabata-user');
-                localStorage.removeItem('tabata-session');
+                localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 setUser(null);
+                setSession(requestData);
                 setLoading(false);
             }
             return requestData;
         } catch (error) {
             console.log('User and Session data: \n ', error);
             localStorage.removeItem('tabata-user');
-            localStorage.removeItem('tabata-session');
+            localStorage.setItem('tabata-session', JSON.stringify(requestData));
             setUser(null);
+            if (error?.user && error?.session && error?.sessionID) setSession(error);
+            else setSession(null);
             setLoading(false);
             return { msg: error.message, err: error };
         }
@@ -132,6 +141,7 @@ export function AuthProvider({ children }) {
 
     const contextData = {
         user,
+        session,
         loginUser,
         discordLogin,
         logoutUser,
