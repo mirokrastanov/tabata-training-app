@@ -27,15 +27,17 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [session, setSession] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // MUST START AS TRUE! It ONLY clears... 
+    // ...after 1st fetch to ensure accurate user data. Otherwise it registers initial (null) value BEFORE 1st fetch...
+    // ...causing route guards to work unexpectedly. Could lead to other potential issues. 
 
     useEffect(() => {
         checkUserStatus();
     }, []);
 
     // useEffect(() => {
-    //     console.log(loading);
-    // }, [loading]);
+    //     console.log(user);
+    // }, [user]);
 
     const loginUser = async (userInfo) => {
         const { username, password } = userInfo;
