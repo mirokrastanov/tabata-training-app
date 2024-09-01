@@ -4,7 +4,7 @@ function ProfileImg({ dUser }) {
     const imgClasses = 'h-[70px] w-[70px] rounded-full max-custom-mq-500:w-[90px] max-custom-mq-500:h-[90px] max-custom-mq-300:w-full max-custom-mq-300:h-auto max-custom-mq-300:p-0';
 
     return (<>
-        <div className="bg-white shadow-md rounded-lg min-w-[50%] max-w-4xl p-2 py-4 flex flex-wrap justify-center items-center gap-5 max-md:w-full max-custom-mq-300:" data-id={dUser?._id}>
+        <div className="bg-white shadow-md rounded-lg min-w-[50%] max-w-4xl p-2 py-6 flex flex-wrap justify-center items-center gap-5 max-md:w-full max-custom-mq-300:" data-id={dUser?._id}>
             <div className="w-fit h-full rounded-full shadow-xl">
 
                 {dUser.profilePic && <img src={dUser.profilePic} className={`${imgClasses} p-2 border`} />}
