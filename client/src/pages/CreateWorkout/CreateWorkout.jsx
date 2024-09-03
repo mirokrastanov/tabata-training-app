@@ -18,6 +18,37 @@ function CreateWorkout() {
         { nextAvailableID: 0, intervals: {} }
     );
 
+    const sampleWorkout = {
+        creatorId: 'creatorId',
+        preparation: 30,
+        break: 15,
+        cooldown: 60,
+        exercises: [
+            { exercise: 'Jumping Jacks', duration: 45, orderIndex: 1 },
+        ],
+    };
+    // PREP and COOLDOWN cannot be deleted - make it TRUE!!!
+    // Add a break after each interval
+    // Make sure the breaks cannot be deleted either
+    
+    // assign them the same ORDER ID as their previous interval so 
+    // ORDER IDs are stored in the DB object - THUS DO NOT UPDATE ANY single exercise object
+    // and save it on the DB, BEFORE the whole workout has been saved
+    // applicable for both create and edit workout
+
+    // figure out whether view workout should be different and make sure it's locked for editing
+    // and just displays the workout WITH EDIT and PLAY buttons at the bottom and top of the view
+    
+    
+    // that when it's deleted the corresponding break is deleted too
+    // maybe also attach them as dataset order ids 
+
+    // also because of the sampleWorkout structure
+    // add after each interval a break code that does not change (maybe with a param for WorkoutInterval)
+    // do a separate one with no params for PREP and COOLDOWN with their icons, and without na input
+    // figure out a way to keep the cooldown LAST without constantly updating order ids (unless I figure out a way
+    // to not keep them in a state)
+
 
 
     const { register, handleSubmit, formState: { errors }, reset }
