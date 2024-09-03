@@ -14,12 +14,35 @@ import { useNavigate } from 'react-router-dom';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 
 function CreateWorkout() {
+    const [workoutIntervals, setWorkoutIntervals] = useState(
+        { nextAvailableID: 0, intervals: {} }
+    );
+
+
+
     const { register, handleSubmit, formState: { errors }, reset }
         = useForm({ resolver: zodResolver(signUpSchema) });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { user } = useAuth();
     const navigate = useNavigate();
+
+
+    const sampleWorkoutInterval = {
+        // id, 
+    };
+    const createWorkoutInterval = (e) => {
+        e.preventDefault();
+        setWorkoutIntervals(prev => ({
+            ...prev,
+            intervals: { ...prev.intervals, [workoutIntervals.nextAvailableID]: ['item 1', 'item 2', { d: workoutIntervals.nextAvailableID }] }
+        }))
+        setWorkoutIntervals(prev => ({ ...prev, nextAvailableID: Number(prev.nextAvailableID) + 1 }));
+    };
+
+    useEffect(() => {
+        console.log(workoutIntervals);
+    }, [workoutIntervals]);
 
     const onSubmit = async (validatedData) => {
         setIsSubmitting(true);
@@ -49,9 +72,20 @@ function CreateWorkout() {
         navigate('/');
     };
 
-    return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex items-center justify-center bg-gray-100 rounded-b-xl">
-        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
+        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Workout Title</h2>
+
+            <div className="text-black" >
+                {Object.values(workoutIntervals.intervals).map((x, i) => {
+                    return (
+                        <div key={i}>
+                            {JSON.stringify(x)}
+                        </div>
+                    )
+                })}
+            </div>
+            <button onClick={createWorkoutInterval}>TEST</button>
 
             <article className="text-gray-800 bg-purple-100 p-1 mb-4 rounded shadow-md border-gray-800 border">
                 <ul className="list-disc ml-6 text-left">

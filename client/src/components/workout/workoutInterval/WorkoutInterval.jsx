@@ -4,6 +4,9 @@ import { FaDumbbell, FaStopwatch } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 
 function WorkoutInterval({ type = 'Work' }) {
+    // TODO: feed from parent:
+    // counter, setCounter, exercise, setExercise
+    
     const [counter, setCounter] = useState(0);
     const [exercise, setExercise] = useState('');
 
