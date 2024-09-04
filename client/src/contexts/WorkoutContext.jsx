@@ -20,7 +20,9 @@ export function useWorkout() {
 }
 
 export function WorkoutProvider({ children }) {
+    const location = useLocation();
     // STATES
+    const [currentPage, setCurrentPage] = useState('');
     const [nextAvailableID, setNextAvailableID] = useState(0);
     const [intervals, setIntervals] = useState([]);
     // ORDER IDs as well - to be updated:
@@ -39,15 +41,27 @@ export function WorkoutProvider({ children }) {
     };
 
 
-    // WHEN CHANGING location track and reset state, depending on create,edit, etc...
-    // when changing location, maybe always clear state, or do a check and clear if not already cleared to save
-    // resources... SO FIGURE OUT a good/checkable initial state for all params
+    const checkAndUpdatePage = () => {
+        if (location.pathname === '/workouts/create') setCurrentPage('create');
+        else if (location.pathname.includes('/workouts/edit')) setCurrentPage('edit');
+        else if (location.pathname.includes('/workouts/details')) setCurrentPage('view');
+    }
 
+    // TODO: Create an order ID assignment for workout views (create, edit, view/details)
 
 
     // useEffect(() => {
 
     // }, []);
+
+    useEffect(() => {
+        checkAndUpdatePage();
+    }, [location]);
+
+    useEffect(() => {
+        setNextAvailableID(0);
+        setIntervals([]);
+    }, [currentPage]);
 
 
 
