@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useNavigate } from 'react-router-dom';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
+import Preparation from '../../components/workout/workoutInterval/Preparation';
 
 function CreateWorkout() {
     const [workoutIntervals, setWorkoutIntervals] = useState(
@@ -30,7 +31,7 @@ function CreateWorkout() {
     // PREP and COOLDOWN cannot be deleted - make it TRUE!!!
     // Add a break after each interval
     // Make sure the breaks cannot be deleted either
-    
+
     // assign them the same ORDER ID as their previous interval so 
     // ORDER IDs are stored in the DB object - THUS DO NOT UPDATE ANY single exercise object
     // and save it on the DB, BEFORE the whole workout has been saved
@@ -38,8 +39,8 @@ function CreateWorkout() {
 
     // figure out whether view workout should be different and make sure it's locked for editing
     // and just displays the workout WITH EDIT and PLAY buttons at the bottom and top of the view
-    
-    
+
+
     // that when it's deleted the corresponding break is deleted too
     // maybe also attach them as dataset order ids 
 
@@ -131,6 +132,7 @@ function CreateWorkout() {
             <hr className="mx-3 my-1 mb-3" />
 
             <article>
+                <Preparation />
                 <WorkoutInterval />
             </article>
 

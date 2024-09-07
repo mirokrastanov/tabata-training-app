@@ -50,6 +50,13 @@ export function WorkoutProvider({ children }) {
     // TODO: Create an order ID assignment for workout views (create, edit, view/details)
 
 
+
+
+    // ADD STATISTICS LOGGER FUNC / for history and recent history / total intervals, etc... figure it out
+    // need to create back end models as well - figure it out
+    
+
+
     // useEffect(() => {
 
     // }, []);
