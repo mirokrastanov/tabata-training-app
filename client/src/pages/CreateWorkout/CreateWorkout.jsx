@@ -13,6 +13,7 @@ import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useNavigate } from 'react-router-dom';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import Preparation from '../../components/workout/workoutInterval/Preparation';
+import Break from '../../components/workout/workoutInterval/Break';
 
 function CreateWorkout() {
     const [workoutIntervals, setWorkoutIntervals] = useState(
@@ -134,6 +135,7 @@ function CreateWorkout() {
             <article>
                 <Preparation />
                 <WorkoutInterval />
+                <Break />
             </article>
 
 
