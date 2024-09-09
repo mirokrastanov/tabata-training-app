@@ -10,11 +10,9 @@ import { useForm } from 'react-hook-form';
 import RHFInput from '../../components/formInputs/RHFInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../../lib/ValidationSchemas';
-import { useNavigate } from 'react-router-dom';
-import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
-import Preparation from '../../components/workout/workoutInterval/Preparation';
-import Break from '../../components/workout/workoutInterval/Break';
+import { useLocation, useNavigate } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp';
+import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 
 function CreateWorkout() {
     const [workoutIntervals, setWorkoutIntervals] = useState(
@@ -106,6 +104,7 @@ function CreateWorkout() {
         navigate('/');
     };
 
+
     return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Workout Title</h2>
@@ -125,9 +124,13 @@ function CreateWorkout() {
 
             <article>
                 {/* MAP the intervals and display them with their corresponding interval type */}
-                <Preparation />
-                <WorkoutInterval />
-                <Break />
+
+                {/* DURING MAPPING - auto-generate a rest period after each work period  */}
+
+                <WorkoutInterval type='preparation' />
+                <WorkoutInterval type='work' />
+                <WorkoutInterval type='rest' />
+                <WorkoutInterval type='cooldown' />
             </article>
 
 

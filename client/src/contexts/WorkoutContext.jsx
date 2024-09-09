@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { usePage } from "./PageContext";
 
 // /**
 //  * @typedef WorkoutContextData
@@ -20,15 +20,23 @@ export function useWorkout() {
 }
 
 export function WorkoutProvider({ children }) {
-    const location = useLocation();
+    // =====================================
+    // ALWAYS CLEAR STATE ON PAGE CHANGE !!!
+    // =====================================
+    const { location } = usePage();
     // STATES
-    const [currentPage, setCurrentPage] = useState('');
     const [nextAvailableID, setNextAvailableID] = useState(0);
     const [intervals, setIntervals] = useState([]);
     // ORDER IDs as well - to be updated:
     // - when an interval is deleted - re-assign all order IDs again
     // - when an interval is reordered up - switch orderID of the upper el with the current
     // FIGURE OUT either to keep an order ID in a state here or there is a better way to do this
+
+
+    // TODO: FIGURE OUT how to get edit or view page's current IDs, intervals and populating them to the context state
+    // Pull the information from the database using the DB ID for the workout and use that to populate the
+    // intervals / create a state for them here
+
 
     // EACH INTERVAL's ---> to be passed to and updated HERE!
     const [counter, setCounter] = useState('0');
@@ -59,7 +67,7 @@ export function WorkoutProvider({ children }) {
 
     // ADD STATISTICS LOGGER FUNC / for history and recent history / total intervals, etc... figure it out
     // need to create back end models as well - figure it out
-    
+
 
 
     // useEffect(() => {
@@ -67,14 +75,9 @@ export function WorkoutProvider({ children }) {
     // }, []);
 
     useEffect(() => {
-        checkAndUpdatePage();
-    }, [location]);
-
-    useEffect(() => {
         setNextAvailableID(0);
         setIntervals([]);
-    }, [currentPage]);
-
+    }, [location]);
 
 
     const ContextData = {
