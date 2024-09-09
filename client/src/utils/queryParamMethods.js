@@ -8,3 +8,9 @@ export function getQueryParams(location) {
 
     return params;
 }
+
+export function getWorkoutIdFromQuery(location) {
+    const queryParams = getQueryParams(location);
+    return queryParams.id;
+}
+
