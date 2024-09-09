@@ -30,6 +30,11 @@ export function WorkoutProvider({ children }) {
     // - when an interval is reordered up - switch orderID of the upper el with the current
     // FIGURE OUT either to keep an order ID in a state here or there is a better way to do this
 
+    // EACH INTERVAL's ---> to be passed to and updated HERE!
+    const [counter, setCounter] = useState('0');
+    const [intervalName, setIntervalName] = useState('');
+    const [intervalID, setIntervalID] = useState('5');
+
     const sampleWorkout = {
         creatorId: 'creatorId',
         preparation: 30,
