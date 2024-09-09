@@ -6,6 +6,12 @@ const workoutSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    workoutName: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
     preparation: { type: Number, required: true },
     break: { type: Number, required: true },
     cooldown: { type: Number, required: true },
