@@ -21,6 +21,7 @@ function CreateWorkout() {
 
     const sampleWorkout = {
         creatorId: 'creatorId',
+        workoutName: 'HIIT 2.0',
         preparation: 30,
         break: 15,
         cooldown: 60,
