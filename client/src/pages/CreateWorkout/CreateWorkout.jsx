@@ -11,7 +11,7 @@ import RHFInput from '../../components/formInputs/RHFInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useLocation, useNavigate } from 'react-router-dom';
-import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp';
+import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
 import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalSkeleton';
@@ -37,9 +37,9 @@ function CreateWorkout() {
 
             {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
-                <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center"
+                <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center max-custom-mq-500:text-2xl max-custom-mq-300:text-lg max-custom-mq-300:pt-4"
                     value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} placeholder="Add a title" />
-                <FaPencil className="text-purple-900 absolute right-0 w-12 h-full p-3 pointer-events-none" />
+                <FaPencil className="text-purple-900 absolute right-0 w-12 h-full p-3 pointer-events-none max-custom-mq-300:pb-8 max-custom-mq-300:pl-5 max-custom-mq-300:pt-0 max-custom-mq-300:pr-1" />
             </div>
 
             {/* HELP SECTION */}
