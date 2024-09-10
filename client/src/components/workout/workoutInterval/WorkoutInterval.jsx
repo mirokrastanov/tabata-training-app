@@ -5,9 +5,9 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)) }) {
+function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), slideIn = false }) {
     const key = `crw--${i}--`;
-
+    const slideAnim = slideIn ? 'slide-in-right' : '';
     // take duration and keep order ID 0 (1st) always
     // auto generate it when loading create or edit views
 
@@ -67,7 +67,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)) }
     };
 
     return (
-        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2`}>
+        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim}`}>
             <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
                 {type == 'preparation' && <FaPersonWalking />}
                 {type == 'work' && <FaDumbbell className="rotate-45" />}
@@ -96,7 +96,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)) }
                 {/* DURATION */}
                 <div className="w-full flex flex-nowrap justify-between max-custom-mq-500:justify-around px-1">
                     <button onClick={handleClick} data-id="-"
-                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none active:bg-purple-600 transition-all">-
+                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none transition-all hover:bg-purple-600 active:bg-purple-400 border-none">-
                         <div data-id="-" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
                     </button>
 
@@ -108,7 +108,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)) }
                     />
 
                     <button onClick={handleClick} data-id="+"
-                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none active:bg-purple-600 transition-all">+
+                        className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none transition-all hover:bg-purple-600 active:bg-purple-400 border-none">+
                         <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded max-custom-mq-300:h-1/2"></div>
                         <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
                     </button>

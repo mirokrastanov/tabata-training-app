@@ -13,6 +13,7 @@ import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
+import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
 
 function CreateWorkout() {
     const [workoutIntervals, setWorkoutIntervals] = useState(
@@ -128,10 +129,10 @@ function CreateWorkout() {
 
                 {/* DURING MAPPING - auto-generate a rest period after each work period  */}
 
-                <WorkoutInterval type='preparation' />
+                <ServiceInterval type='preparation' />
                 <WorkoutInterval type='work' />
-                <WorkoutInterval type='rest' />
-                <WorkoutInterval type='cooldown' />
+                <ServiceInterval type='rest' />
+                <ServiceInterval type='cooldown' />
             </article>
 
 
