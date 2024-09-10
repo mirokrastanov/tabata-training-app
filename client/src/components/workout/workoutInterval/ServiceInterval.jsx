@@ -4,52 +4,50 @@ import { FaCouch, FaDumbbell, FaPersonWalking, FaStopwatch } from 'react-icons/f
 import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
-function ServiceInterval({ type = 'rest', i = (Math.ceil(Math.random() * 100)), slideIn = false }) {
+function ServiceInterval({ type = 'rest', i, slideIn = false, v, setV }) {
     const key = `crw--${i}--`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
-
-    const [counter, setCounter] = useState('0');
+    if (!i) i = (Math.ceil(Math.random() * 100));
 
     const handleChange = (e) => {
         e.preventDefault();
         const value = e.target.value;
 
-        // DURATION INPUT (input=string, check=number, save=string)
         const isNumOrEmpty = value === '' || /^[0-9]*$/.test(value);
         if (!isNumOrEmpty) return;
-        if (value === '') return setCounter('');
+        if (value === '') return setV('');
 
         const newCounter = Number(value);
-        if (newCounter <= 120 && newCounter >= 0) setCounter(newCounter);
+        if (newCounter <= 120 && newCounter >= 0) setV(newCounter);
         else if (newCounter < 0) {
             toast.error('Min interval duration reached.');
-            setCounter('0');
+            setV('0');
         } else {
             toast.error('Max interval duration reached.');
-            setCounter('120');
+            setV('120');
         }
     };
 
     const handleBlur = (e) => {
         e.preventDefault();
 
-        if (counter === '') {
-            setCounter('0');
+        if (v === '') {
+            setV('0');
         } else {
-            const numericValue = Math.min(Math.max(Number(counter), 0), 120);
-            setCounter(String(numericValue));
+            const numericValue = Math.min(Math.max(Number(v), 0), 120);
+            setV(String(numericValue));
         }
     };
 
     const handleClick = (e) => {
         e.preventDefault();
         if (e.target.dataset.id == '+') {
-            if (Number(counter) == 120) toast.error('Max interval duration reached.');
-            setCounter(incrementBy1(counter));
+            if (Number(v) == 120) toast.error('Max interval duration reached.');
+            setV(incrementBy1(v));
         }
         if (e.target.dataset.id == '-') {
-            if (Number(counter) == 0) toast.error('Min interval duration reached.');
-            setCounter(decrementBy1(counter));
+            if (Number(v) == 0) toast.error('Min interval duration reached.');
+            setV(decrementBy1(v));
         }
     };
 
@@ -81,8 +79,8 @@ function ServiceInterval({ type = 'rest', i = (Math.ceil(Math.random() * 100)), 
 
                     {/* NUMBER INPUT */}
                     <input
-                        name={`${key}counter`} id={`${key}duration`} type="text"
-                        value={counter} onChange={handleChange} onBlur={handleBlur}
+                        name={`${key}v`} id={`${key}duration`} type="text"
+                        value={v} onChange={handleChange} onBlur={handleBlur}
                         className="bg-white text-purple-900 font-bold text-2xl text-center w-12"
                     />
 
