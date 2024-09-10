@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
+import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalSkeleton';
 
 function CreateWorkout() {
     const [workoutIntervals, setWorkoutIntervals] = useState(
@@ -111,20 +112,9 @@ function CreateWorkout() {
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             <h2 className="text-2xl font-bold mb-6 text-gray-800">Current Workout Title</h2>
 
-            <div className="text-black" >
-                {Object.values(workoutIntervals.intervals).map((x, i) => {
-                    return (
-                        <div key={i}>
-                            {JSON.stringify(x)}
-                        </div>
-                    )
-                })}
-            </div>
-            <button onClick={createWorkoutInterval}>TEST</button>
-
             <WorkoutHelp />
 
-            <article>
+            <article id="workout-intervals">
                 {/* MAP the intervals and display them with their corresponding interval type */}
 
                 {/* DURING MAPPING - auto-generate a rest period after each work period  */}
@@ -133,6 +123,7 @@ function CreateWorkout() {
                 <WorkoutInterval type='work' />
                 <ServiceInterval type='rest' />
                 <ServiceInterval type='cooldown' />
+                <IntervalSkeleton />
             </article>
 
 
