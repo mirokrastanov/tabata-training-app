@@ -22,6 +22,7 @@ function CreateWorkout() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
     const { user } = useAuth();
+    const [showPencil, setShowPencil] = useState(true);
     const {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
@@ -38,8 +39,9 @@ function CreateWorkout() {
             {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
                 <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center max-custom-mq-500:text-2xl max-custom-mq-300:text-lg max-custom-mq-300:pt-4"
+                    onFocus={() => setShowPencil(false)} onBlur={() => setShowPencil(true)}
                     value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} placeholder="Add a title" />
-                <FaPencil className="text-purple-900 absolute right-0 w-12 h-full p-3 pointer-events-none max-custom-mq-300:pb-8 max-custom-mq-300:pl-5 max-custom-mq-300:pt-0 max-custom-mq-300:pr-1" />
+                <FaPencil className={`${showPencil ? '' : 'hidden'} text-purple-900 absolute right-0 w-12 h-full p-3 pointer-events-none max-custom-mq-300:pb-8 max-custom-mq-300:pl-5 max-custom-mq-300:pt-0 max-custom-mq-300:pr-1`} />
             </div>
 
             {/* HELP SECTION */}
