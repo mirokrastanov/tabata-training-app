@@ -34,26 +34,32 @@ function CreateWorkout() {
 
     return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
+
+            {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
                 <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center"
                     value={workoutName} onChange={(e) => setWorkoutName(e.target.value)} placeholder="Add a title" />
                 <FaPencil className="text-purple-900 absolute right-0 w-12 h-full p-3 pointer-events-none" />
             </div>
 
+            {/* HELP SECTION */}
             <WorkoutHelp />
 
+            {/* WORKOUT INTERVALS */}
             <article id="workout-intervals">
-                <ServiceInterval type='preparation' value={prep} />
+                {/* PREP INTERVAL */}
+                <ServiceInterval type='preparation' v={prep} setV={setPrep} />
 
 
-                {/* MAP the intervals and display them with their corresponding interval type */}
-
+                {/* MAP the intervals */}
                 {/* DURING MAPPING - auto-generate a rest period after each work period  */}
 
                 <WorkoutInterval type='work' />
                 <ServiceInterval type='rest' />
-                <ServiceInterval type='cooldown' />
-                <IntervalSkeleton />
+
+
+                {/* COOLDOWN INTERVAL */}
+                <ServiceInterval type='cooldown' v={cooldown} setV={setCooldown} />
             </article>
 
 
