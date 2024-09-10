@@ -16,7 +16,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
     // TODO: MOVE all state to a context
 
     const [counter, setCounter] = useState('0');
-    const [intervalName, setIntervalName] = useState('');
+    const [exercise, setExercise] = useState('');
     const [intervalID, setIntervalID] = useState('5');
 
     const handleChange = (e) => {
@@ -41,7 +41,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
         } else if (id == `${key}name`) {
             // NAME INPUT
             const newInterval = value;
-            setIntervalName(newInterval);
+            setExercise(newInterval);
         }
     };
 
@@ -101,7 +101,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
 
                 {/* NAME */}
                 <input
-                    name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Add description' value={intervalName} onChange={handleChange}
+                    name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Exercise name' value={exercise} onChange={handleChange}
                     className="w-full bg-white text-black font-bold p-2 pt-0 text-center text-2xl max-custom-mq-300:text-lg tracking-wide placeholder:font-normal placeholder:tracking-normal placeholder:text-xl"
                 />
 
