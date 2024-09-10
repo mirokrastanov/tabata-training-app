@@ -1,0 +1,16 @@
+.accordion-toggle {
+    transition: opacity 0.5s ease;
+}
+
+.accordion-toggle.open {
+    opacity: 0.5;
+}
+
+.accordion-content {
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.accordion-content.open {
+    max-height: 320px;
+}
