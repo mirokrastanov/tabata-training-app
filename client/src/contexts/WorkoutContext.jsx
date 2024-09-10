@@ -21,11 +21,17 @@ export function useWorkout() {
 }
 
 export function WorkoutProvider({ children }) {
-    const [nextAvailableID, setNextAvailableID] = useState(0);
-    const [intervals, setIntervals] = useState([]);
+    // FETCHED STATE
     const [workout, setWorkout] = useState(null);
+    // LOCAL STATE
+    const [nextAvailableID, setNextAvailableID] = useState(0);
     const [currentLoadedID, setCurrentLoadedID] = useState(null);
-
+    const [prep, setPrep] = useState('0');
+    const [intervals, setIntervals] = useState([]);
+    const [rest, setRest] = useState('0'); // BREAK STATE to be shared across all break service intervals
+    const [cooldown, setCooldown] = useState('0');
+    const [workoutName, setWorkoutName] = useState('');
+    // FROM OTHER CONTEXTS
     const { location } = usePage();
 
     useEffect(() => {
