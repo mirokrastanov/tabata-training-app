@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { decrementBy1, incrementBy1 } from '../../../utils/math';
 import { FaCouch, FaDumbbell, FaPersonWalking, FaStopwatch } from 'react-icons/fa6';
+import { ImBin } from "react-icons/im";
+import { RiDeleteBin5Line, RiDeleteBin2Line, RiDeleteBin6Line, RiDeleteBin2Fill } from "react-icons/ri";
 import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
@@ -66,6 +68,12 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
         }
     };
 
+    const handleDelete = (e) => {
+        e.preventDefault();
+        // TODO: delete work interval and it's corresponding break - to call a context function
+        // and just execute it
+    };
+
     return (
         <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim}`}>
             <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
@@ -80,7 +88,11 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
             <div className="border-b-2 border-purple-900 pb-2 w-[80%] max-custom-mq-500:w-full">
 
                 {/* TYPE */}
-                <label htmlFor={`${key}name`} className="text-black text-xl w-full block py-2 max-custom-mq-300:text-lg">
+                <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
+                    <div className="group text-red-600 absolute right-0 h-10 w-8 flex justify-center items-center cursor-pointer" onClick={handleDelete}>
+                        <RiDeleteBin2Line className="h-full w-8 p-1 block group-hover:hidden" />
+                        <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
+                    </div>
                     {type == 'preparation' && 'Prepare'}
                     {type == 'work' && 'Work'}
                     {type == 'rest' && 'Rest'}
@@ -90,7 +102,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
                 {/* NAME */}
                 <input
                     name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Add description' value={intervalName} onChange={handleChange}
-                    className="w-full bg-white text-gray-700 p-2 pt-0 text-center text-xl max-custom-mq-300:text-lg"
+                    className="w-full bg-white text-black font-bold p-2 pt-0 text-center text-2xl max-custom-mq-300:text-lg tracking-wide placeholder:font-normal placeholder:tracking-normal placeholder:text-xl"
                 />
 
                 {/* DURATION */}
