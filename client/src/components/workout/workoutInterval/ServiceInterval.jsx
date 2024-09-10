@@ -67,7 +67,7 @@ function ServiceInterval({ type = 'rest', i = (Math.ceil(Math.random() * 100)), 
 
                 {/* TYPE */}
                 <label htmlFor={`${key}name`} className="text-black text-xl w-full block py-2 max-custom-mq-300:text-lg">
-                    {type == 'preparation' && 'Prepare'}
+                    {type == 'preparation' && 'Warm-up'}
                     {type == 'rest' && 'Rest'}
                     {type == 'cooldown' && 'Cooldown'}
                 </label>

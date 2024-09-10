@@ -24,10 +24,10 @@ export function WorkoutProvider({ children }) {
     // FETCHED STATE
     const [workout, setWorkout] = useState(null);
     // LOCAL STATE
-    const [nextAvailableID, setNextAvailableID] = useState(0);
+    const [nextAvailableID, setNextAvailableID] = useState(1); // 0 reserved for prep
     const [currentLoadedID, setCurrentLoadedID] = useState(null);
-    const [prep, setPrep] = useState('0');
     const [intervals, setIntervals] = useState([]);
+    const [prep, setPrep] = useState('0');
     const [rest, setRest] = useState('0'); // BREAK STATE to be shared across all break service intervals
     const [cooldown, setCooldown] = useState('0');
     const [workoutName, setWorkoutName] = useState('');
@@ -90,35 +90,54 @@ export function WorkoutProvider({ children }) {
 
     async function deleteWorkout(workoutID) { }
 
-    function createInterval(description = '', duration = '0') {
-        // genID
-        const sampleCreatedInterval = {
-            type: 'work',
-            duration,
-            intervalName: description,
-            orderIndex: 0, // genID()
-        };
-
-        const sampleBreakInterval = {
-            type: 'break',
-            duration: 15, // figure this one out | one consolidated value - get and apply for all | state (can be updated)
-            intervalName: '',
-            orderIndex: 0, // `${genID()}--break`
+    function createInterval(type = 'preparation', description = '', duration = '0') {
+        let orderIndex;
+        switch (type) {
+            case ('preparation'): orderIndex = '0'; break;
+            case ('cooldown'): orderIndex = '100000'; break;
+            case ('work'): orderIndex = genID(); break;
         }
 
-        // push to intervals
-        setIntervals([...intervals, sampleCreatedInterval, sampleBreakInterval]);
+        let interval, restInterval;
+        if (type != 'work') {
+            interval = { type, duration, orderIndex };
+            setIntervals([...intervals, interval]);
+        } else {
+            interval = { type, duration, intervalName: description, orderIndex };
+            restInterval = { type: 'rest', duration: rest, orderIndex: `${orderIndex}.5` };
+            setIntervals([...intervals, interval, restInterval]);
+        }
     }
 
     function updateInterval(orderIndex, description = '', duration = '0') {
+        let properties = { duration };
+        if (description != '') properties.intervalName = description;
+
         setIntervals((prevIntervals) =>
             prevIntervals.map((interval) =>
                 interval.orderIndex === orderIndex
-                    ? { ...interval, intervalName: description, duration }
+                    ? { ...interval, ...properties }
                     : interval
             )
         );
-        // TO TEST and confirm if another post-update sort is necessary
+    }
+
+    function updateServiceInterval(type = 'preparation', duration = '0', workIntervalOrderIndex) {
+        let orderIndex;
+        if (workIntervalOrderIndex) orderIndex = workIntervalOrderIndex;
+
+        switch (type) {
+            case ('preparation'): orderIndex = '0'; break;
+            case ('cooldown'): orderIndex = '100000'; break;
+        }
+
+        setIntervals((prevIntervals) =>
+            prevIntervals.map((interval) =>
+                interval.orderIndex === orderIndex
+                    ? { ...interval, duration }
+                    : interval
+            )
+        );
     }
 
     // ORDER IDs:
