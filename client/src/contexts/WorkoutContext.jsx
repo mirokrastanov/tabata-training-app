@@ -8,14 +8,26 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
 //  * @property {null | Object} pageParams
 //  * @property {function} updatePageParams
 //  */
+/**
+ * @typedef WorkoutContextData
+ * @property {Array} intervals
+ * @property {String} prep
+ * @property {function} setPrep
+ * @property {String} rest
+ * @property {function} setRest
+ * @property {String} cooldown
+ * @property {function} setCooldown
+ * @property {String} workoutName
+ * @property {function} setWorkoutName
+ */
 
 
 
 const WorkoutContext = createContext();
 
-// /**
-//  * @returns {WorkoutContextData}
-//  */
+/**
+ * @returns {WorkoutContextData}
+ */
 export function useWorkout() {
     return useContext(WorkoutContext);
 }
@@ -30,7 +42,7 @@ export function WorkoutProvider({ children }) {
     const [prep, setPrep] = useState('0');
     const [rest, setRest] = useState('0'); // BREAK STATE to be shared across all break service intervals
     const [cooldown, setCooldown] = useState('0');
-    const [workoutName, setWorkoutName] = useState('');
+    const [workoutName, setWorkoutName] = useState('Workout Title');
     // FROM OTHER CONTEXTS
     const { location } = usePage();
 
@@ -68,7 +80,7 @@ export function WorkoutProvider({ children }) {
         const sampleInterval = {
             type: 'preparation',
             duration: 30,
-            intervalName: '',
+            exercise: '',
             orderIndex: 0,
         };
         // forEach (exercises) - push a work interval + a break right after (using the above format)
@@ -77,6 +89,30 @@ export function WorkoutProvider({ children }) {
 
         // set intervals
 
+    }
+
+    // MOVE to util
+    const workoutPresets = {
+        initial: [
+            { orderIndex: '0', duration: '30', type: 'preparation' },
+            { orderIndex: '1', duration: '45', type: 'work', exercise: 'Jumping Jacks' },
+            { orderIndex: '2', duration: '15', type: 'rest' },
+            { orderIndex: '100000', duration: '60', type: 'cooldown' },
+        ],
+        // to find and add 2-3 basic presets
+    };
+
+    // ONLY USE inside Create Workout Page
+    function loadWorkoutPreset(preset) {
+        // workoutPresets.initial
+        const prep = preset[0]
+
+        const lastIndex = preset[preset.length - 2].orderIndex;
+        setNextAvailableID(lastIndex + 1);
+        setIntervals(preset);
+        setPrep((preset.find(x => x.type == 'preparation')).duration);
+        setRest((preset.find(x => x.type == 'rest')).duration);
+        setCooldown((preset.find(x => x.type == 'cooldown')).duration);
     }
 
     async function createWorkout(workout) {
@@ -90,7 +126,7 @@ export function WorkoutProvider({ children }) {
 
     async function deleteWorkout(workoutID) { }
 
-    function createInterval(type = 'preparation', description = '', duration = '0') {
+    function createInterval(type = 'preparation', exercise = '', duration = '0') {
         let orderIndex;
         switch (type) {
             case ('preparation'): orderIndex = '0'; break;
@@ -103,21 +139,20 @@ export function WorkoutProvider({ children }) {
             interval = { type, duration, orderIndex };
             setIntervals([...intervals, interval]);
         } else {
-            interval = { type, duration, intervalName: description, orderIndex };
+            interval = { type, duration, exercise, orderIndex };
             restInterval = { type: 'rest', duration: rest, orderIndex: `${orderIndex}.5` };
             setIntervals([...intervals, interval, restInterval]);
         }
     }
 
-    function updateInterval(orderIndex, description = '', duration = '0') {
+    function updateInterval(orderIndex, exercise = '', duration = '0') {
         let properties = { duration };
-        if (description != '') properties.intervalName = description;
+        if (exercise != '') properties.exercise = exercise;
+        const isMatch = (interval) => interval.orderIndex === orderIndex;
 
         setIntervals((prevIntervals) =>
             prevIntervals.map((interval) =>
-                interval.orderIndex === orderIndex
-                    ? { ...interval, ...properties }
-                    : interval
+                isMatch(interval) ? { ...interval, ...properties } : interval
             )
         );
     }
@@ -172,6 +207,11 @@ export function WorkoutProvider({ children }) {
     // need to create back end models as well - figure it out
 
     const ContextData = {
+        intervals,
+        prep, setPrep,
+        rest, setRest,
+        cooldown, setCooldown,
+        workoutName, setWorkoutName,
 
     };
 
