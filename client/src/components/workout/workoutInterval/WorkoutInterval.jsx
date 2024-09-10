@@ -75,7 +75,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
     };
 
     return (
-        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim}`}>
+        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim} max-custom-mq-300:pl-0`}>
             <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
                 {type == 'preparation' && <FaPersonWalking />}
                 {type == 'work' && <FaDumbbell className="rotate-45" />}
