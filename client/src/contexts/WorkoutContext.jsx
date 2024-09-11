@@ -82,7 +82,6 @@ export function WorkoutProvider({ children }) {
         // set currentLoadedID from workout (fetched)
         // push Prep to intervals
         const sampleInterval = {
-            type: 'preparation',
             duration: 30,
             exercise: '',
             orderIndex: 0,
@@ -104,9 +103,9 @@ export function WorkoutProvider({ children }) {
             rest: '15',
             cooldown: '60',
             intervals: [
-                { orderIndex: '1', duration: '45', type: 'work', exercise: 'Jumping Jacks' },
-                { orderIndex: '2', duration: '45', type: 'work', exercise: 'Burpees' },
-                { orderIndex: '3', duration: '45', type: 'work', exercise: 'Static Squat' },
+                { orderIndex: '1', duration: '45', exercise: 'Jumping Jacks' },
+                { orderIndex: '2', duration: '45', exercise: 'Burpees' },
+                { orderIndex: '3', duration: '45', exercise: 'Static Squat' },
             ],
         },
         // to find and add 2-3 basic presets
@@ -127,7 +126,7 @@ export function WorkoutProvider({ children }) {
     function addSampleInterval() {
         const random = (x = (Math.ceil(Math.random() * 10))) => x <= 3.5 ? 0 : (x >= 6.5 ? 2 : 1);
         const e = workoutPresets.initial.intervals[random()];
-        createInterval(e.type, e.exercise, e.duration);
+        createInterval(e.exercise, e.duration);
     }
 
     async function createWorkout(workout) {
@@ -141,24 +140,10 @@ export function WorkoutProvider({ children }) {
 
     async function deleteWorkout(workoutID) { }
 
-    function createInterval(type = 'work', exercise = '', duration = '0') {
-        let orderIndex;
-        switch (type) {
-            case ('preparation'): orderIndex = '0'; break;
-            case ('cooldown'): orderIndex = '100000'; break;
-            case ('work'): orderIndex = genID(); break;
-        }
-
-        let interval;
-        if (type != 'work') {
-            interval = { type, duration, orderIndex };
-            setIntervals([...intervals, interval]);
-        } else {
-            interval = { type, duration, exercise, orderIndex };
-            setIntervals([...intervals, interval]);
-            // restInterval = { type: 'rest', duration: rest, orderIndex: `${orderIndex}.5` };
-            // setIntervals([...intervals, interval, restInterval]);
-        }
+    function createInterval(exercise = '', duration = '0') {
+        const orderIndex = genID();
+        const interval = { duration, exercise, orderIndex };
+        setIntervals([...intervals, interval]);
     }
 
     function updateInterval(orderIndex, exercise, duration) {
