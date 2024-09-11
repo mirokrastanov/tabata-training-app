@@ -30,6 +30,7 @@ function CreateWorkout() {
     const [loading, setLoading] = useState(true);
     const [prevAmount, setPreviousAmount] = useState(null);
     const [showPencil, setShowPencil] = useState(true);
+    const [shrink, setShrink] = useState({ state: false, orderIndex: null });
     const containerRef = useRef(null);
 
     // WORKOUT IMPORTS
@@ -37,7 +38,7 @@ function CreateWorkout() {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
         intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
-
+        deleteInterval,
     } = useWorkout();
 
     // useEffect(() => {
@@ -71,6 +72,23 @@ function CreateWorkout() {
         }
     };
 
+    const handleDeleteInterval = (e) => {
+        e.preventDefault();
+        let tag = e.target.tagName;
+        let target;
+        if (tag == 'path') target = e.target.parentElement.parentElement;
+        else if (tag == 'svg') target = e.target.parentElement;
+        else target = e.target;
+        // const dataset = Object.entries(target.dataset);
+        // dataset.forEach(([k, v], i) => console.log(k, v));
+        const orderIndex = target.dataset.orderindex;
+        setShrink({ state: true, orderIndex });
+        setTimeout(() => {
+            deleteInterval(orderIndex);
+            setTimeout(() => { setShrink({ state: false, orderIndex: null }) }, 50)
+        }, 500);
+    };
+
     return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
 
@@ -88,16 +106,16 @@ function CreateWorkout() {
             {/* WORKOUT INTERVALS */}
             <div id="workout-intervals">
                 {/* PREP INTERVAL */}
-                <article className="rounded-lg shadow-md border-b border-gray-300 my-2">
+                <article className="rounded-lg shadow-md border-b border-gray-300 my-2 mt-6">
                     <ServiceInterval type='preparation' v={prep} setV={setPrep} />
                 </article>
 
 
                 {/* MAP the intervals */}
-                {intervals.map((x, i) => (<article key={`i-article-${i}`} className="rounded-lg shadow-md border-b border-gray-300 my-2">
-                    <WorkoutInterval data-orderIndex={x.orderIndex}
+                {intervals.map((x, i) => (<article key={`i-article-${i}`} className={`rounded-lg shadow-md border-b border-gray-300 my-2 ${shrink.state && shrink.orderIndex == x.orderIndex ? 'shrink-to-hidden' : ' '} transition-all`}>
+                    <WorkoutInterval orderIndex={x.orderIndex} deleteInterval={handleDeleteInterval}
                         type='work' v={x} setV={updateInterval} i={i} slideIn={true} />
-                    <ServiceInterval data-orderIndex={x.orderIndex + '.5'}
+                    <ServiceInterval orderIndex={x.orderIndex + '.5'}
                         type='rest' v={rest} setV={setRest} i={i} slideIn={true} />
                 </article>))}
 
