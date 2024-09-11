@@ -19,6 +19,8 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
  * @property {function} setCooldown
  * @property {String} workoutName
  * @property {function} setWorkoutName
+ * @property {function} loadWorkoutPreset
+ * @property {function} updateInterval
  */
 
 
@@ -47,9 +49,10 @@ export function WorkoutProvider({ children }) {
     const { location } = usePage();
 
     useEffect(() => {
-        const isWorkoutPage = location.pathname.includes('workout');
+        const isWorkoutPage = location.pathname.includes('workouts');
+        const isCreateWorkout = location.pathname == '/workouts/create';
         const workoutID = getWorkoutIdFromQuery(location);
-        if (!isWorkoutPage || workoutID == currentLoadedID) return;
+        if (!isWorkoutPage || (workoutID == currentLoadedID && !isCreateWorkout)) return;
 
         resetStateFull();
     }, [location]);
@@ -89,30 +92,35 @@ export function WorkoutProvider({ children }) {
 
         // set intervals
 
+        // LAST: SetCurrentLoadedID !
     }
 
     // MOVE to util
     const workoutPresets = {
-        initial: [
-            { orderIndex: '0', duration: '30', type: 'preparation' },
-            { orderIndex: '1', duration: '45', type: 'work', exercise: 'Jumping Jacks' },
-            { orderIndex: '2', duration: '15', type: 'rest' },
-            { orderIndex: '100000', duration: '60', type: 'cooldown' },
-        ],
+        initial: {
+            workoutName: 'HIIT Workout',
+            prep: '30',
+            rest: '15',
+            cooldown: '60',
+            intervals: [
+                { orderIndex: '1', duration: '45', type: 'work', exercise: 'Jumping Jacks' },
+                { orderIndex: '2', duration: '45', type: 'work', exercise: 'Burpees' },
+                { orderIndex: '3', duration: '45', type: 'work', exercise: 'Static Squat' },
+            ],
+        },
         // to find and add 2-3 basic presets
     };
 
     // ONLY USE inside Create Workout Page
-    function loadWorkoutPreset(preset) {
-        // workoutPresets.initial
-        const prep = preset[0]
-
-        const lastIndex = preset[preset.length - 2].orderIndex;
+    function loadWorkoutPreset(preset = 'initial') {
+        const p = workoutPresets[preset];
+        const lastIndex = p.intervals[p.intervals.length - 1].orderIndex;
         setNextAvailableID(lastIndex + 1);
-        setIntervals(preset);
-        setPrep((preset.find(x => x.type == 'preparation')).duration);
-        setRest((preset.find(x => x.type == 'rest')).duration);
-        setCooldown((preset.find(x => x.type == 'cooldown')).duration);
+        setIntervals(p.intervals);
+        setWorkoutName(p.workoutName);
+        setPrep(p.prep);
+        setRest(p.rest);
+        setCooldown(p.cooldown);
     }
 
     async function createWorkout(workout) {
@@ -145,9 +153,11 @@ export function WorkoutProvider({ children }) {
         }
     }
 
-    function updateInterval(orderIndex, exercise = '', duration = '0') {
-        let properties = { duration };
-        if (exercise != '') properties.exercise = exercise;
+    function updateInterval(orderIndex, exercise, duration) {
+        const properties = {};
+        const saved = intervals.find(x => x.orderIndex === orderIndex);
+        if (saved.exercise != exercise) properties.exercise = exercise;
+        if (saved.duration != duration) properties.duration = duration;
         const isMatch = (interval) => interval.orderIndex === orderIndex;
 
         setIntervals((prevIntervals) =>
@@ -157,23 +167,6 @@ export function WorkoutProvider({ children }) {
         );
     }
 
-    function updateServiceInterval(type = 'preparation', duration = '0', workIntervalOrderIndex) {
-        let orderIndex;
-        if (workIntervalOrderIndex) orderIndex = workIntervalOrderIndex;
-
-        switch (type) {
-            case ('preparation'): orderIndex = '0'; break;
-            case ('cooldown'): orderIndex = '100000'; break;
-        }
-
-        setIntervals((prevIntervals) =>
-            prevIntervals.map((interval) =>
-                interval.orderIndex === orderIndex
-                    ? { ...interval, duration }
-                    : interval
-            )
-        );
-    }
 
     // ORDER IDs:
     // - when an interval is deleted - re-assign all order IDs again
@@ -187,6 +180,8 @@ export function WorkoutProvider({ children }) {
 
 
     function resetStateFull() {
+        console.log('state reset');
+
         setNextAvailableID(0);
         setIntervals([]);
         setWorkout(null);
@@ -212,6 +207,8 @@ export function WorkoutProvider({ children }) {
         rest, setRest,
         cooldown, setCooldown,
         workoutName, setWorkoutName,
+        loadWorkoutPreset,
+        updateInterval,
 
     };
 
