@@ -22,6 +22,7 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
  * @property {function} loadWorkoutPreset
  * @property {function} updateInterval
  * @property {function} addSampleInterval
+ * @property {function} deleteInterval
  */
 
 
@@ -160,6 +161,11 @@ export function WorkoutProvider({ children }) {
         );
     }
 
+    function deleteInterval(orderIndex) {
+        const filteredIntervals = intervals.filter(interval => interval.orderIndex !== orderIndex);
+        setIntervals(filteredIntervals);
+    }
+
 
     // ORDER IDs:
     // - when an interval is deleted - re-assign all order IDs again
@@ -173,9 +179,7 @@ export function WorkoutProvider({ children }) {
 
 
     function resetStateFull() {
-        console.log('state reset');
-
-        setNextAvailableID(0);
+        setNextAvailableID(1);
         setIntervals([]);
         setWorkout(null);
         setCurrentLoadedID(null);
@@ -184,7 +188,7 @@ export function WorkoutProvider({ children }) {
     function genID() {
         const current = nextAvailableID;
         setNextAvailableID(current + 1);
-        return current;
+        return String(current);
     }
 
 
@@ -203,6 +207,7 @@ export function WorkoutProvider({ children }) {
         loadWorkoutPreset,
         updateInterval,
         addSampleInterval,
+        deleteInterval,
 
     };
 
