@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './CreateWorkout.css';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -23,18 +23,20 @@ function CreateWorkout() {
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    // SUBMISSION FORM STATES & IMPORTS
+    // LOCAL FORM (RHF + related local states)
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // ACTIVE STATES & IMPORTS
+    // LOCAL STATES & REFS
     const [loading, setLoading] = useState(true);
     const [prevAmount, setPreviousAmount] = useState(null);
     const [showPencil, setShowPencil] = useState(true);
+    const containerRef = useRef(null);
 
+    // WORKOUT IMPORTS
     const {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
-        intervals, loadWorkoutPreset, updateInterval,
+        intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
 
     } = useWorkout();
 
@@ -54,11 +56,22 @@ function CreateWorkout() {
 
     const handleAddExercise = (e) => {
         e.preventDefault();
-        
-
+        addSampleInterval();
+        setTimeout(() => {
+            scrollToBottom();
+        }, 200);
     };
 
-    return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
+    const scrollToBottom = () => {
+        if (containerRef.current) {
+            containerRef.current.scrollTo({
+                top: containerRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    };
+
+    return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
 
             {/* TITLE SECTION */}
