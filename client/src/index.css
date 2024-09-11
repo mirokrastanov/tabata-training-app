@@ -243,3 +243,19 @@ input:-webkit-autofill:active {
     transform: translateX(0);
   }
 }
+
+
+/* SHRINK HEIGHT TO HIDDEN */
+.shrink-to-hidden {
+  animation: shrink-to-hidden 0.5s ease-in-out forwards;
+}
+
+@keyframes shrink-to-hidden {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
