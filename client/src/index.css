@@ -216,7 +216,7 @@ input:-webkit-autofill:active {
 
 /* SLIDE-IN-RIGHT Intro Animation */
 .slide-in-right {
-  animation: slide-in-right 0.5s ease-in-out forwards;
+  animation: slide-in-right 0.2s ease-in-out forwards;
 }
 
 @keyframes slide-in-right {
@@ -231,7 +231,7 @@ input:-webkit-autofill:active {
 
 /* SLIDE-IN-LEFT Intro Animation */
 .slide-in-left {
-  animation: slide-in-left 0.5s ease-in-out forwards;
+  animation: slide-in-left 0.2s ease-in-out forwards;
 }
 
 @keyframes slide-in-left {
