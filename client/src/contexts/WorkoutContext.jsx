@@ -21,6 +21,7 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
  * @property {function} setWorkoutName
  * @property {function} loadWorkoutPreset
  * @property {function} updateInterval
+ * @property {function} addSampleInterval
  */
 
 
@@ -123,6 +124,12 @@ export function WorkoutProvider({ children }) {
         setCooldown(p.cooldown);
     }
 
+    function addSampleInterval() {
+        const random = (x = (Math.ceil(Math.random() * 10))) => x <= 3.5 ? 0 : (x >= 6.5 ? 2 : 1);
+        const e = workoutPresets.initial.intervals[random()];
+        createInterval(e.type, e.exercise, e.duration);
+    }
+
     async function createWorkout(workout) {
         // skip break intervals when creating a new workout into the DB
         // filter the break intervals out and push the workout with only work intervals
@@ -134,7 +141,7 @@ export function WorkoutProvider({ children }) {
 
     async function deleteWorkout(workoutID) { }
 
-    function createInterval(type = 'preparation', exercise = '', duration = '0') {
+    function createInterval(type = 'work', exercise = '', duration = '0') {
         let orderIndex;
         switch (type) {
             case ('preparation'): orderIndex = '0'; break;
@@ -142,14 +149,15 @@ export function WorkoutProvider({ children }) {
             case ('work'): orderIndex = genID(); break;
         }
 
-        let interval, restInterval;
+        let interval;
         if (type != 'work') {
             interval = { type, duration, orderIndex };
             setIntervals([...intervals, interval]);
         } else {
             interval = { type, duration, exercise, orderIndex };
-            restInterval = { type: 'rest', duration: rest, orderIndex: `${orderIndex}.5` };
-            setIntervals([...intervals, interval, restInterval]);
+            setIntervals([...intervals, interval]);
+            // restInterval = { type: 'rest', duration: rest, orderIndex: `${orderIndex}.5` };
+            // setIntervals([...intervals, interval, restInterval]);
         }
     }
 
@@ -209,6 +217,7 @@ export function WorkoutProvider({ children }) {
         workoutName, setWorkoutName,
         loadWorkoutPreset,
         updateInterval,
+        addSampleInterval,
 
     };
 
