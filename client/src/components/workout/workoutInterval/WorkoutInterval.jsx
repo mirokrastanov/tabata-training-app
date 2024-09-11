@@ -7,7 +7,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ i, slideIn = false, v, setV }) {
+function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderIndex }) {
     const key = `crw--${i}--w-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
@@ -65,12 +65,6 @@ function WorkoutInterval({ i, slideIn = false, v, setV }) {
         }
     };
 
-    const handleDelete = (e) => {
-        e.preventDefault();
-        // TODO: delete work interval and it's corresponding break - to call a context function
-        // and just execute it
-    };
-
     return (
         <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim} max-custom-mq-300:pl-0 rounded-lg`}>
             <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
@@ -82,7 +76,7 @@ function WorkoutInterval({ i, slideIn = false, v, setV }) {
 
                 {/* TYPE */}
                 <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
-                    <div className="group text-red-600 absolute right-0 h-10 w-8 flex justify-center items-center cursor-pointer" onClick={handleDelete}>
+                    <div className="group text-red-600 absolute right-0 h-10 w-8 flex justify-center items-center cursor-pointer" onClick={deleteInterval} data-orderindex={orderIndex}>
                         <RiDeleteBin2Line className="h-full w-8 p-1 block group-hover:hidden" />
                         <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
                     </div>
