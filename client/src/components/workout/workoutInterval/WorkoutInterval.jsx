@@ -7,7 +7,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ type = 'work', i, slideIn = false, v, setV }) {
+function WorkoutInterval({ i, slideIn = false, v, setV }) {
     const key = `crw--${i}--w-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
@@ -72,13 +72,9 @@ function WorkoutInterval({ type = 'work', i, slideIn = false, v, setV }) {
     };
 
     return (
-        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim} max-custom-mq-300:pl-0`}>
+        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim} max-custom-mq-300:pl-0 rounded-lg`}>
             <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
-                {type == 'preparation' && <FaPersonWalking />}
-                {type == 'work' && <FaDumbbell className="rotate-45" />}
-                {type == 'rest' && <BsPersonStanding />}
-                {type == 'cooldown' && <FaCouch />}
-
+                <FaDumbbell className="rotate-45" />
                 <FaStopwatch />
             </div>
 
@@ -90,10 +86,7 @@ function WorkoutInterval({ type = 'work', i, slideIn = false, v, setV }) {
                         <RiDeleteBin2Line className="h-full w-8 p-1 block group-hover:hidden" />
                         <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
                     </div>
-                    {type == 'preparation' && 'Prepare'}
-                    {type == 'work' && 'Work'}
-                    {type == 'rest' && 'Rest'}
-                    {type == 'cooldown' && 'Cooldown'}
+                    Work
                 </label>
 
                 {/* NAME */}

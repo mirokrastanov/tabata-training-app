@@ -88,11 +88,13 @@ function CreateWorkout() {
             {/* WORKOUT INTERVALS */}
             <div id="workout-intervals">
                 {/* PREP INTERVAL */}
-                <ServiceInterval type='preparation' v={prep} setV={setPrep} />
+                <article className="rounded-lg shadow-md border-b border-gray-300 my-2">
+                    <ServiceInterval type='preparation' v={prep} setV={setPrep} />
+                </article>
 
 
                 {/* MAP the intervals */}
-                {intervals.map((x, i) => (<article key={`i-article-${i}`}>
+                {intervals.map((x, i) => (<article key={`i-article-${i}`} className="rounded-lg shadow-md border-b border-gray-300 my-2">
                     <WorkoutInterval data-orderIndex={x.orderIndex}
                         type='work' v={x} setV={updateInterval} i={i} slideIn={true} />
                     <ServiceInterval data-orderIndex={x.orderIndex + '.5'}
@@ -108,7 +110,9 @@ function CreateWorkout() {
                 </article>
 
                 {/* COOLDOWN INTERVAL */}
-                <ServiceInterval type='cooldown' v={cooldown} setV={setCooldown} />
+                <article className="rounded-lg shadow-md border-b border-gray-300 my-2">
+                    <ServiceInterval type='cooldown' v={cooldown} setV={setCooldown} />
+                </article>
             </div>
 
 
