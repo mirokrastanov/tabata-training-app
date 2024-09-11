@@ -19,19 +19,44 @@ import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
 
 function CreateWorkout() {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // GENERIC STATES & IMPORTS
     const navigate = useNavigate();
     const { user } = useAuth();
+
+    // SUBMISSION FORM STATES & IMPORTS
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // ACTIVE STATES & IMPORTS
+    const [loading, setLoading] = useState(true);
+    const [prevAmount, setPreviousAmount] = useState(null);
     const [showPencil, setShowPencil] = useState(true);
+
     const {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
-        intervals,
+        intervals, loadWorkoutPreset, updateInterval,
+
     } = useWorkout();
 
+    // useEffect(() => {
+    //     loadWorkoutPreset();
+    // }, []);
+
     useEffect(() => {
+        if (prevAmount === null) setPreviousAmount(intervals.length);
+        if (prevAmount < intervals.length) {
+            if (!loading && intervals.length > 0) {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
         console.log(intervals);
     }, [intervals]);
+
+    const handleAddExercise = (e) => {
+        e.preventDefault();
+        
+
+    };
 
     return (<div id="create-workout-ctr" className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
@@ -48,23 +73,34 @@ function CreateWorkout() {
             <WorkoutHelp />
 
             {/* WORKOUT INTERVALS */}
-            <article id="workout-intervals">
+            <div id="workout-intervals">
                 {/* PREP INTERVAL */}
                 <ServiceInterval type='preparation' v={prep} setV={setPrep} />
 
 
                 {/* MAP the intervals */}
-                {/* DURING MAPPING - auto-generate a rest period after each work period  */}
+                {intervals.map((x, i) => (<article key={`i-article-${i}`}>
+                    <WorkoutInterval data-orderIndex={x.orderIndex}
+                        type='work' v={x} setV={updateInterval} i={i} slideIn={true} />
+                    <ServiceInterval data-orderIndex={x.orderIndex + '.5'}
+                        type='rest' v={rest} setV={setRest} i={i} slideIn={true} />
+                </article>))}
 
-                <WorkoutInterval type='work' />
-                <ServiceInterval type='rest' />
 
+                {/* ADD EXERCISE BUTTON */}
+                <article className="w-full my-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
+                    <hr className="mx-3 my-3.5 mt-8" />
+                    <ActiveBtn text={'Add Exercise'} handler={handleAddExercise} />
+                    <hr className="mx-3 my-3.5 mb-8" />
+                </article>
 
                 {/* COOLDOWN INTERVAL */}
                 <ServiceInterval type='cooldown' v={cooldown} setV={setCooldown} />
-            </article>
+            </div>
 
 
+            {/* SUBMIT WORKOUT */}
+            {/* Use activeBtn - SET btnType='submit' */}
         </div>
     </div>)
 }
