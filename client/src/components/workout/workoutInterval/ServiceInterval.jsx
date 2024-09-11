@@ -5,7 +5,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 function ServiceInterval({ type = 'rest', i, slideIn = false, v, setV }) {
-    const key = `crw--${i}--`;
+    const key = `crw--${i}--s-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
 

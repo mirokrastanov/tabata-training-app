@@ -7,64 +7,61 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), slideIn = false }) {
-    const key = `crw--${i}--`;
+function WorkoutInterval({ type = 'work', i, slideIn = false, v, setV }) {
+    const key = `crw--${i}--w-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
-    // take duration and keep order ID 0 (1st) always
-    // auto generate it when loading create or edit views
+    if (!i) i = (Math.ceil(Math.random() * 100));
 
-    // TODO: MOVE all state to a context
-
-    const [counter, setCounter] = useState('0');
-    const [exercise, setExercise] = useState('');
-    const [intervalID, setIntervalID] = useState('5');
-
+    // setV(orderIndex, exercise, duration)
     const handleChange = (e) => {
         e.preventDefault();
-        const [value, id] = [e.target.value, e.target.id];
+        const [id, value] = [e.target.id, e.target.value];
 
         if (id == `${key}duration`) {
-            // DURATION INPUT (input=string, check=number, save=string)
-            const isNumOrEmpty = value === '' || /^[0-9]*$/.test(value);
+            const duration = value; // DURATION INPUT
+            const isNumOrEmpty = duration == '' || /^[0-9]*$/.test(duration);
             if (!isNumOrEmpty) return;
-            if (value === '') return setCounter('');
+            if (duration == '') return setV(v.orderIndex, v.exercise, '');
 
-            const newCounter = Number(value);
-            if (newCounter <= 120 && newCounter >= 0) setCounter(newCounter);
+            const newCounter = Number(duration);
+            if (newCounter <= 120 && newCounter >= 0) setV(v.orderIndex, v.exercise, String(newCounter));
             else if (newCounter < 0) {
                 toast.error('Min interval duration reached.');
-                setCounter('0');
+                setV(v.orderIndex, v.exercise, '0');
             } else {
                 toast.error('Max interval duration reached.');
-                setCounter('120');
+                setV(v.orderIndex, v.exercise, '120');
             }
         } else if (id == `${key}name`) {
-            // NAME INPUT
-            const newInterval = value;
-            setExercise(newInterval);
+            const name = value; // NAME INPUT
+            setV(v.orderIndex, name, String(v.duration));
         }
     };
 
+    // setV(orderIndex, exercise, duration)
     const handleBlur = (e) => {
         e.preventDefault();
+        const [id, duration] = [e.target.id, e.target.value];
+        if (duration == v.duration) return;
 
-        if (counter === '') {
-            setCounter('0');
+        if (duration == '') {
+            setV(v.orderIndex, v.exercise, '0');
         } else {
-            const numericValue = Math.min(Math.max(Number(counter), 0), 120);
-            setCounter(String(numericValue));
+            const numericValue = Math.min(Math.max(Number(duration), 0), 120);
+            setV(v.orderIndex, v.exercise, String(numericValue));
         }
     };
 
+    // setV(orderIndex, exercise, duration)
     const handleClick = (e) => {
         e.preventDefault();
         if (e.target.dataset.id == '+') {
-            if (Number(counter) == 120) toast.error('Max interval duration reached.');
-            setCounter(incrementBy1(counter));
+            if (Number(v.duration) == 120) toast.error('Max interval duration reached.');
+            setV(v.orderIndex, v.exercise, incrementBy1(v.duration));
         }
         if (e.target.dataset.id == '-') {
-            if (Number(counter) == 0) toast.error('Min interval duration reached.');
-            setCounter(decrementBy1(counter));
+            if (Number(v.duration) == 0) toast.error('Min interval duration reached.');
+            setV(v.orderIndex, v.exercise, decrementBy1(v.duration));
         }
     };
 
@@ -101,8 +98,8 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
 
                 {/* NAME */}
                 <input
-                    name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Exercise name' value={exercise} onChange={handleChange}
-                    className="w-full bg-white text-black font-bold p-2 pt-0 text-center text-2xl max-custom-mq-300:text-lg tracking-wide placeholder:font-normal placeholder:tracking-normal placeholder:text-xl"
+                    name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Exercise name' value={v.exercise} onChange={handleChange}
+                    className="w-full bg-white text-purple-600 font-bold p-2 pt-0 text-center text-2xl max-custom-mq-300:text-lg tracking-wide placeholder:font-normal placeholder:tracking-normal placeholder:text-xl"
                 />
 
                 {/* DURATION */}
@@ -115,7 +112,7 @@ function WorkoutInterval({ type = 'work', i = (Math.ceil(Math.random() * 100)), 
                     {/* NUMBER INPUT */}
                     <input
                         name={`${key}counter`} id={`${key}duration`} type="text"
-                        value={counter} onChange={handleChange} onBlur={handleBlur}
+                        value={v.duration} onChange={handleChange} onBlur={handleBlur}
                         className="bg-white text-purple-900 font-bold text-2xl text-center w-12"
                     />
 
