@@ -16,7 +16,7 @@ function WorkoutHelp() {
                 <FaMinus className={`absolute right-1 text-purple-900 text-2xl ${isOpen ? 'rotate-0' : 'rotate-90'} transition-all duration-700 max-custom-mq-300:hidden`} />
                 <FaMinus className={`absolute right-1 text-purple-900 text-2xl transition-all max-custom-mq-300:hidden`} />
             </p>
-            <div className={`accordion-content overflow-hidden ${isOpen ? 'open' : 'duration-300'}`}>
+            <div className={`accordion-content overflow-hidden ${isOpen ? 'open' : 'duration-600'}`}>
                 <ul className="list-disc my-2 ml-6 text-left max-custom-mq-300:list-none max-custom-mq-300:ml-0">
                     <li className={`${sub300}`}>Interval duration: 0 - 120 seconds</li>
                     <hr className="h-[2px] my-1 bg-gray-300 mr-7 max-custom-mq-300:hidden" />
