@@ -17,6 +17,7 @@ import ServiceInterval from '../../components/workout/workoutInterval/ServiceInt
 import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalSkeleton';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
+import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
 
 function CreateWorkout() {
     // GENERIC STATES & IMPORTS
@@ -90,6 +91,11 @@ function CreateWorkout() {
     };
 
     return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
+
+        {/* BACKDROP LOADER - tia dvata elementa otdoly - 2ria da e base - nov ring dots loader */}
+        {/* ina4e i taka, originalno moje da go zapazq, kato preset custom element */}
+        <BackdropLoader dark={true} />
+
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
 
             {/* TITLE SECTION */}
