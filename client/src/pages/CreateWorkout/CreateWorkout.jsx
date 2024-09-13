@@ -77,11 +77,11 @@ function CreateWorkout() {
         e.preventDefault();
         let tag = e.target.tagName;
         let target;
+
         if (tag == 'path') target = e.target.parentElement.parentElement;
         else if (tag == 'svg') target = e.target.parentElement;
         else target = e.target;
-        // const dataset = Object.entries(target.dataset);
-        // dataset.forEach(([k, v], i) => console.log(k, v));
+
         const orderIndex = target.dataset.orderindex;
         setShrink({ state: true, orderIndex });
         setTimeout(() => {
@@ -92,9 +92,8 @@ function CreateWorkout() {
 
     return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
 
-        {/* BACKDROP LOADER - tia dvata elementa otdoly - 2ria da e base - nov ring dots loader */}
-        {/* ina4e i taka, originalno moje da go zapazq, kato preset custom element */}
-        <BackdropLoader dark={true} />
+        {/* Adds BackdropLoader during deletion to improove UX */}
+        {shrink.state && <BackdropLoader dark={true} />}
 
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
 
