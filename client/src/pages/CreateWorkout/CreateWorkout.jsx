@@ -111,6 +111,9 @@ function CreateWorkout() {
         setTimeout(() => {
             setLobby(false);
             setShrink((p) => ({ ...p, state: false }));
+            setTimeout(() => {
+                scrollToBottom();
+            }, 200);
         }, 300);
     };
 
