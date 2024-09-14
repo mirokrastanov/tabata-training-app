@@ -3,12 +3,6 @@ import { usePage } from "./PageContext";
 import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
 import { workoutPresets } from "../utils/workoutPresets";
 
-// /**
-//  * @typedef WorkoutContextData
-//  * @property {null | Object} location
-//  * @property {null | Object} pageParams
-//  * @property {function} updatePageParams
-//  */
 /**
  * @typedef WorkoutContextData
  * @property {Array} intervals
@@ -26,6 +20,7 @@ import { workoutPresets } from "../utils/workoutPresets";
  * @property {function} deleteInterval
  * @property {function} getIntervalIndex
  * @property {function} resetStateFull
+ * @property {function} addEmptyInterval
  */
 
 
@@ -118,6 +113,10 @@ export function WorkoutProvider({ children }) {
         createInterval(e.exercise, e.duration);
     }
 
+    function addEmptyInterval() {
+        createInterval();
+    }
+
     async function createWorkout(workout) {
         // skip break intervals when creating a new workout into the DB
         // filter the break intervals out and push the workout with only work intervals
@@ -129,7 +128,7 @@ export function WorkoutProvider({ children }) {
 
     async function deleteWorkout(workoutID) { }
 
-    function createInterval(exercise = '', duration = '0') {
+    function createInterval(exercise = '', duration = '30') {
         const orderIndex = genID();
         const interval = { duration, exercise, orderIndex };
         setIntervals([...intervals, interval]);
@@ -205,6 +204,7 @@ export function WorkoutProvider({ children }) {
         deleteInterval,
         getIntervalIndex,
         resetStateFull,
+        addEmptyInterval,
 
     };
 

@@ -4,17 +4,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import ActiveBtn from '../../components/btns/ActiveBtn';
 import HBtnSeparator from '../../components/btns/HBtnSeparator';
-import FormChange from '../../components/btns/FormChange';
-import VBtnSeparator from '../../components/btns/VBtnSeparator';
-import { useForm } from 'react-hook-form';
-import RHFInput from '../../components/formInputs/RHFInput';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpSchema } from '../../lib/ValidationSchemas';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
-import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalSkeleton';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
@@ -22,12 +15,18 @@ import CreateLobby from './CreateLobby';
 import ConfirmBtn from '../../components/btns/ConfirmBtn';
 
 function CreateWorkout() {
-    // GENERIC STATES & IMPORTS
+    // Imports
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    // LOCAL FORM (RHF + related local states)
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // WORKOUT IMPORTS
+    const {
+        workoutName, cooldown, prep, rest,
+        setWorkoutName, setCooldown, setPrep, setRest,
+        intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
+        deleteInterval, getIntervalIndex, resetStateFull, addEmptyInterval,
+
+    } = useWorkout();
 
     // LOCAL STATES & REFS
     const [loading, setLoading] = useState(true);
@@ -36,18 +35,7 @@ function CreateWorkout() {
     const [shrink, setShrink] = useState({ state: false, orderIndex: null });
     const [lobby, setLobby] = useState(true);
     const containerRef = useRef(null);
-
-    // WORKOUT IMPORTS
-    const {
-        workoutName, cooldown, prep, rest,
-        setWorkoutName, setCooldown, setPrep, setRest,
-        intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
-        deleteInterval, getIntervalIndex, resetStateFull,
-    } = useWorkout();
-
-    // useEffect(() => {
-    //     loadWorkoutPreset();
-    // }, []);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         if (prevAmount === null) setPreviousAmount(intervals.length);
@@ -61,7 +49,7 @@ function CreateWorkout() {
 
     const handleAddExercise = (e) => {
         e.preventDefault();
-        addSampleInterval();
+        addEmptyInterval();
         setTimeout(() => {
             scrollToBottom();
         }, 200);
@@ -123,6 +111,9 @@ function CreateWorkout() {
         setLobby(true);
         resetStateFull();
     };
+
+    // HANDLE SUBMIT - add a toast to display and prevent the user from submitting a workout with less then 3 execises
+
 
     return (<div id="create-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}

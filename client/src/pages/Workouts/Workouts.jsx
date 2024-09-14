@@ -14,7 +14,7 @@ function Workouts() {
         // setWorkouts(workoutsData)
         setTimeout(() => {
             setWorkouts(true);
-        }, 1000);
+        }, 500);
     }, []);
 
     function playClick(e) {
