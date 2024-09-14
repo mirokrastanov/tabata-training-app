@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaArrowRightToBracket, FaDiscord, FaFolderPlus, FaPlus, FaUserPlus } from 'react-icons/fa6';
+import { FaArrowRightToBracket, FaDiscord, FaDumbbell, FaFolderPlus, FaPlus, FaUserPlus } from 'react-icons/fa6';
 
 function ActiveBtn({
     handler, text, square = false, left87 = false, icon = true,
@@ -14,7 +14,7 @@ function ActiveBtn({
             {((icon && text == 'Use Discord') || iconOnly == 'discord') && <FaDiscord className={`${iTextSize}`} />}
             {((icon && text == 'Create Account') || iconOnly == 'signup') && <FaUserPlus className={`${iTextSize}`} />}
             {((icon && text == 'Use Credentials') || iconOnly == 'signin') && <FaArrowRightToBracket className={`${iTextSize}`} />}
-            {(icon && text == 'Add Exercise') && <FaPlus className={`${iTextSize} p-1 group-active:p-0.5 transition-all duration-100 max-custom-mq-300:hidden`} />}
+            {(icon && text == 'Add Exercise') && <FaDumbbell className={`${iTextSize} p-1 group-active:p-0.5 transition-all duration-100 max-custom-mq-300:hidden rotate-[315deg]`} />}
             {(icon && text == 'Create Workout') && <FaFolderPlus className={`${iTextSize} p-1 group-active:p-0.5 transition-all duration-100 max-custom-mq-300:hidden`} />}
             {text && (<p className={`ml-2 ${text == 'Add Exercise' || text == 'Create Workout' ? '' : 'max-custom-mq-300:hidden'}`}>{text}</p>)}
         </button>
