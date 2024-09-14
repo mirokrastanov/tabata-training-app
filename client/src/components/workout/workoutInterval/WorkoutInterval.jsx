@@ -76,15 +76,15 @@ function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderInd
 
                 {/* TYPE */}
                 <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
+                    {/* EXERCISE NUMBER */}
+                    <div className="bg-purple-900 text-white absolute left-0 h-7 w-7 mt-2 rounded-lg flex justify-center items-center max-custom-mq-300:text-sm max-custom-mq-300:mt-0 max-custom-mq-300:h-5 max-custom-mq-300:w-6" data-orderindex={orderIndex}>
+                        {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
+                    </div>
+                    Work
                     {/* DELETE BTN */}
                     <div className="group text-red-600 absolute right-0 h-10 w-8 flex justify-center items-center cursor-pointer" onClick={deleteInterval} data-orderindex={orderIndex}>
                         <RiDeleteBin2Line className="h-full w-8 p-1 block group-hover:hidden" />
                         <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
-                    </div>
-                    Work
-                    {/* EXERCISE NUMBER */}
-                    <div className="bg-purple-900 text-white absolute left-0 h-7 w-7 mt-2 rounded-lg flex justify-center items-center" data-orderindex={orderIndex}>
-                        {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
                     </div>
                 </label>
 
