@@ -19,6 +19,7 @@ import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
 import CreateLobby from './CreateLobby';
+import ConfirmBtn from '../../components/btns/ConfirmBtn';
 
 function CreateWorkout() {
     // GENERIC STATES & IMPORTS
@@ -168,8 +169,11 @@ function CreateWorkout() {
             <article className="w-full mt-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
                 <hr className="mx-3 my-3.5 mt-8" />
                 <ActiveBtn btnType={'submit'} text={'Create Workout'} />
+                <HBtnSeparator />
+                <ConfirmBtn text={'Load Preset'} rHandler={() => setLobby(true)} scroll={scrollToBottom} />
                 <hr className="mx-3 mt-3.5" />
             </article>
+
         </div>)}
     </div>)
 }

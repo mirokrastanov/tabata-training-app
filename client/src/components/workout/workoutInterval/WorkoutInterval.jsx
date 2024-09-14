@@ -77,7 +77,7 @@ function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderInd
                 {/* TYPE */}
                 <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
                     {/* EXERCISE NUMBER */}
-                    <div className="bg-purple-900 text-white absolute left-0 h-7 w-7 mt-2 rounded-lg flex justify-center items-center max-custom-mq-300:text-sm max-custom-mq-300:mt-0 max-custom-mq-300:h-5 max-custom-mq-300:w-6" data-orderindex={orderIndex}>
+                    <div className="bg-purple-900 text-white absolute text-lg left-0 h-7 w-7 mt-2 rounded-lg flex justify-center items-center max-custom-mq-300:text-sm max-custom-mq-300:mt-0 max-custom-mq-300:h-5 max-custom-mq-300:w-6" data-orderindex={orderIndex}>
                         {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
                     </div>
                     Work
