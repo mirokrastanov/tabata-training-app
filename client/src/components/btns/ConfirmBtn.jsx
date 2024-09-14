@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ActiveBtn from './ActiveBtn';
-import VBtn2Separators from './VBtn2Separators';
-import Dots from '../loaders/base/dots/Dots';
 
 function ConfirmBtn({ text, rHandler, scroll }) {
     const [confirmView, setConfirmView] = useState(false);

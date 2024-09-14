@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { usePage } from "./PageContext";
 import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
-import { workoutPresets } from "../utils/workoutPresets";
+import { exerciseLibrary, workoutPresets } from "../utils/workoutPresets";
 
 /**
  * @typedef WorkoutContextData
@@ -16,7 +16,7 @@ import { workoutPresets } from "../utils/workoutPresets";
  * @property {function} setWorkoutName
  * @property {function} loadWorkoutPreset
  * @property {function} updateInterval
- * @property {function} addSampleInterval
+ * @property {function} addRandomInterval
  * @property {function} deleteInterval
  * @property {function} getIntervalIndex
  * @property {function} resetStateFull
@@ -107,9 +107,10 @@ export function WorkoutProvider({ children }) {
         setCooldown(p.cooldown);
     }
 
-    function addSampleInterval() {
-        const random = (x = (Math.ceil(Math.random() * 10))) => x <= 3.5 ? 0 : (x >= 6.5 ? 2 : 1);
-        const e = workoutPresets.initial.intervals[random()];
+    function addRandomInterval() {
+        const exercises = exerciseLibrary.length;
+        const random = Math.floor(Math.random() * (exercises + 1));
+        const e = exerciseLibrary[random];
         createInterval(e.exercise, e.duration);
     }
 
@@ -200,7 +201,7 @@ export function WorkoutProvider({ children }) {
         workoutName, setWorkoutName,
         loadWorkoutPreset,
         updateInterval,
-        addSampleInterval,
+        addRandomInterval,
         deleteInterval,
         getIntervalIndex,
         resetStateFull,

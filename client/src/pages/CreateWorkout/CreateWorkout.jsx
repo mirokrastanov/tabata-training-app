@@ -23,7 +23,7 @@ function CreateWorkout() {
     const {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
-        intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
+        intervals, loadWorkoutPreset, updateInterval, addRandomInterval,
         deleteInterval, getIntervalIndex, resetStateFull, addEmptyInterval,
 
     } = useWorkout();

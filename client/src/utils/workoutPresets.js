@@ -51,3 +51,27 @@ export const workoutPresets = {
         ],
     },
 };
+
+
+export const exerciseLibrary = [
+    { exercise: 'Jumping Jacks', duration: 30 },
+    { exercise: 'Push-ups', duration: 30 },
+    { exercise: 'Situps', duration: 30 },
+    { exercise: 'Squats', duration: 30 },
+    { exercise: 'Leg Raises', duration: 30 },
+    { exercise: 'Lunges', duration: 30 },
+    { exercise: 'High Knees', duration: 30 },
+    { exercise: 'Russian Twists', duration: 30 },
+    { exercise: 'Static Squat', duration: 30 },
+    { exercise: 'Crunches', duration: 30 },
+    { exercise: 'Step onto a chair', duration: 30 },
+    { exercise: 'Chair dips', duration: 30 },
+    { exercise: 'Plank', duration: 30 },
+    { exercise: 'Push-up & rotation', duration: 30 },
+    { exercise: 'Left-side plank', duration: 30 },
+    { exercise: 'Right-side plank', duration: 30 },
+    { exercise: 'Burpees', duration: 45 },
+    { exercise: 'Mountain Climbers', duration: 45 },
+    { exercise: 'Jump Squats', duration: 45 },
+    { exercise: 'Alternating Lunges', duration: 45 },
+];
