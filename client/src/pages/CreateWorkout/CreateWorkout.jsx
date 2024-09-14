@@ -18,6 +18,7 @@ import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalS
 import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
+import CreateLobby from './CreateLobby';
 
 function CreateWorkout() {
     // GENERIC STATES & IMPORTS
@@ -32,6 +33,7 @@ function CreateWorkout() {
     const [prevAmount, setPreviousAmount] = useState(null);
     const [showPencil, setShowPencil] = useState(true);
     const [shrink, setShrink] = useState({ state: false, orderIndex: null });
+    const [lobby, setLobby] = useState(true);
     const containerRef = useRef(null);
 
     // WORKOUT IMPORTS
@@ -90,13 +92,33 @@ function CreateWorkout() {
         }, 500);
     };
 
-    return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
+    const loadCreateView = (e) => {
+        e.preventDefault();
+        setShrink((p) => ({ ...p, state: true }));
+        setTimeout(() => {
+            setLobby(false);
+            setShrink((p) => ({ ...p, state: false }));
+        }, 300);
+    };
 
+    const handleLoadPreset = (e) => {
+        e.preventDefault();
+        setShrink((p) => ({ ...p, state: true }));
+
+        const preset = e.target.dataset.preset;
+        if (preset) loadWorkoutPreset(preset);
+
+        setTimeout(() => {
+            setLobby(false);
+            setShrink((p) => ({ ...p, state: false }));
+        }, 300);
+    };
+
+    return (<div id="create-workout-ctr" ref={containerRef} className="w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10">
         {/* Adds BackdropLoader during deletion to improove UX */}
         {shrink.state && <BackdropLoader dark={true} />}
 
-        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
-
+        {lobby ? (<CreateLobby create={loadCreateView} load={handleLoadPreset} />) : (<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
                 <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center max-custom-mq-500:text-2xl max-custom-mq-300:text-lg max-custom-mq-300:pt-4"
@@ -145,7 +167,7 @@ function CreateWorkout() {
                 <ActiveBtn btnType={'submit'} text={'Create Workout'} />
                 <hr className="mx-3 mt-3.5" />
             </article>
-        </div>
+        </div>)}
     </div>)
 }
 
