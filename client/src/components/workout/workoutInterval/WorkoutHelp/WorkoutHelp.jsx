@@ -18,7 +18,8 @@ function WorkoutHelp() {
             </p>
             <div className={`accordion-content overflow-hidden ${isOpen ? 'open' : 'duration-600'}`}>
                 <ul className="list-disc my-2 ml-6 text-left max-custom-mq-300:list-none max-custom-mq-300:ml-0">
-                    <li className={`${sub300}`}>Interval duration: 0 - 120 seconds</li>
+                    <li className={`${sub300}`}>Exercise duration: 0 - 120 seconds</li>
+                    <li className={`${sub300}`}>Break duration is the same for all</li>
                     <hr className="h-[2px] my-1 bg-gray-300 mr-7 max-custom-mq-300:hidden" />
                     <li className={`${sub300}`}>Use (-/+)</li>
                     <li className={`${sub300}`}>Click the number to edit manually</li>
