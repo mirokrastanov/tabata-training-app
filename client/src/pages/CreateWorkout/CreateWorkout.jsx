@@ -140,7 +140,11 @@ function CreateWorkout() {
 
 
             {/* SUBMIT WORKOUT */}
-            {/* Use activeBtn - SET btnType='submit' */}
+            <article className="w-full mt-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
+                <hr className="mx-3 my-3.5 mt-8" />
+                <ActiveBtn btnType={'submit'} text={'Create Workout'} />
+                <hr className="mx-3 mt-3.5" />
+            </article>
         </div>
     </div>)
 }
