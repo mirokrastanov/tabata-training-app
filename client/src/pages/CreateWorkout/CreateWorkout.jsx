@@ -42,7 +42,7 @@ function CreateWorkout() {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
         intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
-        deleteInterval, getIntervalIndex,
+        deleteInterval, getIntervalIndex, resetStateFull,
     } = useWorkout();
 
     // useEffect(() => {
@@ -118,6 +118,12 @@ function CreateWorkout() {
         }, 300);
     };
 
+    const handleConfirm = (e) => {
+        e.preventDefault();
+        setLobby(true);
+        resetStateFull();
+    };
+
     return (<div id="create-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}
         {shrink.state && <BackdropLoader dark={true} />}
@@ -170,7 +176,7 @@ function CreateWorkout() {
                 <hr className="mx-3 my-3.5 mt-8" />
                 <ActiveBtn btnType={'submit'} text={'Create Workout'} />
                 <HBtnSeparator />
-                <ConfirmBtn text={'Load Preset'} rHandler={() => setLobby(true)} scroll={scrollToBottom} />
+                <ConfirmBtn text={'Load Preset'} rHandler={handleConfirm} scroll={scrollToBottom} />
                 <hr className="mx-3 mt-3.5" />
             </article>
 

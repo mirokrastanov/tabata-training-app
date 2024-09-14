@@ -25,6 +25,7 @@ import { workoutPresets } from "../utils/workoutPresets";
  * @property {function} addSampleInterval
  * @property {function} deleteInterval
  * @property {function} getIntervalIndex
+ * @property {function} resetStateFull
  */
 
 
@@ -203,6 +204,7 @@ export function WorkoutProvider({ children }) {
         addSampleInterval,
         deleteInterval,
         getIntervalIndex,
+        resetStateFull,
 
     };
 
