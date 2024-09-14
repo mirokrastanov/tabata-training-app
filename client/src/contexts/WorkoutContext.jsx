@@ -23,6 +23,7 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
  * @property {function} updateInterval
  * @property {function} addSampleInterval
  * @property {function} deleteInterval
+ * @property {function} getIntervalIndex
  */
 
 
@@ -166,6 +167,9 @@ export function WorkoutProvider({ children }) {
         setIntervals(filteredIntervals);
     }
 
+    function getIntervalIndex(orderIndex) {
+        return intervals.indexOf(intervals.find(x => x.orderIndex === orderIndex));
+    }
 
     // ORDER IDs:
     // - when an interval is deleted - re-assign all order IDs again
@@ -208,6 +212,7 @@ export function WorkoutProvider({ children }) {
         updateInterval,
         addSampleInterval,
         deleteInterval,
+        getIntervalIndex,
 
     };
 

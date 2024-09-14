@@ -7,7 +7,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderIndex }) {
+function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderIndex, iFind }) {
     const key = `crw--${i}--w-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
@@ -81,6 +81,10 @@ function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderInd
                         <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
                     </div>
                     Work
+                    <div title={`This is exercise number ${Number(iFind(orderIndex)) + 1} of this workout.`}
+                        className="bg-purple-900 text-white font-bold absolute left-0 h-7 w-7 rounded-full flex justify-center items-center cursor-help border border-gray-800 shadow-lg" data-orderindex={orderIndex}>
+                        {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
+                    </div>
                 </label>
 
                 {/* NAME */}

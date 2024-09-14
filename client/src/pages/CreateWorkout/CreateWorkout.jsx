@@ -39,7 +39,7 @@ function CreateWorkout() {
         workoutName, cooldown, prep, rest,
         setWorkoutName, setCooldown, setPrep, setRest,
         intervals, loadWorkoutPreset, updateInterval, addSampleInterval,
-        deleteInterval,
+        deleteInterval, getIntervalIndex,
     } = useWorkout();
 
     // useEffect(() => {
@@ -110,16 +110,16 @@ function CreateWorkout() {
 
             {/* WORKOUT INTERVALS */}
             <div id="workout-intervals">
+
                 {/* PREP INTERVAL */}
                 <article className="rounded-lg shadow-md border-b border-gray-300 my-2 mt-6">
                     <ServiceInterval type='preparation' v={prep} setV={setPrep} />
                 </article>
 
-
-                {/* MAP the intervals */}
+                {/* WORKOUT INTERVALS (Exercise + Break) */}
                 {intervals.map((x, i) => (<article key={`i-article-${i}`} className={`rounded-lg shadow-md border-b border-gray-300 my-2 ${shrink.state && shrink.orderIndex == x.orderIndex ? 'shrink-to-hidden' : ' '} transition-all`}>
                     <WorkoutInterval orderIndex={x.orderIndex} deleteInterval={handleDeleteInterval}
-                        type='work' v={x} setV={updateInterval} i={i} slideIn={true} />
+                        type='work' v={x} setV={updateInterval} i={i} slideIn={true} iFind={getIntervalIndex} />
                     <ServiceInterval orderIndex={x.orderIndex + '.5'}
                         type='rest' v={rest} setV={setRest} i={i} slideIn={true} />
                 </article>))}
