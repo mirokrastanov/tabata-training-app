@@ -19,14 +19,14 @@ const workoutSchema = new mongoose.Schema({
         {
             exercise: {
                 type: String,
-                required: true,
+                required: [true, 'Exercise name must be provided'],
             },
             duration: {
-                type: Number,
+                type: String,
                 required: true,
             },
             orderIndex: {
-                type: Number,
+                type: String,
                 required: true,
             },
         },
