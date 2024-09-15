@@ -25,7 +25,11 @@ import * as api from '../api/api.js';
  * @property {function} resetStateFull
  * @property {function} addEmptyInterval
  * @property {function} createWorkoutInDB
+ * @property {function} fetchAllMyWorkouts
+ * @property {function} fetchedWorkout
+ * @property {function} myFetchedWorkouts
  */
+
 
 
 
@@ -40,7 +44,8 @@ export function useWorkout() {
 
 export function WorkoutProvider({ children }) {
     // FETCHED STATE
-    const [workout, setWorkout] = useState(null);
+    const [myFetchedWorkouts, setMyFetchedWorkouts] = useState(null);
+    const [fetchedWorkout, setFetchedWorkout] = useState(null);
     // LOCAL STATE
     const [nextAvailableID, setNextAvailableID] = useState(1); // 0 reserved for prep
     const [currentLoadedID, setCurrentLoadedID] = useState(null);
@@ -65,6 +70,25 @@ export function WorkoutProvider({ children }) {
     async function forceRefresh(workoutID) {
         resetStateFull();
         await fetchWorkout(workoutID);
+    }
+
+    async function fetchAllMyWorkouts() {
+        // return setMyFetchedWorkouts([]);
+        try {
+            const creatorId = user?._id;
+            const address = api.urlBuilder.workouts.get.mine();
+            const requestData = await api.get(address);
+            if (!requestData.ok) throw requestData;
+
+            console.log('My workouts: \n', requestData);
+            setMyFetchedWorkouts(requestData);
+            return requestData;
+        } catch (error) {
+            return error;
+        }
+        // update and map into intervals
+        // update all other states
+        // see if something else needs to happen as well
     }
 
     async function fetchWorkout(workoutID) {
@@ -194,7 +218,8 @@ export function WorkoutProvider({ children }) {
     function resetStateFull() {
         setNextAvailableID(1);
         setIntervals([]);
-        setWorkout(null);
+        setFetchedWorkout(null);
+        setMyFetchedWorkouts(null);
         setCurrentLoadedID(null);
         setWorkoutName('Workout Title');
         setPrep('30');
@@ -229,6 +254,9 @@ export function WorkoutProvider({ children }) {
         resetStateFull,
         addEmptyInterval,
         createWorkoutInDB,
+        fetchAllMyWorkouts,
+        fetchedWorkout,
+        myFetchedWorkouts,
 
     };
 
