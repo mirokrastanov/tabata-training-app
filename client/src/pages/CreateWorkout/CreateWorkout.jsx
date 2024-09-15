@@ -35,6 +35,8 @@ function CreateWorkout() {
     const [shrink, setShrink] = useState({ state: false, orderIndex: null });
     const [lobby, setLobby] = useState(true);
     const containerRef = useRef(null);
+    const [createConfirm, setCreateConfirm] = useState(false);
+    const [presetConfirm, setPresetConfirm] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -106,10 +108,24 @@ function CreateWorkout() {
         }, 300);
     };
 
-    const handleConfirm = (e) => {
+    const loadPresetOnConfirm = (e) => {
         e.preventDefault();
         setLobby(true);
         resetStateFull();
+        setCreateConfirm(false);
+        setPresetConfirm(false);
+    };
+
+    const createWorkoutOnConfirm = (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        
+
+
+        return;
+        resetStateFull();
+        setCreateConfirm(false);
+        setPresetConfirm(false);
     };
 
     // HANDLE SUBMIT - add a toast to display and prevent the user from submitting a workout with less then 3 execises
@@ -165,9 +181,16 @@ function CreateWorkout() {
             {/* SUBMIT WORKOUT */}
             <article className="w-full mt-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
                 <hr className="mx-3 my-3.5 mt-8" />
-                <ActiveBtn btnType={'submit'} text={'Create Workout'} />
+                {/* <ActiveBtn btnType={'submit'} text={'Create Workout'} /> */}
+                <ConfirmBtn
+                    text={'Create Workout'} rHandler={createWorkoutOnConfirm} scroll={scrollToBottom}
+                    btnType={'submit'} v={createConfirm} setV={setCreateConfirm} setW={setPresetConfirm}
+                />
                 <HBtnSeparator />
-                <ConfirmBtn text={'Load Preset'} rHandler={handleConfirm} scroll={scrollToBottom} />
+                <ConfirmBtn
+                    text={'Load Preset'} rHandler={loadPresetOnConfirm} scroll={scrollToBottom}
+                    v={presetConfirm} setV={setPresetConfirm} setW={setCreateConfirm}
+                />
                 <hr className="mx-3 mt-3.5" />
             </article>
 
