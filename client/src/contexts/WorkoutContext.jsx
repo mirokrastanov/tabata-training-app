@@ -2,6 +2,9 @@ import { createContext, useState, useEffect, useContext } from "react";
 import { usePage } from "./PageContext";
 import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
 import { exerciseLibrary, workoutPresets } from "../utils/workoutPresets";
+import { useAuth } from "./AuthContext";
+import * as api from '../api/api.js';
+
 
 /**
  * @typedef WorkoutContextData
@@ -21,6 +24,7 @@ import { exerciseLibrary, workoutPresets } from "../utils/workoutPresets";
  * @property {function} getIntervalIndex
  * @property {function} resetStateFull
  * @property {function} addEmptyInterval
+ * @property {function} createWorkoutInDB
  */
 
 
@@ -46,6 +50,7 @@ export function WorkoutProvider({ children }) {
     const [cooldown, setCooldown] = useState('0');
     const [workoutName, setWorkoutName] = useState('Workout Title');
     // FROM OTHER CONTEXTS
+    const { user } = useAuth();
     const { location } = usePage();
 
     useEffect(() => {
@@ -118,16 +123,33 @@ export function WorkoutProvider({ children }) {
         createInterval();
     }
 
-    async function createWorkout(workout) {
-        // skip break intervals when creating a new workout into the DB
-        // filter the break intervals out and push the workout with only work intervals
+    async function createWorkoutInDB() {
+        const workout = {
+            creatorId: user?._id,
+            workoutName: workoutName,
+            preparation: Number(prep),
+            break: Number(rest),
+            cooldown: Number(cooldown),
+            exercises: intervals,
+        };
+        try {
+            const address = api.urlBuilder.workouts.post.create();
+            const requestData = await api.post(address, workout);
+            if (!requestData.ok) throw requestData;
+
+            console.log('Workout created. Response: \n', requestData, requestData.ok);
+
+            return requestData;
+        } catch (error) {
+            return error;
+        }
     }
 
-    async function updateWorkout(workoutID, workout) {
+    async function updateWorkoutInDB(workoutID, workout) {
         // translate the intervals to workout object fit for the DB
     }
 
-    async function deleteWorkout(workoutID) { }
+    async function deleteWorkoutFromDB(workoutID) { }
 
     function createInterval(exercise = '', duration = '30') {
         const orderIndex = genID();
@@ -206,6 +228,7 @@ export function WorkoutProvider({ children }) {
         getIntervalIndex,
         resetStateFull,
         addEmptyInterval,
+        createWorkoutInDB,
 
     };
 
