@@ -159,7 +159,7 @@ function CreateWorkout() {
 
     return (<div id="create-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}
-        {shrink.state || isSubmitting && <BackdropLoader dark={true} />}
+        {(shrink.state || isSubmitting) && <BackdropLoader dark={true} />}
 
         {lobby ? (<CreateLobby create={loadCreateView} load={handleLoadPreset} />) : (<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             {/* TITLE SECTION */}
