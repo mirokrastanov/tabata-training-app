@@ -43,7 +43,7 @@ const Home = () => {
                                 </p>
                                 <div className="flex justify-center mt-8 flex-wrap gap-y-4">
                                     <Link to="/workouts" className={`mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 max-custom-mq-300:px-2`}>
-                                        Start New Workout
+                                        Workouts
                                     </Link>
                                     {/* TODO: store and render from local storage - create component */}
                                     <Link to="/workout/history" className={`mx-2 px-8 py-4 bg-purple-900 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-purple-600 max-custom-mq-300:px-2`}>

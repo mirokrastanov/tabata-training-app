@@ -59,6 +59,7 @@ export function WorkoutProvider({ children }) {
     const { location } = usePage();
 
     useEffect(() => {
+        if (location.pathname != '/workouts' && myFetchedWorkouts != null) return setMyFetchedWorkouts(null);
         const isWorkoutPage = location.pathname.includes('workouts');
         const isCreateWorkout = location.pathname == '/workouts/create';
         const workoutID = getWorkoutIdFromQuery(location);
