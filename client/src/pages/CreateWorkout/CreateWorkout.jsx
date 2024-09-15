@@ -40,6 +40,14 @@ function CreateWorkout() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
+        return () => {
+            resetStateFull();
+            setCreateConfirm(false);
+            setPresetConfirm(false);
+        }
+    }, []);
+
+    useEffect(() => {
         if (prevAmount === null) setPreviousAmount(intervals.length);
         if (prevAmount < intervals.length) {
             if (!loading && intervals.length > 0) {
@@ -122,6 +130,7 @@ function CreateWorkout() {
     const createWorkoutOnConfirm = async (e) => {
         e.preventDefault();
         if (intervals.length < 3) return toast.error('A workout must contain at least 3 exercises');
+        if (intervals.find(e => e.exercise == '')) return toast.error('Each interval must have an exercise name in');
 
         setIsSubmitting(true);
         const delayedResponse = async () => {
@@ -135,7 +144,7 @@ function CreateWorkout() {
             loading: 'Loading...',
             success: (response) => {
                 setIsSubmitting(false);
-                return response.msg || 'Request successful!';
+                return response.msg || 'Workout created!';
             },
             error: (error) => {
                 setIsSubmitting(false);
@@ -146,15 +155,7 @@ function CreateWorkout() {
         setTimeout(() => toast.dismiss(), 5000);
         setTimeout(() => setIsSubmitting(false), 5000);
         navigate('/workouts'); // TODO: change to created workout's details page
-
-        return; // TODO: fit in the resets properly once fully implemented
-        resetStateFull();
-        setCreateConfirm(false);
-        setPresetConfirm(false);
     };
-
-    // HANDLE SUBMIT - add a toast to display and prevent the user from submitting a workout with less then 3 execises
-
 
     return (<div id="create-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}
