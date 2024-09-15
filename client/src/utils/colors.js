@@ -7,3 +7,7 @@ export const bgColors = [
     "#0b3d91", "#0d98ba", "#2e8b57", "#556b2f"
 ];
 
+export const genColor = (i) => {
+    const colors = bgColors;
+    return colors[i % colors.length];
+};

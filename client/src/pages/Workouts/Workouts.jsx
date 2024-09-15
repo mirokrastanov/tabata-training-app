@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Workouts.css';
-import { bgColors } from '../../utils/colors';
+import { bgColors, genColor } from '../../utils/colors';
 import WorkoutCard from '../../components/workout/workoutCard/WorkoutCard';
 import AddBtn from '../../components/btns/addBtn/AddBtn';
 import PageRingLoader from '../../components/loaders/final/pageRingLoader/PageRingLoader';
@@ -73,7 +73,7 @@ function Workouts() {
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
                     {/* Render from DB and pass [data] through the loop */}
                     {myFetchedWorkouts.map((x, i) => (
-                        <WorkoutCard color={'#000'} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]}
+                        <WorkoutCard color={genColor(i)} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]}
                             data={x} />
                     ))}
                     {/* {bgColors.map((x, i) => (
