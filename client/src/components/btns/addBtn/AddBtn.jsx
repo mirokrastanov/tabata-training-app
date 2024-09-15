@@ -8,21 +8,7 @@ function AddBtn() {
     const { location } = usePage();
     const [targetURL, setTargetURL] = useState('');
 
-    // TODO: Alter functionality based on location
-    // From /workouts to /workouts/create
-    // Within the create workout component - add/generate a new component - open an overlay menu with
-    // a form with inputs - type: workout/rest/etc , duration: 30, and so on
-    // upon confirming by clicking the submit button - generate and add a new html element underneat the current ones
-    // part of the workout already -- check examples on mobile res for inspiration
-    // be able to remove added field -- also be able to move/drag and replace ones -- put in between already present
-    // elements
-
-    // TODO: GENERATE A TOAST FOR EACH SCENARIO - on element creation, on workout creation, etc...
-
-
     useEffect(() => {
-        console.log(location);
-
         if (location.pathname == '/workouts') setTargetURL('/workouts/create');
     }, []);
 
