@@ -3,12 +3,10 @@ import './WorkoutCard.css';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-icons/fa6";
 
 
-function WorkoutCard({ color, i, handlers = [], data = {} }) {
-    const colorScheme = {
-        "--bg-c": color,
-    };
-
-    // asign random color on workout creation & save it as part of the schema on DB
+function WorkoutCard({ color, i, handler, data = {} }) {
+    const colorScheme = { "--bg-c": color };
+    const workoutID = data?._id;
+    const clickHandler = (e) => handler(e, workoutID);
 
     // Temp funciton
     const genActivities = (num) => {
@@ -20,13 +18,14 @@ function WorkoutCard({ color, i, handlers = [], data = {} }) {
     };
 
     return (
-        <article className="workout__card rounded-md cursor-pointer" style={colorScheme}>
+        <article className="workout__card rounded-md cursor-pointer"
+            style={colorScheme} onClick={clickHandler}>
             <section className="card__top text-white rounded-t-md w-full flex flex-nowrap flex-row items-center h-10">
                 <div className="h-full w-[calc(100%-5rem)] flex justify-start items-center pl-3 rounded-tl-md">
                     <h3 className="text-lg font-bold text-ellipsis line-clamp-1">HIIT Circuit c{i}</h3>
                 </div>
-                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaPlay /></div>
-                <div className="card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaEllipsisVertical /></div>
+                <div className="card__top-play card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaPlay /></div>
+                <div className="card__top-menu card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaEllipsisVertical /></div>
             </section>
             <section className="card__mid flex flex-col pl-3 pt-1 justify-center items-start leading-5">
                 <p className="text-ellipsis line-clamp-1">1. Prepare: 30 sec</p>
