@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './WorkoutCard.css';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-icons/fa6";
 import { getTotalWorkoutTime } from '../../../utils/math';
+import WCardDropdownMenu from './WCardDropdownMenu';
 
 
 function WorkoutCard({ color, i, handler, data = {} }) {
@@ -38,8 +39,13 @@ function WorkoutCard({ color, i, handler, data = {} }) {
                         {data?.workoutName}
                     </h3>
                 </div>
-                <div className="card__top-play card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaPlay /></div>
-                <div className="card__top-menu card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90"><FaEllipsisVertical /></div>
+                <div className="card__top-play card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90">
+                    <FaPlay />
+                </div>
+                <div className="card__top-menu card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90 relative">
+                    <FaEllipsisVertical />
+                    <WCardDropdownMenu />
+                </div>
             </section>
             <section className="card__mid flex flex-col pl-3 pt-1 justify-center items-start leading-5 font-semibold">
                 <p className="text-ellipsis line-clamp-1 text-[15px]">1. Prepare: {data?.preparation || 30}s</p>
