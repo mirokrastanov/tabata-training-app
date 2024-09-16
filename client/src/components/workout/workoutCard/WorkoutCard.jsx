@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './WorkoutCard.css';
 import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-icons/fa6";
 import { getTotalWorkoutTime } from '../../../utils/math';
@@ -6,6 +6,8 @@ import WCardDropdownMenu from './WCardDropdownMenu';
 
 
 function WorkoutCard({ color, i, handler, data = {} }) {
+    const [isOpen, setIsOpen] = useState(false);
+
     const colorScheme = { "--bg-c": color };
     const workoutID = data?._id;
     const clickHandler = (e) => handler(e, workoutID);
@@ -34,18 +36,20 @@ function WorkoutCard({ color, i, handler, data = {} }) {
         <article className="workout__card rounded-md cursor-pointer"
             style={colorScheme} onClick={clickHandler}>
             <section className="card__top text-white rounded-t-md w-full flex flex-nowrap flex-row items-center h-10">
+                {/* WORKOUT TITLE */}
                 <div className="h-full w-[calc(100%-5rem)] flex justify-start items-center pl-3 rounded-tl-md">
                     <h3 className="text-md font-bold text-left text-ellipsis line-clamp-1 tracking-wide">
                         {data?.workoutName}
                     </h3>
                 </div>
+
+                {/* PLAY BTN */}
                 <div className="card__top-play card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90">
                     <FaPlay />
                 </div>
-                <div className="card__top-menu card__top-btn h-full w-10 flex justify-center items-center text-xl hover:bg-slate-50/25 rounded-md hover:shadow-md active:scale-90 relative">
-                    <FaEllipsisVertical />
-                    <WCardDropdownMenu />
-                </div>
+
+                {/* MENU BTN */}
+                <WCardDropdownMenu isOpen={isOpen} setIsOpen={setIsOpen} />
             </section>
             <section className="card__mid flex flex-col pl-3 pt-1 justify-center items-start leading-5 font-semibold">
                 <p className="text-ellipsis line-clamp-1 text-[15px]">1. Prepare: {data?.preparation || 30}s</p>
