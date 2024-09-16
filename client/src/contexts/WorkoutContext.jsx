@@ -26,8 +26,10 @@ import * as api from '../api/api.js';
  * @property {function} addEmptyInterval
  * @property {function} createWorkoutInDB
  * @property {function} fetchAllMyWorkouts
- * @property {function} fetchedWorkout
- * @property {function} myFetchedWorkouts
+ * @property {null | Object} fetchedWorkout
+ * @property {null | Array} myFetchedWorkouts
+ * @property {function} fetchWorkout
+ * @property {null | String} currentLoadedID
  */
 
 
@@ -87,41 +89,32 @@ export function WorkoutProvider({ children }) {
         } catch (error) {
             return error;
         }
-        // update and map into intervals
-        // update all other states
-        // see if something else needs to happen as well
     }
 
     async function fetchWorkout(workoutID) {
-        // fetch
-        const sampleWorkout = { // REPLACE WITH REAL FETCH
-            creatorId: 'creatorId',
-            workoutName: 'HIIT 2.0',
-            preparation: 30,
-            break: 15,
-            cooldown: 60,
-            exercises: [
-                { exercise: 'Jumping Jacks', duration: 45, orderIndex: 1 },
-            ],
-        };
-        // sort exercises array by orderIndex in ascending order
-        // get the orderIndex of the last item and 
-        //// set nextAvailableID to be (last+1)
-        // set workout
-        // set currentLoadedID from workout (fetched)
-        // push Prep to intervals
-        const sampleInterval = {
-            duration: 30,
-            exercise: '',
-            orderIndex: 0,
-        };
-        // forEach (exercises) - push a work interval + a break right after (using the above format)
-        // assign breaks the id of the workout before in the following format: exerciseOrderIndex--break
-        // at the end push a cooldown (same format)
+        try {
+            const creatorId = user?._id;
+            const address = api.urlBuilder.workouts.get.one(workoutID);
+            const requestData = await api.get(address);
+            if (!requestData.ok) throw requestData;
+            console.log('Workout fetched: \n', requestData);
 
-        // set intervals
+            const sortedExercises = requestData.exercises.sort((a, b) => Number(a.orderIndex) - Number(b.orderIndex));
+            const lastIndex = sortedExercises.length[sortedExercises.length - 1].orderIndex;
 
-        // LAST: SetCurrentLoadedID !
+            setNextAvailableID(Number(lastIndex) + 1);
+            setIntervals(sortedExercises);
+            setWorkoutName(requestData.workoutName);
+            setPrep(String(requestData.preparation));
+            setRest(String(requestData.break));
+            setCooldown(String(requestData.cooldown));
+            setCurrentLoadedID(workoutID);
+
+            setFetchedWorkout(requestData);
+            return requestData;
+        } catch (error) {
+            return error;
+        }
     }
 
     // ONLY USE inside Create Workout Page
@@ -258,6 +251,8 @@ export function WorkoutProvider({ children }) {
         fetchAllMyWorkouts,
         fetchedWorkout,
         myFetchedWorkouts,
+        fetchWorkout,
+        currentLoadedID,
 
     };
 
