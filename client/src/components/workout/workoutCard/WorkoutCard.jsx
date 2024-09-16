@@ -55,8 +55,9 @@ function WorkoutCard({ color, i, handler, data = {} }) {
                 <p>...</p>
             </section>
             <section className="card__bottom flex flex-col pl-3 p-2 justify-center items-start rounded-b-md text-[15px] font-semibold">
-                <p>Total Time: <span className='tracking-wider'>{totalTime}</span> min</p>
-                <p>Intervals: {intervalCount}</p>
+                <p className='max-custom-mq-300:self-center'>Total Time: <span className='tracking-wider'>
+                    {totalTime}</span> min</p>
+                <p className='max-custom-mq-300:self-center'>Intervals: {intervalCount}</p>
             </section>
         </article>
     )

@@ -88,9 +88,9 @@ function Workouts() {
                 <AddBtn />
             </>)
             : (<>
-                <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
+                <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg max-custom-mq-300:p-1 max-custom-mq-300:pr-0">
                     {/* Render from DB and pass [data] through the loop */}
-                    {myFetchedWorkouts.map((x, i) => (
+                    {[...myFetchedWorkouts, ...myFetchedWorkouts, ...myFetchedWorkouts].map((x, i) => (
                         <WorkoutCard color={genColor(i)} i={i} key={'card-' + i}
                             handler={cardClick} data={x} />
                     ))}
