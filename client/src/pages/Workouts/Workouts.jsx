@@ -38,14 +38,32 @@ function Workouts() {
         }, 1000);
     }
 
-    function playClick(e) {
+    function beginWorkout(workoutID) {
         // start workout directly - load timers and render workout in progress view
     }
-    function dotsClick(e) {
+
+    function toggleCardMenu(workoutID) {
         // show overlay menu with item specific options
     }
-    function cardClick(e) {
-        // open workout showcase view
+
+    function cardClick(e, workoutID) {
+        // console.log(workoutID);
+        const t = e.target;
+        let btn;
+        switch (t.tagName) {
+            case 'path': btn = t.parentElement.parentElement; break;
+            case 'svg': btn = t.parentElement; break;
+            default: btn = t; break;
+        }
+        const [isMenu, isPlay] = [btn.classList.contains('card__top-menu'), btn.classList.contains('card__top-play')];
+        if (!isMenu && !isPlay) return navigate(`/workouts/details/${workoutID}`);
+
+        if (isMenu) {
+            console.log('menu');
+            return; // return toggleCardMenu(workoutID);
+        }
+        console.log('play');
+        // invoke beginWorkout(workoutID); 
     }
 
 
@@ -73,11 +91,11 @@ function Workouts() {
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg">
                     {/* Render from DB and pass [data] through the loop */}
                     {myFetchedWorkouts.map((x, i) => (
-                        <WorkoutCard color={genColor(i)} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]}
-                            data={x} />
+                        <WorkoutCard color={genColor(i)} i={i} key={'card-' + i}
+                            handler={cardClick} data={x} />
                     ))}
                     {/* {bgColors.map((x, i) => (
-                        <WorkoutCard color={x} i={i} key={'card-' + i} handlers={[playClick, dotsClick, cardClick]} data={x} />
+                        <WorkoutCard color={x} i={i} key={'card-' + i} handlers={[beginWorkout, toggleCardMenu, cardClick]} data={x} />
                     ))} */}
                 </div>
 
