@@ -32,7 +32,14 @@ export function AuthProvider({ children }) {
     // ...causing route guards to work unexpectedly. Could lead to other potential issues. 
 
     useEffect(() => {
-        checkUserStatus();
+        checkUserStatus(true);
+
+        const interval = setInterval(() => {
+            checkUserStatus(false);
+            console.log('User status updated');
+        }, 1000 * 60 * 5);
+
+        return () => clearInterval(interval);
     }, []);
 
     // useEffect(() => {
@@ -108,9 +115,9 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const checkUserStatus = async () => {
+    const checkUserStatus = async (toggleLoading = false) => {
         // executes on initial loading
-        setLoading(true);
+        if (toggleLoading) setLoading(true);
         try {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
@@ -121,13 +128,13 @@ export function AuthProvider({ children }) {
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 setUser(requestData.user);
                 setSession(requestData);
-                setLoading(false);
+                if (toggleLoading) setLoading(false);
             } else {
                 localStorage.removeItem('tabata-user');
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));
                 setUser(null);
                 setSession(requestData);
-                setLoading(false);
+                if (toggleLoading) setLoading(false);
             }
             return requestData;
         } catch (error) {
@@ -141,7 +148,7 @@ export function AuthProvider({ children }) {
                 setSession(null);
                 localStorage.removeItem('tabata-session');
             }
-            setLoading(false);
+            if (toggleLoading) setLoading(false);
             return { msg: error.message, err: error };
         }
     };
