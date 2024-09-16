@@ -40,13 +40,8 @@ function WCardDropdownMenu({ isOpen, setIsOpen }) {
                 <div className="tb_link absolute top-full right-0 w-40 bg-white text-black rounded-lg shadow-lg overflow-hidden z-10 mt-[1px]" ref={dropdownRef}>
                     <ul className="flex flex-col text-center">
                         <WCardDropdownLink text="Details" icon={<FaInfoCircle />} />
-                        {/* 
-                        -- Title, created, updates
-                        -- All workout intervals
-                        */}
                         <WCardDropdownLink text="Edit" icon={<FaEdit />} />
                         <WCardDropdownLink text="Delete" icon={<RiDeleteBin2Fill />} />
-                        {/* ADD a confirm btn for before deletion */}
                         <WCardDropdownLink text="Close" icon={<RiCloseCircleFill />} />
                     </ul>
                 </div>

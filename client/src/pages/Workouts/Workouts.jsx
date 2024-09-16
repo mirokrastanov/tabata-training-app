@@ -39,11 +39,29 @@ function Workouts() {
     }
 
     function beginWorkout(workoutID) {
-        // start workout directly - load timers and render workout in progress view
+        // TODO: start workout directly - load timers and render workout in progress view
     }
 
-    // HANDLES EVERYTHING inside the workout cards
-    function cardClick(e, workoutID) {
+    function handleDetails(workoutID) {
+        // Title, created, updates
+        // All workout intervals
+    }
+
+    function handleEdit(workoutID) {
+        // navigate to Edit Workout PAGE
+    }
+
+    function handleDelete(workoutID) {
+        // ADD a confirm btn for before deletion
+    }
+    
+    function handleBodyClick(workoutID) {
+        // navigate to View Workout PAGE (dataText = undedfined)!
+        // return navigate(`/workouts/details/${workoutID}`);
+    }
+
+    // Handles all card buttons
+    function cardClicks(e, workoutID) {
         const t = e.target;
         let btn;
         switch (t.tagName) {
@@ -52,29 +70,23 @@ function Workouts() {
             default: btn = t; break;
         }
         const [isMenu, isPlay] = [btn.classList.contains('card__top-menu'), btn.classList.contains('card__top-play')];
-        
-        // Card click or Dropdown Link click
+
+        // Card Body & Dropdown
         if (!isMenu && !isPlay) {
             const dataText = btn.dataset.text;
-            console.log(dataText);
-
-
-
-
-            
-            // navigate to DETAILS PAGE (dataText = undedfined)!
-            // return navigate(`/workouts/details/${workoutID}`);
-            return;
+            switch (dataText) {
+                case 'Details': return handleDetails(workoutID);
+                case 'Edit': return handleEdit(workoutID);
+                case 'Delete': return handleDelete(workoutID);
+                case 'Close': return; // Handled inside DropdownMenu
+                default: return handleBodyClick(workoutID);
+            }
         }
 
+        if (isMenu) return; // Handled inside WorkoutCard
 
-        if (isMenu) {
-            console.log('menu');
-            return; // return toggleCardMenu(workoutID);
-        }
-
-        console.log('play');
-        // invoke beginWorkout(workoutID); 
+        // Play
+        beginWorkout(workoutID);
     }
 
 
@@ -100,13 +112,11 @@ function Workouts() {
             </>)
             : (<>
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap content-start gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg max-custom-mq-300:p-1 max-custom-mq-300:pr-0">
-
                     {/* Render from DB and pass [data] through the loop */}
                     {myFetchedWorkouts.map((x, i) => (
                         <WorkoutCard color={genColor(i)} i={i} key={'card-' + i}
-                            handler={cardClick} data={x} />
+                            handler={cardClicks} data={x} />
                     ))}
-
                 </div>
 
                 <AddBtn />
