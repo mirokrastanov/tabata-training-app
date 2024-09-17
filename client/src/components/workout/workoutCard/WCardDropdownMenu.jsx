@@ -37,12 +37,12 @@ function WCardDropdownMenu({ isOpen, setIsOpen }) {
             <FaEllipsisVertical />
 
             {isOpen && (
-                <div className="tb_link absolute top-full right-0 w-40 bg-white text-black rounded-lg shadow-lg overflow-hidden z-10 mt-[1px] text-lg" ref={dropdownRef}>
+                <div className="tb_link absolute top-full right-0 w-40 bg-white text-black rounded-lg shadow-lg overflow-hidden z-10 mt-[1px] text-lg max-custom-mq-300:text-sm max-custom-mq-300:w-32" ref={dropdownRef}>
                     <ul className="flex flex-col text-center">
-                        <WCardDropdownLink text="Preview" icon={<FaInfoCircle />} />
-                        <WCardDropdownLink text="Edit" icon={<FaEdit />} />
-                        <WCardDropdownLink text="Delete" icon={<RiDeleteBin2Fill />} />
-                        <WCardDropdownLink text="Close" icon={<RiCloseCircleFill />} />
+                        <WCardDropdownLink text="Preview" icon={<FaInfoCircle className='max-custom-mq-300:text-lg' />} />
+                        <WCardDropdownLink text="Edit" icon={<FaEdit className='max-custom-mq-300:text-lg' />} />
+                        <WCardDropdownLink text="Delete" icon={<RiDeleteBin2Fill className='max-custom-mq-300:text-lg' />} />
+                        <WCardDropdownLink text="Close" icon={<RiCloseCircleFill className='max-custom-mq-300:text-lg' />} />
                     </ul>
                 </div>
             )}
