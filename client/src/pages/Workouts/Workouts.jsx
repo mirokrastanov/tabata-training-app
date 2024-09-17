@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import ActiveBtn from '../../components/btns/ActiveBtn';
-import TextAnd2BtnsOverlay from '../../components/overlays/TextAnd2BtnsOverlay';
+import TextAndBtnOverlay from '../../components/overlays/TextAndBtnOverlay';
 
 function Workouts() {
     const navigate = useNavigate();
@@ -19,6 +19,8 @@ function Workouts() {
     } = useWorkout();
     const [loading, setLoading] = useState(true);
     const [showEmpty, setShowEmpty] = useState(false);
+    const [backdrop, setBackdrop] = useState(false);
+    const [preview, setPreview] = useState(null);
 
     useEffect(() => {
         fetchAllMyWorkouts();
@@ -43,23 +45,41 @@ function Workouts() {
         // TODO: start workout directly - load timers and render workout in progress view
     }
 
-    function handlePreview(workoutID) {
+    function closePreview(e) {
+        e.preventDefault();
+        setBackdrop(false);
+        setPreview(null);
+    }
+
+    function onPreview(workoutID) {
+        // OPEN / CLOSE / RENDER the backdrop view
+
         // Title, created, updates
         // All workout intervals
         // and a btn to view component - btn name: Detailed View
+
+        const finalHTML = <></>;
+        setPreview(finalHTML);
+        setBackdrop(true);
     }
 
-    function handleEdit(workoutID) {
+    function onEdit(workoutID) {
         // navigate to Edit Workout PAGE
     }
 
-    function handleDelete(workoutID) {
+    function onDelete(workoutID) {
         // ADD a confirm btn for before deletion
     }
 
-    function handleBodyClick(workoutID) {
+    function onBodyClick(workoutID) {
         console.log('Navigating to View Workout...', workoutID.substring(20));
         // return navigate(`/workouts/details/${workoutID}`);
+    }
+
+    function handleBackdropClick(e) {
+        e.preventDefault();
+        console.log('backdrop main clicked');
+
     }
 
     // Handles all card buttons
@@ -77,11 +97,11 @@ function Workouts() {
         if (!isMenu && !isPlay) {
             const dataText = btn.dataset.text;
             switch (dataText) {
-                case 'Preview': return handlePreview(workoutID);
-                case 'Edit': return handleEdit(workoutID);
-                case 'Delete': return handleDelete(workoutID);
+                case 'Preview': return onPreview(workoutID);
+                case 'Edit': return onEdit(workoutID);
+                case 'Delete': return onDelete(workoutID);
                 case 'Close': return; // Handled inside DropdownMenu
-                default: return handleBodyClick(workoutID);
+                default: return onBodyClick(workoutID);
             }
         }
 
@@ -113,7 +133,10 @@ function Workouts() {
                 <AddBtn />
             </>)
             : (<>
-                <TextAnd2BtnsOverlay />
+                {backdrop && <TextAndBtnOverlay
+                    btnText={'Detailed View'} handleMainBtn={handleBackdropClick}
+                    text={preview} handleClose={closePreview}
+                />}
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap content-start gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg max-custom-mq-300:p-1 max-custom-mq-300:pr-0">
 
                     {/* Render from DB and pass [data] through the loop */}
