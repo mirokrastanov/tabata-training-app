@@ -27,8 +27,8 @@ function App() {
                     <Route element={<UserRoutes />}>
                         <Route path="workouts" element={<Workouts />} />
                         <Route path="workouts/create" element={<CreateWorkout />} />
-                        <Route path="workouts/edit/:id" element={<EditWorkout />} />
-                        <Route path="workouts/details/:id" element={<ViewWorkout />} />
+                        <Route path="workouts/edit/:workoutID" element={<EditWorkout />} />
+                        <Route path="workouts/details/:workoutID" element={<ViewWorkout />} />
 
                         <Route path="user/profile" element={<Profile />} />
                     </Route>
