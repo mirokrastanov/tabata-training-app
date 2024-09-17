@@ -13,7 +13,6 @@ import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
 import ConfirmBtn from '../../components/btns/ConfirmBtn';
 import { getQueryParams } from '../../utils/queryParamMethods';
-import CreateLobby from '../CreateWorkout/CreateLobby';
 
 function ViewWorkout() {
     // Imports
@@ -166,11 +165,11 @@ function ViewWorkout() {
         navigate('/workouts'); // TODO: change to created workout's details page
     };
 
-    return (<div id="create-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
+    return (<div id="view-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}
         {(shrink.state || isSubmitting) && <BackdropLoader dark={true} />}
 
-        {lobby ? (<CreateLobby create={loadCreateView} load={handleLoadPreset} />) : (<div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
+        <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
                 <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center max-custom-mq-500:text-2xl max-custom-mq-300:text-lg max-custom-mq-300:pt-4"
@@ -229,7 +228,7 @@ function ViewWorkout() {
                 <hr className="mx-3 mt-3.5" />
             </article>
 
-        </div>)}
+        </div>
     </div>)
 }
 
