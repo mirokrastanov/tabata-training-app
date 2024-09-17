@@ -3,14 +3,16 @@ import { FaArrowRightToBracket, FaCheck, FaDiscord, FaDumbbell, FaFolderPlus, Fa
 import {
     MdDownloading, MdOutlineNetworkWifi2Bar, MdOutlineNetworkWifi3Bar, MdOutlineSignalWifi4Bar
 } from "react-icons/md";
+import { LuFileSymlink } from "react-icons/lu";
 
 function ActiveBtn({
     handler, text, square = false, left87 = false, icon = true,
-    btnType = 'button', iconOnly = false, addMy, preset
+    btnType = 'button', iconOnly = false, addMy, preset, hFit,
 }) {
     const iTextSize = iconOnly ? ' text-2xl ' : ' text-3xl ';
     const width = square ? 'w-11 ' : (left87 ? 'w-[87%] ' : 'w-full ')
-    const height = text == 'Create Workout' ? 'h-11 max-custom-mq-300:h-fit max-custom-mq-300:min-h-11' : 'h-11 ';
+    const cH = hFit ? 'max-custom-mq-300:h-fit max-custom-mq-300:min-h-11' : '';
+    const height = cH || text == 'Create Workout' ? 'h-11 max-custom-mq-300:h-fit max-custom-mq-300:min-h-11' : 'h-11 ';
     const my = addMy ? `my-${addMy}` : '';
     const exerciseBtn = ' p-1 group-active:p-0.5 transition-all duration-100 max-custom-mq-300:hidden ';
     const purple = 'bg-purple-900 hover:bg-purple-600 active:bg-purple-500';
@@ -38,10 +40,11 @@ function ActiveBtn({
         {(icon && text == 'Standard HIIT') && <MdOutlineNetworkWifi2Bar className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Intermediate HIIT') && <MdOutlineNetworkWifi3Bar className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Advanced HIIT') && <MdOutlineSignalWifi4Bar className={`${iTextSize}${exerciseBtn}`} />}
+        {(icon && text == 'Detailed View') && <LuFileSymlink className={`${iTextSize}${exerciseBtn}`} />}
 
         {/* TEXT */}
         {text && (<p data-preset={preset}
-            className={`ml-2 ${text == 'Add Exercise' || text == 'Create Workout' ? 'max-custom-mq-300:ml-0' : ''} ${text == 'Intermediate HIIT' ? 'text-ellipsis line-clamp-1 max-custom-mq-300:ml-0' : ''}`}
+            className={`ml-2 ${text == 'Add Exercise' || text == 'Create Workout' || text == 'Detailed View' ? 'max-custom-mq-300:ml-0' : ''} ${text == 'Intermediate HIIT' ? 'text-ellipsis line-clamp-1 max-custom-mq-300:ml-0' : ''}`}
         >{text}</p>)}
 
     </button>)
