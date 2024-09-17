@@ -9,3 +9,7 @@
 .sub300.overlay-scroll-area::-webkit-scrollbar-track {
     margin-top: 24px;
 }
+
+.h-custom-e {
+    max-height: min(700px, calc(100vh - 80px));
+}

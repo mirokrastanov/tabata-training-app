@@ -52,12 +52,12 @@ function TextAndBtnOverlay({ title, text, handleClose, handleMainBtn, btnText })
                         <DotSpinner dark={true} />
                     </div>
                 </div>
-            </>) : (<div className={`h-80 overflow-y-scroll overlay-scroll-area ${sub300 ? 'sub300' : ''} ${sub500 ? 'sub500' : ''} w-full`}>
+            </>) : (<div className={`h-custom-e overflow-y-scroll overlay-scroll-area ${sub300 ? 'sub300' : ''} ${sub500 ? 'sub500' : ''} w-full`}>
                 <h2 className='top-0 left-0 text-black pt-3 px-0 font-bold text-ellipsis line-clamp-6 w-full tracking-wide rounded-t-lg text-2xl max-md:text-xl max-custom-mq-500:text-lg'>
                     {title}
                 </h2>
 
-                <article className='min-h-60 my-2 mx-auto flex flex-col justify-center items-center text-black max-custom-mq-300:gap-y-[2px] pl-1 bg-yellow-200 w-fit md:max-w-96'>
+                <article className='min-h-60 my-2 mx-auto flex flex-col justify-center items-center text-black text-lg max-custom-mq-500:text-[16px] max-custom-mq-300:gap-y-[2px] pl-1 w-fit md:max-w-96'>
                     {text}
                 </article>
 
