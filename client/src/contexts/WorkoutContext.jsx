@@ -4,6 +4,7 @@ import { getWorkoutIdFromQuery } from "../utils/queryParamMethods";
 import { exerciseLibrary, workoutPresets } from "../utils/workoutPresets";
 import { useAuth } from "./AuthContext";
 import * as api from '../api/api.js';
+import { useParams } from "react-router-dom";
 
 
 /**
@@ -30,6 +31,7 @@ import * as api from '../api/api.js';
  * @property {null | Array} myFetchedWorkouts
  * @property {function} fetchWorkout
  * @property {null | String} currentLoadedID
+ * @property {function} forceRefresh
  */
 
 
@@ -61,12 +63,15 @@ export function WorkoutProvider({ children }) {
     const { location } = usePage();
 
     useEffect(() => {
-        if (location.pathname != '/workouts' && myFetchedWorkouts != null) return setMyFetchedWorkouts(null);
-        const isWorkoutPage = location.pathname.includes('workouts');
-        const isCreateWorkout = location.pathname == '/workouts/create';
-        const workoutID = getWorkoutIdFromQuery(location);
-        if (!isWorkoutPage || (workoutID == currentLoadedID && !isCreateWorkout)) return;
-
+        const p = location.pathname;
+        const [edit, details, create, workouts] = [
+            p.includes('/edit/'), p.includes('/details/'), p.includes('/create'), p === '/workouts'
+        ];
+        if (!workouts && myFetchedWorkouts != null) return setMyFetchedWorkouts(null);
+        if (edit || details) {
+            const workoutID = p.split('/')[3];
+            if (workoutID == currentLoadedID) return;
+        }
         resetStateFull();
     }, [location]);
 
@@ -99,11 +104,13 @@ export function WorkoutProvider({ children }) {
             if (!requestData.ok) throw requestData;
             console.log('Workout fetched: \n', requestData);
 
-            const sortedExercises = requestData.exercises.sort((a, b) => Number(a.orderIndex) - Number(b.orderIndex));
-            const lastIndex = sortedExercises.length[sortedExercises.length - 1].orderIndex;
+            const exercises = requestData.exercises.slice(0);
+            const sorted = exercises.sort((a, b) => Number(a.orderIndex) - Number(b.orderIndex));
+            const lastEl = sorted[sorted.length - 1];
+            const lastIndex = lastEl.orderIndex;
 
             setNextAvailableID(Number(lastIndex) + 1);
-            setIntervals(sortedExercises);
+            setIntervals(sorted);
             setWorkoutName(requestData.workoutName);
             setPrep(String(requestData.preparation));
             setRest(String(requestData.break));
@@ -253,6 +260,7 @@ export function WorkoutProvider({ children }) {
         myFetchedWorkouts,
         fetchWorkout,
         currentLoadedID,
+        forceRefresh,
 
     };
 
