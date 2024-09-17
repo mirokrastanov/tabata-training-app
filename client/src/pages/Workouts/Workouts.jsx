@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import ActiveBtn from '../../components/btns/ActiveBtn';
-import TextAndBtnOverlay from '../../components/overlays/TextAndBtnOverlay';
+import TextAndBtnOverlay from '../../components/overlays/textAndBtnOverlay/TextAndBtnOverlay';
 
 function Workouts() {
     const navigate = useNavigate();
@@ -52,14 +52,19 @@ function Workouts() {
     }
 
     function onPreview(workoutID) {
+        console.log(myFetchedWorkouts);
         // OPEN / CLOSE / RENDER the backdrop view
-
+        const thisWorkout = myFetchedWorkouts.find(x => String(x._id) === String(workoutID));
         // Title, created, updates
         // All workout intervals
         // and a btn to view component - btn name: Detailed View
 
-        const finalHTML = <></>;
-        setPreview(finalHTML);
+        const finalHTML = <>{thisWorkout.exercises.map((x, i) => (
+            <section key={`preview--${i}-ex`} className='w-full text-left'>
+                <p>{i + 1}. {x.exercise}</p>
+            </section>
+        ))}</>;
+        setPreview({ text: finalHTML, title: thisWorkout.workoutName });
         setBackdrop(true);
     }
 
@@ -135,7 +140,7 @@ function Workouts() {
             : (<>
                 {backdrop && <TextAndBtnOverlay
                     btnText={'Detailed View'} handleMainBtn={handleBackdropClick}
-                    text={preview} handleClose={closePreview}
+                    text={preview.text} title={preview.title} handleClose={closePreview}
                 />}
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap content-start gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg max-custom-mq-300:p-1 max-custom-mq-300:pr-0">
 
