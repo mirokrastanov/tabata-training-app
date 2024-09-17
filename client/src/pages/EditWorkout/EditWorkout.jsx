@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import ActiveBtn from '../../components/btns/ActiveBtn';
 import HBtnSeparator from '../../components/btns/HBtnSeparator';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
@@ -13,12 +13,14 @@ import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
 import ConfirmBtn from '../../components/btns/ConfirmBtn';
 import { getQueryParams } from '../../utils/queryParamMethods';
+import TextAndBtnOverlay from '../../components/overlays/textAndBtnOverlay/TextAndBtnOverlay';
 
 function EditWorkout() {
     // Imports
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuth();
+    const { workoutID } = useParams();
 
     // WORKOUT IMPORTS
     const {
@@ -26,7 +28,8 @@ function EditWorkout() {
         setWorkoutName, setCooldown, setPrep, setRest,
         intervals, loadWorkoutPreset, updateInterval, addRandomInterval,
         deleteInterval, getIntervalIndex, resetStateFull, addEmptyInterval,
-        createWorkoutInDB, fetchWorkout, fetchedWorkout, currentLoadedID
+        createWorkoutInDB, fetchWorkout, fetchedWorkout, currentLoadedID,
+        forceRefresh,
     } = useWorkout();
 
     // LOCAL STATES & REFS
@@ -39,13 +42,11 @@ function EditWorkout() {
     const [createConfirm, setCreateConfirm] = useState(false);
     const [presetConfirm, setPresetConfirm] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showEmpty, setShowEmpty] = useState(false);
+
 
     useEffect(() => {
-        console.log('currentLoadedID: ', currentLoadedID);
-        const queryParams = getQueryParams(location);
-        console.log('queryParams: ', queryParams);
-
-
+        fetchWorkout(workoutID);
 
 
         return () => {
@@ -56,13 +57,16 @@ function EditWorkout() {
     }, []);
 
     useEffect(() => {
-        if (prevAmount === null) setPreviousAmount(intervals.length);
+        // console.log(intervals, prevAmount);
+
+        if (prevAmount === intervals.length) return;
+        if (prevAmount === null) return setPreviousAmount(intervals.length);
+
         if (prevAmount < intervals.length) {
-            if (!loading && intervals.length > 0) {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }
+            setTimeout(() => {
+                scrollToBottom();
+            }, 200);
         }
-        console.log(intervals);
     }, [intervals]);
 
     const handleAddExercise = (e) => {
@@ -99,40 +103,17 @@ function EditWorkout() {
         }, 500);
     };
 
-    const loadCreateView = (e) => {
-        e.preventDefault();
-        setShrink((p) => ({ ...p, state: true }));
-        setTimeout(() => {
-            setLobby(false);
-            setShrink((p) => ({ ...p, state: false }));
-            setTimeout(() => {
-                scrollToBottom();
-            }, 100);
-        }, 300);
-    };
-
-    const handleLoadPreset = (e) => {
-        e.preventDefault();
+    const loadWorkout = () => {
         setShrink((p) => ({ ...p, state: true }));
 
-        const preset = e.target.dataset.preset;
-        if (preset) loadWorkoutPreset(preset);
+        if (!fetchedWorkout)
 
-        setTimeout(() => {
-            setLobby(false);
-            setShrink((p) => ({ ...p, state: false }));
             setTimeout(() => {
-                scrollToBottom();
-            }, 200);
-        }, 300);
-    };
-
-    const loadPresetOnConfirm = (e) => {
-        e.preventDefault();
-        setLobby(true);
-        resetStateFull();
-        setCreateConfirm(false);
-        setPresetConfirm(false);
+                setShrink((p) => ({ ...p, state: false }));
+                setTimeout(() => {
+                    scrollToBottom();
+                }, 200);
+            }, 300);
     };
 
     const updateWorkoutOnConfirm = async (e) => {
@@ -165,9 +146,10 @@ function EditWorkout() {
         navigate('/workouts'); // TODO: change to created workout's details page
     };
 
-    return (<div id="edit-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl ${!lobby ? 'overflow-y-scroll' : 'overflow-hidden'} py-10`}>
+    return (<div id="edit-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10`}>
         {/* Adds BackdropLoader during deletion to improove UX */}
         {(shrink.state || isSubmitting) && <BackdropLoader dark={true} />}
+        {showEmpty && <TextAndBtnOverlay />}
 
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             {/* TITLE SECTION */}
