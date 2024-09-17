@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './WorkoutCard.css';
-import { FaPlay, FaEllipsisVertical, FaArrowLeft, FaGear, FaPlus } from "react-icons/fa6";
+import { FaPlay } from "react-icons/fa6";
 import { getTotalWorkoutTime } from '../../../utils/math';
 import WCardDropdownMenu from './WCardDropdownMenu';
 
@@ -19,11 +19,10 @@ function WorkoutCard({ color, i, handler, data = {} }) {
     const totalTime = getTotalWorkoutTime(data);
     const intervalCount = 2 + (data?.exercises.length * 2);
 
-    useEffect(() => {
-        // console.log(data);
-    }, []);
+    // useEffect(() => {
+    //     console.log(data);
+    // }, []);
 
-    // Temp funciton
     const genActivities = (num) => {
         const list = ['Jumping Jacks', 'Static Squats', 'Burpees'];
         const list2 = ['Pushups', 'Overhead Press', 'Reverse Fly'];

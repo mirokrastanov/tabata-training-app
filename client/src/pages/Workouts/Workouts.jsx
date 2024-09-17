@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import ActiveBtn from '../../components/btns/ActiveBtn';
+import TextAnd2BtnsOverlay from '../../components/overlays/TextAnd2BtnsOverlay';
 
 function Workouts() {
     const navigate = useNavigate();
@@ -42,9 +43,10 @@ function Workouts() {
         // TODO: start workout directly - load timers and render workout in progress view
     }
 
-    function handleDetails(workoutID) {
+    function handlePreview(workoutID) {
         // Title, created, updates
         // All workout intervals
+        // and a btn to view component - btn name: Detailed View
     }
 
     function handleEdit(workoutID) {
@@ -54,9 +56,9 @@ function Workouts() {
     function handleDelete(workoutID) {
         // ADD a confirm btn for before deletion
     }
-    
+
     function handleBodyClick(workoutID) {
-        // navigate to View Workout PAGE (dataText = undedfined)!
+        console.log('Navigating to View Workout...', workoutID.substring(20));
         // return navigate(`/workouts/details/${workoutID}`);
     }
 
@@ -75,7 +77,7 @@ function Workouts() {
         if (!isMenu && !isPlay) {
             const dataText = btn.dataset.text;
             switch (dataText) {
-                case 'Details': return handleDetails(workoutID);
+                case 'Preview': return handlePreview(workoutID);
                 case 'Edit': return handleEdit(workoutID);
                 case 'Delete': return handleDelete(workoutID);
                 case 'Close': return; // Handled inside DropdownMenu
@@ -111,7 +113,9 @@ function Workouts() {
                 <AddBtn />
             </>)
             : (<>
+                <TextAnd2BtnsOverlay />
                 <div id="workouts__wrapper" className="w-full bg-white p-4 pr-2 flex flex-wrap content-start gap-4 h-[calc(100%-3.5rem)] overflow-y-scroll rounded-b-lg max-custom-mq-300:p-1 max-custom-mq-300:pr-0">
+
                     {/* Render from DB and pass [data] through the loop */}
                     {myFetchedWorkouts.map((x, i) => (
                         <WorkoutCard color={genColor(i)} i={i} key={'card-' + i}
