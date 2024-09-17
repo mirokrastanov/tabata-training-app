@@ -35,8 +35,16 @@ export function PageProvider({ children }) {
 
     const updatePageParams = () => {
         // Set params based on current location
+        const url = location.pathname;
         Object.values(page).forEach(v => {
-            if (v.path === location.pathname) setPageParams(v);
+            if (
+                (url.includes('edit') && v.path.includes('edit')) ||
+                (url.includes('details') && v.path.includes('details')) ||
+                url === v.path
+            ) {
+                setPageParams(v);
+
+            }
         });
 
     };

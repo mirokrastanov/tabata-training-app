@@ -11,7 +11,7 @@ export const home = {
 export const workouts = {
     path: '/workouts',
     title: 'Workouts',
-    params: { count: 24 },
+    params: {},
 };
 export const settings = {
     path: '/settings',
@@ -39,12 +39,12 @@ export const createWorkout = {
     params: {},
 };
 export const editWorkout = {
-    path: '/workouts/edit/:id', // handle this differently at the PageContext level / adjust logic
+    path: '/workouts/edit/',
     title: 'Edit Workout',
-    params: {},
+    params: { id: '' },
 };
 export const viewWorkout = {
-    path: '/workouts/details/:id',
+    path: '/workouts/details/',
     title: 'Workout Details',
-    params: {},
+    params: { id: '' },
 };
