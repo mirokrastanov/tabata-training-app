@@ -1,0 +1,11 @@
+.overlay-scroll-area::-webkit-scrollbar-track {
+    margin-top: 48px;
+}
+
+.sub500.overlay-scroll-area::-webkit-scrollbar-track {
+    margin-top: 36px;
+}
+
+.sub300.overlay-scroll-area::-webkit-scrollbar-track {
+    margin-top: 24px;
+}
