@@ -1,0 +1,17 @@
+@media screen and (max-width: 500px) {
+    #edit-workout-ctr {
+        border-radius: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #edit-workout-ctr>div:not(.on-top) {
+        padding: 0.5rem 0.1rem 2rem 0.1rem;
+        border-radius: 10px;
+    }
+    
+    #edit-workout-ctr .on-top {
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+}

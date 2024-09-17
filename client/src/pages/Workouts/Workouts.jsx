@@ -73,7 +73,8 @@ function Workouts() {
     }
 
     function onEdit(workoutID) {
-        // navigate to Edit Workout PAGE
+        console.log('Navigating to Edit Workout...', workoutID.substring(20));
+        return navigate(`/workouts/edit/${workoutID}`);
     }
 
     function onDelete(workoutID) {

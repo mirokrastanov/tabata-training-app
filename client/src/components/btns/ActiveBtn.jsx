@@ -34,7 +34,7 @@ function ActiveBtn({
 
         {/* EXERCISE ICONS */}
         {(icon && text == 'Add Exercise') && <FaDumbbell className={`${iTextSize}${exerciseBtn} rotate-[315deg]`} />}
-        {(icon && (text == 'Create Workout'
+        {(icon && (text == 'Create Workout' || text == 'Save Changes'
             || text == 'Create New')) && <FaFolderPlus className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Load Preset') && <MdDownloading className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Standard HIIT') && <MdOutlineNetworkWifi2Bar className={`${iTextSize}${exerciseBtn}`} />}
