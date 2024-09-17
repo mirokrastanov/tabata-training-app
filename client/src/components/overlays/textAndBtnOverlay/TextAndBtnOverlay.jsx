@@ -61,7 +61,7 @@ function TextAndBtnOverlay({ title, text, handleClose, handleMainBtn, btnText })
                     {text}
                 </article>
 
-                <article className='w-[95%] my-8 flex justify-center items-center max-w-[300px] mx-auto'>
+                <article className='w-[95%] mb-8 flex justify-center items-center max-w-[300px] mx-auto'>
                     <ActiveBtn text={btnText} handler={handleMainBtn} hFit={true} />
                 </article>
             </div>)}

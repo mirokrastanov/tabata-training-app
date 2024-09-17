@@ -36,7 +36,6 @@ export function AuthProvider({ children }) {
 
         const interval = setInterval(() => {
             checkUserStatus(false);
-            console.log('User status updated');
         }, 1000 * 60 * 5);
 
         return () => clearInterval(interval);
@@ -122,7 +121,7 @@ export function AuthProvider({ children }) {
             const address = api.urlBuilder.auth.get.status();
             const requestData = await api.get(address);
             if (!requestData.ok) throw requestData;
-            console.log('User and Session data: \n ', requestData);
+            if (toggleLoading) console.log('User and Session data: \n ', requestData);
             if (requestData?.user) {
                 localStorage.setItem('tabata-user', JSON.stringify(requestData.user));
                 localStorage.setItem('tabata-session', JSON.stringify(requestData));

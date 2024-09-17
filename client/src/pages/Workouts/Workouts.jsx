@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import ActiveBtn from '../../components/btns/ActiveBtn';
 import TextAndBtnOverlay from '../../components/overlays/textAndBtnOverlay/TextAndBtnOverlay';
+import { getDate, getTime } from '../../utils/dateConversions';
 
 function Workouts() {
     const navigate = useNavigate();
@@ -52,18 +53,21 @@ function Workouts() {
     }
 
     function onPreview(workoutID) {
-        console.log(myFetchedWorkouts);
-        // OPEN / CLOSE / RENDER the backdrop view
         const thisWorkout = myFetchedWorkouts.find(x => String(x._id) === String(workoutID));
-        // Title, created, updates
-        // All workout intervals
-        // and a btn to view component - btn name: Detailed View
 
         const finalHTML = <>{thisWorkout.exercises.map((x, i) => (
             <section key={`preview--${i}-ex`} className='w-full text-left'>
                 <p>{i + 1}. {x.exercise}</p>
             </section>
-        ))}</>;
+        ))}
+            <p className='text-center mt-4 text-sm font-bold'>Created:
+                {` ${getDate(thisWorkout.createdAt)}, ${getTime(thisWorkout.createdAt)} `}
+            </p>
+            <p className='text-center mb-2 text-sm font-bold'>Updated:
+                {` ${getDate(thisWorkout.updatedAt)}, ${getTime(thisWorkout.updatedAt)} `}
+            </p>
+        </>;
+
         setPreview({ text: finalHTML, title: thisWorkout.workoutName });
         setBackdrop(true);
     }
