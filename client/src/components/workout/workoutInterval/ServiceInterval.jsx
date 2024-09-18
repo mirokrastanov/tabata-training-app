@@ -5,6 +5,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 function ServiceInterval({ type = 'rest', i, slideIn = false, v, setV, orderIndex }) {
+    if (!i) i = (String(Date.now()) + String(Math.random() * 0.12)).replace('.', '-');
     const key = `crw--${i}--s-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
@@ -64,7 +65,7 @@ function ServiceInterval({ type = 'rest', i, slideIn = false, v, setV, orderInde
             <div className="border-b-2 border-purple-900 pb-2 w-[80%] max-custom-mq-500:w-full">
 
                 {/* TYPE */}
-                <label htmlFor={`${key}name`} className="text-black text-xl w-full block py-2 max-custom-mq-300:text-lg">
+                <label htmlFor={`${key}duration`} className="text-black text-xl w-full block py-2 max-custom-mq-300:text-lg">
                     {type == 'preparation' && 'Warm-up'}
                     {type == 'rest' && 'Rest'}
                     {type == 'cooldown' && 'Cooldown'}
@@ -79,7 +80,7 @@ function ServiceInterval({ type = 'rest', i, slideIn = false, v, setV, orderInde
 
                     {/* NUMBER INPUT */}
                     <input
-                        name={`${key}v`} id={`${key}duration`} type="text"
+                        name={`${key}duration`} id={`${key}duration`} type="text"
                         value={v} onChange={handleChange} onBlur={handleBlur}
                         className="bg-white text-purple-900 font-bold text-2xl text-center w-12"
                     />

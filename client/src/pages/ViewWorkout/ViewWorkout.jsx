@@ -132,7 +132,7 @@ function ViewWorkout() {
             {/* TITLE SECTION */}
             <div className="relative flex justify-center items-center">
                 <input className="text-3xl font-bold text-gray-800 bg-white w-full h-12 text-center max-custom-mq-500:text-2xl max-custom-mq-300:text-lg max-custom-mq-300:pt-4"
-                    disabled value={workoutName} />
+                    disabled value={workoutName} id='details-page-title--ll' />
             </div>
 
             {/* WORKOUT INTERVALS */}
