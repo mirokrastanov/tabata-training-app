@@ -68,12 +68,12 @@ function Workouts() {
             </p>
         </>;
 
-        setPreview({ text: finalHTML, title: thisWorkout.workoutName });
+        setPreview({ text: finalHTML, title: thisWorkout.workoutName, workoutID, });
         setBackdrop(true);
     }
 
     function onEdit(workoutID) {
-        console.log('Navigating to Edit Workout...', workoutID.substring(20));
+        // console.log('Navigating to Edit Workout...', workoutID.substring(20));
         return navigate(`/workouts/edit/${workoutID}`);
     }
 
@@ -82,14 +82,13 @@ function Workouts() {
     }
 
     function onBodyClick(workoutID) {
-        console.log('Navigating to View Workout...', workoutID.substring(20));
-        // return navigate(`/workouts/details/${workoutID}`);
+        // console.log('Navigating to View Workout...', workoutID.substring(20));
+        return navigate(`/workouts/details/${workoutID}`);
     }
 
     function handleBackdropClick(e) {
         e.preventDefault();
-        console.log('backdrop main clicked');
-
+        onBodyClick(preview.workoutID);
     }
 
     // Handles all card buttons
