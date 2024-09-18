@@ -10,6 +10,7 @@ import ActiveBtn from '../../components/btns/ActiveBtn';
 import { useWorkout } from '../../contexts/WorkoutContext';
 import { FaPencil } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
+import IntervalSkeleton from '../../components/workout/workoutInterval/IntervalSkeleton';
 
 function EditWorkout() {
     // IMPORTS
@@ -145,6 +146,9 @@ function EditWorkout() {
                 <article className="rounded-lg shadow-md border-b border-gray-300 my-2 mt-6">
                     <ServiceInterval type='preparation' v={prep} setV={setPrep} />
                 </article>
+
+                {/* INTERVAL SKELETON - renders prior to fetching */}
+                {shrink.state && Array(4).fill(0).map((x, i) => <IntervalSkeleton key={`sk-${i}-ll`} />)}
 
                 {/* WORKOUT INTERVALS (Exercise + Break) */}
                 {intervals.map((x, i) => (<article key={`i-article-${i}`} className={`rounded-lg shadow-md border-b border-gray-300 my-2 ${shrink.state && shrink.orderIndex == x.orderIndex ? 'shrink-to-hidden' : ' '} transition-all`}>
