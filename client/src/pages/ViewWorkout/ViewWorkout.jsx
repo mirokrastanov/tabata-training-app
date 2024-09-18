@@ -36,9 +36,8 @@ function ViewWorkout() {
         setTimeout(() => {
             if (intervals && intervals?.length > 0) {
                 setShrink((p) => ({ ...p, state: false }));
-                setTimeout(() => scrollToBottom(), 200);
             }
-        }, 2000);
+        }, 300);
 
         return () => {
             resetStateFull();
@@ -55,8 +54,7 @@ function ViewWorkout() {
         if (prevAmount < intervals.length) {
             setTimeout(() => {
                 setShrink((p) => ({ ...p, state: false }));
-                setTimeout(() => scrollToBottom(), 200);
-            }, 300);
+            }, 100);
         }
     }, [intervals]);
 
@@ -94,35 +92,14 @@ function ViewWorkout() {
         }, 500);
     };
 
-    const updateWorkoutOnConfirm = async (e) => {
+    const handleBtns = (e) => {
         e.preventDefault();
-        if (workoutName == '') return toast.error('Workout name is required');
-        if (intervals.length < 3) return toast.error('A workout must contain at least 3 exercises');
-        if (intervals.find(e => e.exercise == '')) return toast.error('Each interval must have an exercise name in');
-
-        setIsSubmitting(true);
-        const delayedResponse = async () => {
-            // sim delay for testing
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            const response = await updateWorkoutInDB(workoutID);
-            if (!response.ok) throw response;
-            return response;
-        };
-        await toast.promise(delayedResponse(), {
-            loading: 'Loading...',
-            success: (response) => {
-                setIsSubmitting(false);
-                return response.msg || 'Workout updated!';
-            },
-            error: (error) => {
-                setIsSubmitting(false);
-                return error.msg || error.error || error.message || 'Request failed';
-            },
-        });
-
-        setTimeout(() => toast.dismiss(), 5000);
-        setTimeout(() => setIsSubmitting(false), 5000);
-        navigate('/workouts'); // TODO: change to updated workout's details page
+        const btn = e.target.textContent;
+        switch (btn) {
+            case ('Edit Workout'): navigate(`/workouts/edit/${workoutID}`); break;
+            case ('Workouts'): navigate('/workouts'); break;
+            default: break;
+        }
     };
 
     return (<div id="edit-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10`}>
@@ -145,7 +122,7 @@ function ViewWorkout() {
                 {shrink.state && Array(4).fill(0).map((x, i) => <IntervalSkeleton key={`sk-${i}-ll`} />)}
 
                 {/* WORKOUT INTERVALS (Exercise + Break) */}
-                {intervals.map((x, i) => (<article key={`i-article-${i}`} className={`rounded-lg shadow-md border-b border-gray-300 my-2 ${shrink.state && shrink.orderIndex == x.orderIndex ? 'shrink-to-hidden' : ' '} transition-all`}>
+                {intervals.map((x, i) => (<article key={`i-article-${i}`} className={`rounded-lg shadow-md border-b border-gray-300 my-8 ${shrink.state && shrink.orderIndex == x.orderIndex ? 'shrink-to-hidden' : ' '} transition-all`}>
                     <WorkoutInterval orderIndex={x.orderIndex} deleteInterval={handleDeleteInterval} isView={true}
                         type='work' v={x} setV={updateInterval} i={i} slideIn={true} iFind={getIntervalIndex} />
                     <ServiceInterval orderIndex={x.orderIndex + '.5'} isView={true}
@@ -158,13 +135,18 @@ function ViewWorkout() {
                 </article>
             </div>
 
-            {/* SUBMIT WORKOUT */}
+            {/* Created */}
+            {/* Updated */}
+
+
+
+            {/* NAVIGATION */}
             <article className="w-full mt-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
                 <hr className="mx-3 my-3.5 mt-8" />
-                <ConfirmBtn
-                    text={'Save Changes'} rHandler={updateWorkoutOnConfirm} scroll={scrollToBottom}
-                    btnType={'submit'} v={createConfirm} setV={setCreateConfirm}
-                />
+                <ActiveBtn text={'Edit Workout'} handler={handleBtns} />
+                <hr className="mx-3 mt-3.5" />
+                <hr className="mx-3 my-3.5 mt-8" />
+                <ActiveBtn text={'Workouts'} handler={handleBtns} />
                 <hr className="mx-3 mt-3.5" />
             </article>
 
