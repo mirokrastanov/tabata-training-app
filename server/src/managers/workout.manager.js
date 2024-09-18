@@ -6,7 +6,7 @@ const getAll = () => Workout.find().populate('creatorId');
 
 const getMine = (creatorId) => Workout.find({ 'creatorId': creatorId });
 
-const getOne = (workoutId) => Workout.findById(workoutId).populate('creatorId');
+const getOne = (workoutId) => Workout.findById(workoutId);
 
 const delOne = (workoutId) => Workout.findByIdAndDelete(workoutId);
 

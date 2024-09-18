@@ -24,14 +24,7 @@ export const editWorkout = async (req, res) => {
         const { body, params: { id: workoutId } } = req;
         const creatorId = req.user._id;
         const currentWorkout = await workoutManager.getOne(workoutId);
-        const newWorkout = new Workout({
-            creatorId,
-            ...currentWorkout,
-            ...body,
-        });
-        if (newWorkout) {
-            await workoutManager.edit(workoutId, newWorkout);
-        }
+        const newWorkout = await workoutManager.edit(workoutId, body);
         res.status(201).json(newWorkout);
     } catch (error) {
         console.log('Error in editWorkout', error.message);

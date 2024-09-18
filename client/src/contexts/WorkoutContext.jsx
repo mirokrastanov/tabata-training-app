@@ -32,6 +32,7 @@ import { useParams } from "react-router-dom";
  * @property {function} fetchWorkout
  * @property {null | String} currentLoadedID
  * @property {function} forceRefresh
+ * @property {function} updateWorkoutInDB
  */
 
 
@@ -170,8 +171,28 @@ export function WorkoutProvider({ children }) {
         }
     }
 
-    async function updateWorkoutInDB(workoutID, workout) {
-        // translate the intervals to workout object fit for the DB
+    async function updateWorkoutInDB(workoutID) {
+        console.log(workoutID);
+
+        const workout = {
+            creatorId: user?._id,
+            workoutName: workoutName,
+            preparation: Number(prep),
+            break: Number(rest),
+            cooldown: Number(cooldown),
+            exercises: intervals,
+        };
+        try {
+            const address = api.urlBuilder.workouts.put.edit(workoutID);
+            const requestData = await api.put(address, workout);
+            if (!requestData.ok) throw requestData;
+
+            console.log('Workout updated. Response: \n', requestData, requestData.ok);
+
+            return requestData;
+        } catch (error) {
+            return error;
+        }
     }
 
     async function deleteWorkoutFromDB(workoutID) { }
@@ -261,6 +282,7 @@ export function WorkoutProvider({ children }) {
         fetchWorkout,
         currentLoadedID,
         forceRefresh,
+        updateWorkoutInDB,
 
     };
 

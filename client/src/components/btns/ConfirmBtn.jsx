@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ActiveBtn from './ActiveBtn';
 
-function ConfirmBtn({ text, rHandler, scroll, btnType = 'button', v, setV, setW }) {
+function ConfirmBtn({ text, rHandler, scroll, btnType = 'button', v, setV, setW = () => { } }) {
 
     useEffect(() => {
         if (v) {
