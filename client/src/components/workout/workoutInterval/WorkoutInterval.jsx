@@ -7,7 +7,7 @@ import { BsPersonStanding } from "react-icons/bs";
 import toast from 'react-hot-toast';
 
 
-function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderIndex, iFind }) {
+function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderIndex, iFind, isView }) {
     const key = `crw--${i}--w-`;
     const slideAnim = slideIn ? 'slide-in-right' : '';
     if (!i) i = (Math.ceil(Math.random() * 100));
@@ -66,17 +66,21 @@ function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderInd
     };
 
     return (
-        <section className={`${key}ctr flex flex-nowrap justify-between bg-white px-1 mb-2 ${slideAnim} max-custom-mq-300:pl-0 rounded-lg`}>
-            <div className="w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden">
+        <section className={`${key}ctr flex flex-nowrap justify-between px-1 ${isView ? 'bg-purple-200 rounded-t-lg pr-0' : 'bg-white mb-2 rounded-lg'} ${slideAnim} max-custom-mq-300:pl-0`}>
+            <div className={`w-[20%] text-purple-900 text-5xl flex flex-col justify-center items-baseline gap-4 max-custom-mq-500:hidden ${isView ? 'pt-9' : ''}`}>
                 <FaDumbbell className="rotate-45" />
-                <FaStopwatch />
+                {isView || <FaStopwatch />}
             </div>
 
-            <div className="border-b-2 border-purple-900 pb-2 w-[80%] max-custom-mq-500:w-full">
+            <div className={`${isView ? '' : 'border-b-2 border-purple-900 pb-2'} w-[80%] max-custom-mq-500:w-full`}>
+                {/* EXERCISE NUMBER IN VIEW WORKOUT */}
+                {isView && <div className={`bg-purple-900 text-white absolute text-lg left-0 top-0 h-7 w-7 ${isView ? '' : 'mt-2'} rounded-lg flex justify-center items-center max-custom-mq-300:text-sm max-custom-mq-300:mt-0 max-custom-mq-300:h-5 max-custom-mq-300:w-6`} data-orderindex={orderIndex}>
+                    {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
+                </div>}
 
                 {/* TYPE */}
-                <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
-                    {/* EXERCISE NUMBER */}
+                {isView || <label htmlFor={`${key}name`} className="text-black text-xl w-full flex justify-center items-center py-2 max-custom-mq-300:text-lg relative">
+                    {/* EXERCISE NUMBER NOT IN VIEW WORKOUT */}
                     <div className="bg-purple-900 text-white absolute text-lg left-0 h-7 w-7 mt-2 rounded-lg flex justify-center items-center max-custom-mq-300:text-sm max-custom-mq-300:mt-0 max-custom-mq-300:h-5 max-custom-mq-300:w-6" data-orderindex={orderIndex}>
                         {iFind ? Number(iFind(orderIndex)) + 1 : orderIndex}
                     </div>
@@ -86,33 +90,34 @@ function WorkoutInterval({ i, slideIn = false, v, setV, deleteInterval, orderInd
                         <RiDeleteBin2Line className="h-full w-8 p-1 block group-hover:hidden" />
                         <RiDeleteBin2Fill className="h-full w-8 p-1 hidden group-hover:block group-hover:shadow-lg rounded-md" />
                     </div>
-                </label>
+                </label>}
 
                 {/* NAME */}
-                <input
+                {isView || <input
                     name={`${key}name`} id={`${key}name`} type="text" autoComplete="off" placeholder='Exercise name' value={v.exercise} onChange={handleChange}
-                    className="w-full bg-white text-purple-600 font-bold p-2 pt-0 text-center text-2xl max-custom-mq-300:text-lg tracking-wide placeholder:font-normal placeholder:tracking-normal placeholder:text-xl"
-                />
+                    className={`w-full bg-white pt-0 tracking-wide text-purple-600 font-bold p-2 text-center text-2xl max-custom-mq-300:text-lg placeholder:font-normal placeholder:tracking-normal placeholder:text-xl`}
+                />}
+                {isView && <p className='bg-purple-200 max-custom-mq-300:pt-4 max-custom-mq-300:px-1  overflow-x-auto rounded-t-lg text-black font-bold p-2 text-center text-2xl max-custom-mq-300:text-lg'>{v.exercise}</p>}
 
                 {/* DURATION */}
-                <div className="w-full flex flex-nowrap justify-between max-custom-mq-500:justify-around px-1">
-                    <button onClick={handleClick} data-id="-"
+                <div className={`w-full flex flex-nowrap ${isView ? 'justify-center' : 'justify-between'} max-custom-mq-500:justify-around px-1`}>
+                    {!isView && <button onClick={handleClick} data-id="-"
                         className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none transition-all hover:bg-purple-600 active:bg-purple-400 border-none">-
                         <div data-id="-" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
-                    </button>
+                    </button>}
 
                     {/* NUMBER INPUT */}
-                    <input
+                    <input disabled={isView}
                         name={`${key}counter`} id={`${key}duration`} type="text"
                         value={v.duration} onChange={handleChange} onBlur={handleBlur}
-                        className="bg-white text-purple-900 font-bold text-2xl text-center w-12"
+                        className={`${isView ? 'bg-purple-200' : 'bg-white'} text-purple-900 font-bold text-2xl text-center w-12`}
                     />
 
-                    <button onClick={handleClick} data-id="+"
+                    {!isView && <button onClick={handleClick} data-id="+"
                         className="relative h-12 w-12 rounded-full flex justify-center items-center text-purple-900 bg-purple-900 max-custom-mq-300:h-10 max-custom-mq-300:w-10 focus:outline-none transition-all hover:bg-purple-600 active:bg-purple-400 border-none">+
                         <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded max-custom-mq-300:h-1/2"></div>
                         <div data-id="+" className="absolute w-[6px] h-4/6 bg-white rounded rotate-90 max-custom-mq-300:h-1/2"></div>
-                    </button>
+                    </button>}
                 </div>
             </div>
 
