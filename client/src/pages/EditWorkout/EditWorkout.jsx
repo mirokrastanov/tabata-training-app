@@ -38,7 +38,7 @@ function EditWorkout() {
                 setShrink((p) => ({ ...p, state: false }));
                 setTimeout(() => scrollToBottom(), 200);
             }
-        }, 2000);
+        }, 500);
 
         return () => {
             resetStateFull();

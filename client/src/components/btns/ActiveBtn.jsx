@@ -1,9 +1,10 @@
 import React from 'react';
 import { FaArrowRightToBracket, FaCheck, FaDiscord, FaDumbbell, FaFolderPlus, FaPlus, FaUserPlus } from 'react-icons/fa6';
 import {
-    MdDownloading, MdOutlineNetworkWifi2Bar, MdOutlineNetworkWifi3Bar, MdOutlineSignalWifi4Bar
+    MdDownloading, MdLibraryBooks, MdOutlineNetworkWifi2Bar, MdOutlineNetworkWifi3Bar, MdOutlineSignalWifi4Bar
 } from "react-icons/md";
 import { LuFileSymlink } from "react-icons/lu";
+import { FaEdit } from 'react-icons/fa';
 
 function ActiveBtn({
     handler, text, square = false, left87 = false, icon = true,
@@ -41,10 +42,12 @@ function ActiveBtn({
         {(icon && text == 'Intermediate HIIT') && <MdOutlineNetworkWifi3Bar className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Advanced HIIT') && <MdOutlineSignalWifi4Bar className={`${iTextSize}${exerciseBtn}`} />}
         {(icon && text == 'Detailed View') && <LuFileSymlink className={`${iTextSize}${exerciseBtn}`} />}
+        {(icon && text == 'Edit Workout') && <FaEdit className={`${iTextSize}${exerciseBtn}`} />}
+        {(icon && text == 'Workouts') && <MdLibraryBooks className={`${iTextSize}${exerciseBtn}`} />}
 
         {/* TEXT */}
         {text && (<p data-preset={preset}
-            className={`ml-2 ${text == 'Add Exercise' || text == 'Create Workout' || text == 'Detailed View' ? 'max-custom-mq-300:ml-0' : ''} ${text == 'Intermediate HIIT' ? 'text-ellipsis line-clamp-1 max-custom-mq-300:ml-0' : ''}`}
+            className={`ml-2 ${text == 'Add Exercise' || text == 'Create Workout' || text == 'Detailed View' || text == 'Edit Workout' || text == 'Workouts' ? 'max-custom-mq-300:ml-0' : ''} ${text == 'Intermediate HIIT' ? 'text-ellipsis line-clamp-1 max-custom-mq-300:ml-0' : ''}`}
         >{text}</p>)}
 
     </button>)
