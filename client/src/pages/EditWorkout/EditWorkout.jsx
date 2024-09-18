@@ -1,58 +1,47 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './EditWorkout.css';
-import { useAuth } from '../../contexts/AuthContext';
-import toast from 'react-hot-toast';
-import ActiveBtn from '../../components/btns/ActiveBtn';
-import HBtnSeparator from '../../components/btns/HBtnSeparator';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import WorkoutHelp from '../../components/workout/workoutInterval/WorkoutHelp/WorkoutHelp';
 import WorkoutInterval from '../../components/workout/workoutInterval/WorkoutInterval';
 import ServiceInterval from '../../components/workout/workoutInterval/ServiceInterval';
-import { useWorkout } from '../../contexts/WorkoutContext';
-import { FaPencil } from 'react-icons/fa6';
 import BackdropLoader from '../../components/loaders/final/backdropLoader/BackdropLoader';
 import ConfirmBtn from '../../components/btns/ConfirmBtn';
-import { getQueryParams } from '../../utils/queryParamMethods';
-import TextAndBtnOverlay from '../../components/overlays/textAndBtnOverlay/TextAndBtnOverlay';
+import ActiveBtn from '../../components/btns/ActiveBtn';
+import { useWorkout } from '../../contexts/WorkoutContext';
+import { FaPencil } from 'react-icons/fa6';
+import toast from 'react-hot-toast';
 
 function EditWorkout() {
-    // Imports
+    // IMPORTS
     const navigate = useNavigate();
-    const location = useLocation();
-    const { user } = useAuth();
     const { workoutID } = useParams();
-
-    // WORKOUT IMPORTS
     const {
-        workoutName, cooldown, prep, rest,
-        setWorkoutName, setCooldown, setPrep, setRest,
-        intervals, loadWorkoutPreset, updateInterval, addRandomInterval,
-        deleteInterval, getIntervalIndex, resetStateFull, addEmptyInterval,
-        createWorkoutInDB, fetchWorkout, fetchedWorkout, currentLoadedID,
-        forceRefresh,
+        workoutName, cooldown, prep, rest, setWorkoutName, setCooldown, setPrep,
+        setRest, intervals, updateInterval, deleteInterval, getIntervalIndex,
+        resetStateFull, addEmptyInterval, fetchWorkout, updateWorkoutInDB,
     } = useWorkout();
 
     // LOCAL STATES & REFS
-    const [loading, setLoading] = useState(true);
     const [prevAmount, setPreviousAmount] = useState(null);
     const [showPencil, setShowPencil] = useState(true);
-    const [shrink, setShrink] = useState({ state: false, orderIndex: null });
-    const [lobby, setLobby] = useState(true);
-    const containerRef = useRef(null);
     const [createConfirm, setCreateConfirm] = useState(false);
-    const [presetConfirm, setPresetConfirm] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [showEmpty, setShowEmpty] = useState(false);
-
+    const [shrink, setShrink] = useState({ state: true, orderIndex: null });
+    const containerRef = useRef(null);
 
     useEffect(() => {
+        setShrink((p) => ({ ...p, state: true }));
         fetchWorkout(workoutID);
-
+        setTimeout(() => {
+            if (intervals && intervals?.length > 0) {
+                setShrink((p) => ({ ...p, state: false }));
+                setTimeout(() => scrollToBottom(), 200);
+            }
+        }, 2000);
 
         return () => {
             resetStateFull();
             setCreateConfirm(false);
-            setPresetConfirm(false);
         }
     }, []);
 
@@ -64,8 +53,9 @@ function EditWorkout() {
 
         if (prevAmount < intervals.length) {
             setTimeout(() => {
-                scrollToBottom();
-            }, 200);
+                setShrink((p) => ({ ...p, state: false }));
+                setTimeout(() => scrollToBottom(), 200);
+            }, 300);
         }
     }, [intervals]);
 
@@ -103,21 +93,9 @@ function EditWorkout() {
         }, 500);
     };
 
-    const loadWorkout = () => {
-        setShrink((p) => ({ ...p, state: true }));
-
-        if (!fetchedWorkout)
-
-            setTimeout(() => {
-                setShrink((p) => ({ ...p, state: false }));
-                setTimeout(() => {
-                    scrollToBottom();
-                }, 200);
-            }, 300);
-    };
-
     const updateWorkoutOnConfirm = async (e) => {
         e.preventDefault();
+        if (workoutName == '') return toast.error('Workout name is required');
         if (intervals.length < 3) return toast.error('A workout must contain at least 3 exercises');
         if (intervals.find(e => e.exercise == '')) return toast.error('Each interval must have an exercise name in');
 
@@ -125,7 +103,7 @@ function EditWorkout() {
         const delayedResponse = async () => {
             // sim delay for testing
             await new Promise((resolve) => setTimeout(resolve, 1000));
-            const response = await createWorkoutInDB();
+            const response = await updateWorkoutInDB(workoutID);
             if (!response.ok) throw response;
             return response;
         };
@@ -133,7 +111,7 @@ function EditWorkout() {
             loading: 'Loading...',
             success: (response) => {
                 setIsSubmitting(false);
-                return response.msg || 'Workout created!';
+                return response.msg || 'Workout updated!';
             },
             error: (error) => {
                 setIsSubmitting(false);
@@ -143,13 +121,11 @@ function EditWorkout() {
 
         setTimeout(() => toast.dismiss(), 5000);
         setTimeout(() => setIsSubmitting(false), 5000);
-        navigate('/workouts'); // TODO: change to created workout's details page
+        navigate('/workouts'); // TODO: change to updated workout's details page
     };
 
     return (<div id="edit-workout-ctr" ref={containerRef} className={`w-full h-[calc(100%-3.5rem)] flex justify-center bg-gray-100 rounded-b-xl overflow-y-scroll py-10`}>
-        {/* Adds BackdropLoader during deletion to improove UX */}
         {(shrink.state || isSubmitting) && <BackdropLoader dark={true} />}
-        {showEmpty && <TextAndBtnOverlay />}
 
         <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md h-fit">
             {/* TITLE SECTION */}
@@ -165,7 +141,6 @@ function EditWorkout() {
 
             {/* WORKOUT INTERVALS */}
             <div id="workout-intervals">
-
                 {/* PREP INTERVAL */}
                 <article className="rounded-lg shadow-md border-b border-gray-300 my-2 mt-6">
                     <ServiceInterval type='preparation' v={prep} setV={setPrep} />
@@ -178,7 +153,6 @@ function EditWorkout() {
                     <ServiceInterval orderIndex={x.orderIndex + '.5'}
                         type='rest' v={rest} setV={setRest} i={i} slideIn={true} />
                 </article>))}
-
 
                 {/* ADD EXERCISE BUTTON */}
                 <article className="w-full my-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
@@ -193,13 +167,12 @@ function EditWorkout() {
                 </article>
             </div>
 
-
             {/* SUBMIT WORKOUT */}
             <article className="w-full mt-6 px-[10%] max-custom-mq-500:px-4 max-custom-mq-300:px-0">
                 <hr className="mx-3 my-3.5 mt-8" />
                 <ConfirmBtn
                     text={'Save Changes'} rHandler={updateWorkoutOnConfirm} scroll={scrollToBottom}
-                    btnType={'submit'} v={createConfirm} setV={setCreateConfirm} setW={setPresetConfirm}
+                    btnType={'submit'} v={createConfirm} setV={setCreateConfirm}
                 />
                 <hr className="mx-3 mt-3.5" />
             </article>
