@@ -16,7 +16,7 @@ function Workouts() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const {
-        fetchAllMyWorkouts, myFetchedWorkouts,
+        fetchAllMyWorkouts, myFetchedWorkouts, deleteWorkoutFromDB,
     } = useWorkout();
     const [loading, setLoading] = useState(true);
     const [showEmpty, setShowEmpty] = useState(false);
@@ -73,16 +73,17 @@ function Workouts() {
     }
 
     function onEdit(workoutID) {
-        // console.log('Navigating to Edit Workout...', workoutID.substring(20));
         return navigate(`/workouts/edit/${workoutID}`);
     }
 
     function onDelete(workoutID) {
         // ADD a confirm btn for before deletion
+        // Create a new component - ConfirmDeleteBackdrop
+
+        // when this is done - add a delete button to view workout page too
     }
 
     function onBodyClick(workoutID) {
-        // console.log('Navigating to View Workout...', workoutID.substring(20));
         return navigate(`/workouts/details/${workoutID}`);
     }
 

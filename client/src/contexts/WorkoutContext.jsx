@@ -33,6 +33,7 @@ import { useParams } from "react-router-dom";
  * @property {null | String} currentLoadedID
  * @property {function} forceRefresh
  * @property {function} updateWorkoutInDB
+ * @property {function} deleteWorkoutFromDB
  */
 
 
@@ -164,7 +165,6 @@ export function WorkoutProvider({ children }) {
             if (!requestData.ok) throw requestData;
 
             console.log('Workout created. Response: \n', requestData, requestData.ok);
-
             return requestData;
         } catch (error) {
             return error;
@@ -172,8 +172,6 @@ export function WorkoutProvider({ children }) {
     }
 
     async function updateWorkoutInDB(workoutID) {
-        console.log(workoutID);
-
         const workout = {
             creatorId: user?._id,
             workoutName: workoutName,
@@ -188,14 +186,24 @@ export function WorkoutProvider({ children }) {
             if (!requestData.ok) throw requestData;
 
             console.log('Workout updated. Response: \n', requestData, requestData.ok);
-
             return requestData;
         } catch (error) {
             return error;
         }
     }
 
-    async function deleteWorkoutFromDB(workoutID) { }
+    async function deleteWorkoutFromDB(workoutID) {
+        try {
+            const address = api.urlBuilder.workouts.delete.delete(workoutID);
+            const requestData = await api.delete(address);
+            if (!requestData.ok) throw requestData;
+
+            console.log('Workout deleted. Response: \n', requestData, requestData.ok);
+            return requestData;
+        } catch (error) {
+            return error;
+        }
+    }
 
     function createInterval(exercise = '', duration = '30') {
         const orderIndex = genID();
@@ -283,6 +291,7 @@ export function WorkoutProvider({ children }) {
         currentLoadedID,
         forceRefresh,
         updateWorkoutInDB,
+        deleteWorkoutFromDB,
 
     };
 
